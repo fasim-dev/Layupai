@@ -35,6 +35,7 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
 .item:hover{background:#ffffff10}
 .item .icon{width:22px;height:22px;border-radius:6px;background:#1a2641;display:flex;align-items:center;justify-content:center;font-size:12px}
 .item .name{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item.active{outline:1px dashed var(--accent)}
 .side-foot{border-top:1px solid var(--border);padding:10px}
 .account{display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;cursor:pointer;transition:background .2s}
 .account:hover{background:#ffffff10}
@@ -90,7 +91,7 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
 .bubble.warning{background:#2e281a;border-color:var(--warning)}
 .bubble.danger{background:#2e1a1f;border-color:var(--danger)}
 
-/* Cards for specialized content */
+/* Cards */
 .card-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px;margin:12px 0}
 .card{padding:12px;background:var(--panel2);border-radius:12px;border:1px solid var(--border)}
 .card h4{margin:0 0 8px 0;font-size:14px;color:var(--accent)}
@@ -104,20 +105,8 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
 .calc-form button{background:var(--accent);color:#000;border:none;padding:8px;border-radius:8px;font-weight:700;cursor:pointer}
 
 /* Chart container */
-.chart-container {
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  height: 240px; /* bisa disesuaikan, misalnya 200–300px */
-  margin: 12px 0;
-  overflow: hidden;
-}
-
-.chart-container canvas {
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-}
+.chart-container{position:relative;width:100%;max-width:100%;height:240px;margin:12px 0;overflow:hidden}
+.chart-container canvas{width:100% !important;height:100% !important;display:block}
 
 /* Top tools (copy/edit on bubble) */
 .tools{position:absolute;top:8px;right:8px;display:flex;gap:6px}
@@ -132,7 +121,7 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
 .act.like.active{border-color:#2bd47d;background:#2bd47d22}
 .act.dislike.active{border-color:#ff667a;background:#ff667a22}
 
-/* Context menu (history & user bubble) */
+/* Context menu */
 .ctx{position:fixed;background:var(--panel);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);display:none;z-index:70;min-width:180px;animation:pop .18s ease}
 .ctx.show{display:block}
 .ctx .row{padding:10px 12px;cursor:pointer;display:flex;gap:8px;align-items:center}
@@ -177,206 +166,51 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
 /* Toast */
 .toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#10182c;border:1px solid var(--border);color:#dbe7ff;padding:10px 14px;border-radius:10px;z-index:80;box-shadow:0 10px 30px #0008;opacity:0;pointer-events:none;transition:opacity .2s}
 .toast.show{opacity:1}
+/* tambahan style type */
+.toast.error{border-color:var(--danger);color:#ffb3be}
+.toast.success{border-color:var(--success);color:#b9ffd7}
+.toast.warning{border-color:var(--warning);color:#ffe8a3}
 
-/* Dark modal (rename, confirm, qna) */
+/* Dark modal */
 .modal-backdrop{position:fixed;inset:0;background:#0008;display:none;z-index:75;align-items:center;justify-content:center;backdrop-filter:blur(3px);animation:fade .2s ease}
 .modal-backdrop.show{display:flex}
 .modal{width:min(520px,92vw);background:var(--panel);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:14px;animation:pop .18s ease}
 .modal h3{margin:0 0 8px 0}
 .modal .desc{color:var(--muted);font-size:13px;margin-bottom:10px}
 .modal .field{margin:8px 0}
-.modal input, .modal textarea{width:100%;background:var(--panel2);color:#fff;border:1px solid var(--border);border-radius:10px;padding:10px}
+.modal input, .modal textarea, .modal select{width:100%;background:var(--panel2)!important;color:#fff!important;border:1px solid var(--border)!important;border-radius:10px;padding:10px}
 .modal .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
 .modal .danger{background:#ff6b81;border:none;color:white}
 .modal .primary{background:var(--accent);border:none;color:#000}
 .modal .ghost{background:#ffffff10;border:1px solid var(--border);color:#e6efff}
 
-/* Animations */
-@keyframes pop{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+/* Custom Select & Multiselect */
+.custom-select{position:relative;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:8px 12px;color:#fff;cursor:pointer;user-select:none;overflow:visible!important}
+.custom-select .selected{display:flex;justify-content:space-between;align-items:center}
+.custom-select .selected::after{content:"▼";font-size:12px;margin-left:8px;color:var(--muted)}
+.custom-options{position:absolute;background:var(--panel);border:1px solid var(--border);border-radius:10px;max-height:160px;overflow-y:auto;box-shadow:var(--shadow);z-index:100000;display:none}
+.custom-options li{padding:8px 12px;cursor:pointer;color:#fff}
+.custom-options li:hover{background:var(--hover)}
+
+.custom-multiselect{position:relative;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:6px 10px;color:#fff;cursor:pointer;user-select:none;min-height:40px;display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.custom-multiselect .placeholder{opacity:.6}
+.custom-multiselect .tag{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:2px 6px;font-size:12px;display:flex;align-items:center;gap:6px}
+.custom-multiselect .tag .x{cursor:pointer;opacity:.8}
 
 /* Responsive */
-@media (max-width:860px){
-  .sidebar{position:fixed;height:100%;top:0;left:0;width:50vw}
-}
-@media (max-width:520px){
-  .sidebar{width:50vw}
-}
-@media (max-width:640px){
-  .bubble{max-width:100%}
-}
-  /* === Perbaikan Responsif === */
+@media (max-width:860px){ .sidebar{position:fixed;height:100%;top:0;left:0;width:50vw} }
+@media (max-width:520px){ .sidebar{width:50vw} }
+@media (max-width:640px){ .bubble{max-width:100%} }
 
-/* Sidebar: biar teks panjang bisa wrap */
-.sidebar .name {
-  white-space: normal;
-  word-break: break-word;
-}
-
-/* Header: biar tombol wrap kalau layar kecil */
-.topbar {
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-/* Bubble: pastikan konten panjang (misalnya URL) tetap wrap */
-.bubble .content {
-  overflow-wrap: break-word;
-  word-break: break-word;
-}
-
-/* Card grid: kurangi min-width supaya bisa masuk di layar sempit */
-.card-grid {
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-}
-.card {
-  min-width: 0; /* biar flex/grid tidak maksa lebar */
-}
-
-/* Chart container: pastikan tidak overflow */
-.chart-container, 
-.chart-container canvas {
-  width: 100% !important;
-  max-width: 100%;
-}
-
-/* Modal input/select: pastikan tidak melebar */
-.modal input, 
-.modal select, 
-.modal textarea {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-/* Composer: biar tombol dan textarea lebih fleksibel di layar kecil */
-/* Composer tetap 1 baris */
-.compose {
-  flex-wrap: nowrap;   /* jangan pecah baris */
-}
-.compose .textbox {
-  flex: 1 1 auto;      /* textarea tetap fleksibel, tapi sejajar */
-  min-width: 0;        /* biar nggak maksa overflow */
-}
-  /* Form di modal dark mode */
-.modal input,
-.modal select,
-.modal textarea {
-  background: var(--panel2) !important;
-  color: #fff !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 10px;
-  padding: 8px;
-  appearance: none; /* hilangkan default bawaan browser */
-}
-
-/* Dropdown arrow untuk select */
-.modal select {
-  background-image: linear-gradient(45deg, transparent 50%, #ccc 50%),
-                    linear-gradient(135deg, #ccc 50%, transparent 50%);
-  background-position: right 12px top 50%, right 8px top 50%;
-  background-size: 6px 6px, 6px 6px;
-  background-repeat: no-repeat;
-  padding-right: 28px;
-}
-
-/* Option dalam select */
-.modal select option {
-  background: var(--panel2);
-  color: #fff;
-}
-  /* Custom Select */
-.custom-select {
-  position: relative;
-  background: var(--panel2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 8px 12px;
-  color: #fff;
-  cursor: pointer;
-  user-select: none;
-}
-
-.custom-select .selected {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.custom-select .selected::after {
-  content: "▼";
-  font-size: 12px;
-  margin-left: 8px;
-  color: var(--muted);
-}
-
-/* Dropdown global (ditempel ke body) */
-.custom-options {
-  position: absolute;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  max-height: 160px;
-  overflow-y: auto;
-  box-shadow: var(--shadow);
-  z-index: 100000;
-  display: none;
-}
-
-.custom-options li {
-  padding: 8px 12px;
-  cursor: pointer;
-  color: #fff;
-}
-
-.custom-options li:hover {
-  background: var(--hover);
-}
-  /* default: opsi ke bawah */
-.custom-select {
-  position: relative;
-  background: var(--panel2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 8px 12px;
-  color: #fff;
-  cursor: pointer;
-  user-select: none;
-  overflow: visible !important; /* <– biar dropdown bisa keluar */
-}
-  
-  /* Kotak multi-select */
-.custom-multiselect {
-  position: relative;
-  background: var(--panel2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 6px 10px;
-  color: #fff;
-  cursor: pointer;
-  user-select: none;
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-/* Tag hasil pilihan */
-.custom-multiselect .tag {
-  background: var(--panel);
-  border-radius: 6px;
-  padding: 2px 6px;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.custom-multiselect .tag span {
-  cursor: pointer;
-  font-weight: bold;
-}
-
+/* Responsif tambahan */
+.sidebar .name { white-space: normal; word-break: break-word; }
+.topbar { flex-wrap: wrap; gap: 6px; }
+.bubble .content { overflow-wrap: break-word; word-break: break-word; }
+.card-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+.card { min-width: 0; }
+.chart-container, .chart-container canvas { width: 100% !important; max-width: 100%; }
+.compose { flex-wrap: nowrap; }
+.compose .textbox{ flex:1 1 auto; min-width:0; }
 </style>
 </head>
 <body>
@@ -504,7 +338,7 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
 <!-- Context menu: History item -->
 <div class="ctx" id="ctxHistory">
   <div class="row" data-act="rename"><i class="fa-regular fa-pen-to-square"></i> Ganti nama</div>
-  <div class="row" data-act="archive"><i class="fa-regular fa-folder"></i> Arsipkan</div>
+  <div class="row" data-act="archive"><i class="fa-regular fa-folder"></i> Arsipkan/Pulihkan</div>
   <div class="row" data-act="delete"><i class="fa-regular fa-trash-can"></i> Hapus</div>
 </div>
 
@@ -565,30 +399,26 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
   <div class="modal">
     <h3><i class="fa-solid fa-stethoscope"></i> Diagnosis Kesehatan Ayam</h3>
     <div class="desc">Pilih gejala yang dialami ayam untuk mendapatkan diagnosis.</div>
-    
     <div class="field">
-  <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Gejala yang Diamati</div>
-  
-  <!-- Custom Multi Select -->
-  <div class="custom-multiselect" data-target="symptoms">
-    <div class="selected">Pilih gejala</div>
-  </div>
-
-  <!-- hidden select tetap ada, tapi disembunyikan -->
-  <select id="symptoms" multiple style="display:none">
-    <option value="nafsu_makan_turun">Nafsu makan turun</option>
-    <option value="lesu">Lesu dan tidak aktif</option>
-    <option value="bulu_kusam">Bulu kusam dan berdiri</option>
-    <option value="diare">Diare (mencret)</option>
-    <option value="gangguan_pernafasan">Gangguan pernafasan</option>
-    <option value="produksi_telur_turun">Produksi telur menurun</option>
-    <option value="telur_abnormal">Telur abnormal (kerabang tipis, bentuk tidak normal)</option>
-    <option value="warna_comb_pucat">Warna comb pucat</option>
-    <option value="pembengkakan">Pembengkakan pada wajah atau persendian</option>
-    <option value="kelumpuhan">Kelumpuhan atau gangguan syaraf</option>
-  </select>
-</div>
-    
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Gejala yang Diamati</div>
+      <!-- Custom Multi Select -->
+      <div class="custom-multiselect" data-target="symptoms">
+        <span class="placeholder">Pilih gejala</span>
+      </div>
+      <!-- select hidden -->
+      <select id="symptoms" multiple style="display:none">
+        <option value="nafsu_makan_turun">Nafsu makan turun</option>
+        <option value="lesu">Lesu dan tidak aktif</option>
+        <option value="bulu_kusam">Bulu kusam dan berdiri</option>
+        <option value="diare">Diare (mencret)</option>
+        <option value="gangguan_pernafasan">Gangguan pernafasan</option>
+        <option value="produksi_telur_turun">Produksi telur menurun</option>
+        <option value="telur_abnormal">Telur abnormal (kerabang tipis, bentuk tidak normal)</option>
+        <option value="warna_comb_pucat">Warna comb pucat</option>
+        <option value="pembengkakan">Pembengkakan pada wajah atau persendian</option>
+        <option value="kelumpuhan">Kelumpuhan atau gangguan syaraf</option>
+      </select>
+    </div>
     <div class="actions">
       <button class="ghost" data-close="#modalHealth">Batal</button>
       <button class="primary" id="healthDiagnose">Diagnosis</button>
@@ -601,17 +431,14 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
   <div class="modal">
     <h3><i class="fa-solid fa-calculator"></i> Kalkulator Pakan</h3>
     <div class="desc">Hitung kebutuhan pakan berdasarkan jumlah dan umur ayam.</div>
-    
     <div class="field">
       <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Jumlah Ayam</div>
       <input type="number" id="feedChickenCount" placeholder="Contoh: 100" min="1"/>
     </div>
-    
     <div class="field">
       <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Umur Ayam (minggu)</div>
       <input type="number" id="feedChickenAge" placeholder="Contoh: 20" min="1" max="100"/>
     </div>
-    
     <div class="field">
       <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Jenis Ayam</div>
       <select id="feedChickenType">
@@ -619,7 +446,6 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
         <option value="broiler">Broiler (Pedaging)</option>
       </select>
     </div>
-    
     <div class="actions">
       <button class="ghost" data-close="#modalFeed">Batal</button>
       <button class="primary" id="feedCalculate">Hitung</button>
@@ -632,22 +458,18 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
   <div class="modal">
     <h3><i class="fa-solid fa-chart-line"></i> Pelacak Produksi Telur</h3>
     <div class="desc">Masukkan data produksi harian untuk melihat tren.</div>
-    
     <div class="field">
       <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Tanggal</div>
       <input type="date" id="prodDate"/>
     </div>
-    
     <div class="field">
       <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Jumlah Telur</div>
       <input type="number" id="prodEggCount" placeholder="Contoh: 85" min="0"/>
     </div>
-    
     <div class="field">
       <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Jumlah Ayam</div>
       <input type="number" id="prodChickenCount" placeholder="Contoh: 100" min="1"/>
     </div>
-    
     <div class="actions">
       <button class="ghost" data-close="#modalProduction">Batal</button>
       <button class="primary" id="prodSave">Simpan Data</button>
@@ -660,7 +482,6 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
   <div class="modal">
     <h3><i class="fa-solid fa-book-medical"></i> Ensiklopedia Penyakit</h3>
     <div class="desc">Pilih penyakit untuk melihat informasi lengkap.</div>
-    
     <div class="field">
       <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Penyakit</div>
       <select id="diseaseSelect">
@@ -675,7 +496,6 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
         <option value="crdf">Chronic Respiratory Disease (CRD)</option>
       </select>
     </div>
-    
     <div class="actions">
       <button class="ghost" data-close="#modalDisease">Batal</button>
       <button class="primary" id="diseaseInfo">Lihat Informasi</button>
@@ -690,9 +510,9 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
 // ===== KONFIGURASI & INISIALISASI =====
 const APP_NAME = 'LayUp AI';
 const JSON_URL = 'https://fasim-dev.github.io/Layupai/knowledge.json';
-let knowledgeBase = []; // Basis pengetahuan dari JSON
-let customQna = [];     // QnA tambahan dari user
-let fuse;               // Fuse.js instance untuk pencarian
+let knowledgeBase = [];    // Basis pengetahuan dari JSON
+let customQna = [];        // QnA tambahan dari user
+let fuse;                  // Fuse.js instance untuk pencarian
 let currentChatId = null;
 let currentCtx = null;
 let currentCtxData = null;
@@ -700,110 +520,88 @@ let activeChats = [];
 let archivedChats = [];
 let productionData = [];
 
-// Inisialisasi aplikasi
+// ===== UTIL =====
+const $ = sel => document.querySelector(sel);
+const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+function copyToClipboard(text){
+  if (!text) return;
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(text).then(()=>showToast('Disalin', 'success')).catch(()=>fallbackCopy(text));
+  } else fallbackCopy(text);
+}
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text; document.body.appendChild(ta);
+  ta.select(); document.execCommand('copy'); ta.remove();
+  showToast('Disalin', 'success');
+}
+
+// ===== INISIALISASI APP (tidak memanggil diri sendiri) =====
 function initApp() {
   loadData();
   setupEventListeners();
-  createNewChat();
+  if (!activeChats.length) createNewChat(); else { currentChatId = activeChats[0].id; renderHistory(); renderChat(); }
   fetchKnowledgeBase();
+  initCustomMultiSelect();
 }
 
 // ===== FETCH KNOWLEDGE BASE =====
 async function fetchKnowledgeBase() {
   try {
-    console.log('Memulai fetch dari:', JSON_URL);
-    
-    // Tambahkan timestamp untuk menghindari cache
-    const url = JSON_URL + '?t=' + new Date().getTime();
-    
+    const url = JSON_URL + '?t=' + new Date().getTime(); // bypass cache
     const response = await fetch(url, {
       method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Accept':'application/json','Content-Type':'application/json' },
       mode: 'cors'
     });
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
-    console.log('Data berhasil diambil:', data);
-    
-    // Periksa struktur data
+
     if (data && Array.isArray(data.faq)) {
       knowledgeBase = data.faq;
-      console.log(`Loaded ${knowledgeBase.length} items from knowledge base`);
-      showToast('Basis pengetahuan berhasil dimuat');
     } else if (Array.isArray(data)) {
       knowledgeBase = data;
-      console.log(`Loaded ${knowledgeBase.length} items from knowledge base`);
-      showToast('Basis pengetahuan berhasil dimuat');
     } else {
-      console.warn('Struktur JSON tidak sesuai:', data);
-      showToast('Struktur JSON tidak sesuai', 'warning');
+      showToast('Struktur knowledge.json tidak sesuai', 'warning');
+      knowledgeBase = [];
     }
-    
-    // Inisialisasi Fuse.js setelah data dimuat
+    showToast(`Basis pengetahuan: ${knowledgeBase.length} item`);
     initFuse();
-    
-  } catch (error) {
-    console.error('Error fetching knowledge base:', error);
-    showToast('Gagal memuat basis pengetahuan', 'error');
-    
-    // Coba fallback ke file lokal jika tersedia
-    try {
-      // Ini hanya contoh, Anda bisa menambahkan fallback ke file lokal
-      // knowledgeBase = [...]; 
-      console.log('Menggunakan data fallback');
-    } catch (fallbackError) {
-      console.error('Juga gagal menggunakan fallback:', fallbackError);
-    }
+  } catch (err) {
+    console.error(err);
+    showToast('Gagal memuat knowledge.json', 'error');
+    knowledgeBase = [];
+    initFuse();
   }
 }
 
 // Inisialisasi Fuse.js untuk pencarian
 function initFuse() {
-  const options = {
-    includeScore: true,
-    keys: ['question', 'answer', 'keywords']
-  };
-  
-  // Gabungkan knowledge base dengan custom QnA
+  const options = { includeScore: true, threshold: 0.4, keys: ['question', 'answer', 'keywords'] };
   const searchData = [...knowledgeBase, ...customQna];
   fuse = new Fuse(searchData, options);
-  console.log('Fuse.js initialized with', searchData.length, 'items');
 }
 
 // ===== MANAJEMEN DATA LOKAL =====
 function loadData() {
-  const savedChats = localStorage.getItem('layup_chats');
-  const savedCustom = localStorage.getItem('layup_custom_qna');
-  const savedProduction = localStorage.getItem('layup_production');
-
-  if (savedChats) {
-    const chats = JSON.parse(savedChats);
-    activeChats = chats.active || [];
-    archivedChats = chats.archived || [];
-    renderHistory();
-  }
-
-  if (savedCustom) {
-    customQna = JSON.parse(savedCustom);
-  }
-
-  if (savedProduction) {
-    productionData = JSON.parse(savedProduction);
-  }
+  try{
+    const savedChats = localStorage.getItem('layup_chats');
+    const savedCustom = localStorage.getItem('layup_custom_qna');
+    const savedProduction = localStorage.getItem('layup_production');
+    if (savedChats) {
+      const chats = JSON.parse(savedChats);
+      activeChats = chats.active || [];
+      archivedChats = chats.archived || [];
+      renderHistory();
+    }
+    if (savedCustom) customQna = JSON.parse(savedCustom);
+    if (savedProduction) productionData = JSON.parse(savedProduction);
+  }catch(e){ console.warn('Load data error', e); }
 }
 
 function saveData() {
-  const chatData = {
-    active: activeChats,
-    archived: archivedChats
-  };
+  const chatData = { active: activeChats, archived: archivedChats };
   localStorage.setItem('layup_chats', JSON.stringify(chatData));
   localStorage.setItem('layup_custom_qna', JSON.stringify(customQna));
   localStorage.setItem('layup_production', JSON.stringify(productionData));
@@ -813,60 +611,36 @@ function saveData() {
 function createNewChat() {
   const newId = 'chat_' + Date.now();
   currentChatId = newId;
-  
-  const newChat = {
-    id: newId,
-    title: 'Chat Baru',
-    messages: [],
-    createdAt: new Date().toISOString()
-  };
-  
+  const newChat = { id: newId, title: 'Chat Baru', messages: [], createdAt: new Date().toISOString() };
   activeChats.unshift(newChat);
   saveData();
   renderHistory();
   clearStream();
-  
-  // Tambahkan pesan sambutan
   addBotMessage('Halo! Saya LayUp AI, asisten pakar ayam petelur. Silakan tanyakan apa saja tentang beternak ayam petelur, penyakit, pakan, atau manajemen kandang.');
 }
 
-function clearStream() {
-  document.getElementById('stream').innerHTML = '';
-}
+function clearStream() { $('#stream').innerHTML = ''; }
 
 function renderChat() {
-  const chat = getCurrentChat();
-  if (!chat) return;
-  
+  const chat = getCurrentChat(); if (!chat) return;
   clearStream();
   chat.messages.forEach(msg => {
-    if (msg.role === 'user') {
-      addUserMessage(msg.content, false);
-    } else {
-      addBotMessage(msg.content, false);
-    }
+    if (msg.role === 'user') addUserMessage(msg.content, false);
+    else addBotMessage(msg.content, false);
   });
 }
 
-function getCurrentChat() {
-  return activeChats.find(chat => chat.id === currentChatId);
-}
+function getCurrentChat() { return activeChats.find(chat => chat.id === currentChatId); }
 
 // ===== RENDER HISTORY =====
 function renderHistory() {
-  const activeContainer = document.getElementById('historyActive');
-  const archiveContainer = document.getElementById('historyArchive');
-  
+  const activeContainer = $('#historyActive');
+  const archiveContainer = $('#historyArchive');
   activeContainer.innerHTML = '';
-  archivedChats.forEach(chat => {
-    const el = createHistoryElement(chat, true);
-    archiveContainer.appendChild(el);
-  });
-  
-  activeChats.forEach(chat => {
-    const el = createHistoryElement(chat, false);
-    activeContainer.appendChild(el);
-  });
+  archiveContainer.innerHTML = ''; // FIX: reset arsip
+
+  archivedChats.forEach(chat => archiveContainer.appendChild(createHistoryElement(chat, true)));
+  activeChats.forEach(chat => activeContainer.appendChild(createHistoryElement(chat, false)));
 }
 
 function createHistoryElement(chat, isArchived) {
@@ -876,29 +650,48 @@ function createHistoryElement(chat, isArchived) {
     <div class="icon"><i class="fa-regular fa-message"></i></div>
     <div class="name">${chat.title}</div>
   `;
-  
   div.addEventListener('click', () => {
-    if (chat.id !== currentChatId) {
-      currentChatId = chat.id;
-      renderChat();
-      renderHistory();
-    }
+    if (chat.id !== currentChatId) { currentChatId = chat.id; renderChat(); renderHistory(); }
   });
-  
-  // Context menu untuk history item
+  // Context menu
   div.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    currentCtx = 'history';
-    currentCtxData = chat;
+    currentCtx = 'history'; currentCtxData = { chat, archived:isArchived };
     showContextMenu(e, 'ctxHistory');
   });
-  
   return div;
 }
 
 // ===== PESAN =====
+function attachUserBubbleEvents(bubble, content, msgObj){
+  const [btnCopy, btnEdit] = bubble.querySelectorAll('.tool-btn');
+  btnCopy?.addEventListener('click', ()=> copyToClipboard(content));
+  btnEdit?.addEventListener('click', ()=>{
+    const ta = document.createElement('textarea');
+    ta.value = content;
+    ta.style.width='100%'; ta.style.minHeight='80px';
+    const old = bubble.querySelector('.content');
+    old.replaceWith(ta);
+    ta.focus();
+    ta.addEventListener('blur', ()=>{
+      const newTxt = ta.value.trim();
+      const div = document.createElement('div'); div.className='content'; div.textContent = newTxt || content;
+      ta.replaceWith(div);
+      if (newTxt && msgObj){
+        msgObj.content = newTxt; saveData();
+        // update chat title jika ini pesan pertama
+        const chat = getCurrentChat();
+        if (chat && chat.messages[0]===msgObj){
+          chat.title = newTxt.length>30? newTxt.slice(0,30)+'...' : newTxt;
+          renderHistory();
+        }
+      }
+    }, {once:true});
+  });
+}
+
 function addUserMessage(content, save = true) {
-  const stream = document.getElementById('stream');
+  const stream = $('#stream');
   const msgDiv = document.createElement('div');
   msgDiv.className = 'msg user';
   msgDiv.innerHTML = `
@@ -909,45 +702,45 @@ function addUserMessage(content, save = true) {
         <button class="tool-btn" title="Salin"><i class="fa-regular fa-copy"></i></button>
         <button class="tool-btn" title="Edit"><i class="fa-regular fa-pen-to-square"></i></button>
       </div>
-    </div>
-  `;
-  
+    </div>`;
   stream.appendChild(msgDiv);
   stream.scrollTop = stream.scrollHeight;
-  
+
+  let msgObj = null;
   if (save) {
     const chat = getCurrentChat();
     if (chat) {
-      chat.messages.push({
-        role: 'user',
-        content: content,
-        timestamp: new Date().toISOString()
-      });
-      
-      // Update judul chat berdasarkan pesan pertama
-      if (chat.messages.length === 1) {
-        chat.title = content.length > 30 ? content.substring(0, 30) + '...' : content;
-        renderHistory();
-      }
-      
+      msgObj = { role:'user', content, timestamp:new Date().toISOString() };
+      chat.messages.push(msgObj);
+      if (chat.messages.length === 1) { chat.title = content.length>30? content.slice(0,30)+'...' : content; renderHistory(); }
       saveData();
     }
   }
-  
+  attachUserBubbleEvents(msgDiv.querySelector('.bubble'), content, msgObj);
   return msgDiv;
 }
 
+function attachBotBubbleEvents(bubble, content){
+  const [btnLike, btnDislike, btnCopy] = bubble.querySelectorAll('.bot-actions .act');
+  btnCopy?.addEventListener('click', ()=> copyToClipboard(bubble.querySelector('.content')?.innerText || content));
+  btnLike?.addEventListener('click', ()=>{
+    btnLike.classList.toggle('active'); btnDislike.classList.remove('active');
+  });
+  btnDislike?.addEventListener('click', ()=>{
+    btnDislike.classList.toggle('active'); btnLike.classList.remove('active');
+  });
+}
+
 function addBotMessage(content, save = true, type = 'normal') {
-  const stream = document.getElementById('stream');
+  const stream = $('#stream');
   const msgDiv = document.createElement('div');
   msgDiv.className = 'msg bot';
-  
   let bubbleClass = 'bubble';
   if (type === 'info') bubbleClass += ' info';
   else if (type === 'success') bubbleClass += ' success';
   else if (type === 'warning') bubbleClass += ' warning';
   else if (type === 'error') bubbleClass += ' danger';
-  
+
   msgDiv.innerHTML = `
     <div class="avatar"><i class="fa-solid fa-robot"></i></div>
     <div class="${bubbleClass}">
@@ -958,319 +751,411 @@ function addBotMessage(content, save = true, type = 'normal') {
         <button class="act dislike" title="Tidak Suka"><i class="fa-regular fa-thumbs-down"></i></button>
         <button class="act" title="Salin"><i class="fa-regular fa-copy"></i></button>
       </div>
-    </div>
-  `;
-  
+    </div>`;
   stream.appendChild(msgDiv);
   stream.scrollTop = stream.scrollHeight;
-  
+
+  attachBotBubbleEvents(msgDiv.querySelector('.bubble'), content);
+
   if (save) {
     const chat = getCurrentChat();
     if (chat) {
-      chat.messages.push({
-        role: 'assistant',
-        content: content,
-        timestamp: new Date().toISOString()
-      });
+      chat.messages.push({ role:'assistant', content, timestamp:new Date().toISOString() });
       saveData();
     }
   }
-  
   return msgDiv;
 }
 
 // ===== PENCARIAN JAWABAN =====
 function findAnswer(question) {
-  if (!fuse) {
-    console.warn('Fuse.js belum diinisialisasi');
-    return null;
-  }
-  
+  if (!fuse) return null;
   const results = fuse.search(question);
-  if (results.length > 0 && results[0].score < 0.3) {
-    return results[0].item.answer;
-  }
-  
+  if (results.length>0 && results[0].score < 0.35) return results[0].item.answer;
   return null;
 }
 
 // ===== PROSES PERTANYAAN USER =====
 function processQuestion(question) {
   addUserMessage(question);
-  
-  // Tampilkan indikator typing
   const typingIndicator = showTyping();
-  
-  // Delay untuk simulasi AI "berpikir"
   setTimeout(() => {
-    // Hapus indikator typing
-    if (typingIndicator) {
-      typingIndicator.remove();
-    }
-    
-    // Cari jawaban
+    typingIndicator?.remove();
     const answer = findAnswer(question);
-    
-    if (answer) {
-      addBotMessage(answer);
-    } else {
-      // Jika tidak ditemukan jawaban
+    if (answer) addBotMessage(answer);
+    else {
       addBotMessage(
-        `Maaf, saya belum memiliki informasi spesifik tentang "${question}". ` +
-        `Sebagai alternatif, Anda bisa:\n\n` +
-        `• Menggunakan fitur "Diagnosis Kesehatan" untuk masalah kesehatan ayam\n` +
-        `• Menggunakan "Kalkulator Pakan" untuk menghitung kebutuhan pakan\n` +
-        `• Membuka "Ensiklopedia Penyakit" untuk informasi penyakit unggas\n\n` +
-        `Atau coba tanyakan dengan formulasi pertanyaan yang berbeda.`,
-        true,
-        'info'
-      );
+        `Maaf, saya belum memiliki informasi spesifik tentang "${question}".\n\n`+
+        `Coba gunakan fitur berikut:\n`+
+        `• Diagnosis Kesehatan (gejala → kemungkinan penyakit)\n`+
+        `• Kalkulator Pakan (estimasi kebutuhan harian)\n`+
+        `• Ensiklopedia Penyakit (ringkasan penyakit umum)\n\n`+
+        `Atau coba ubah gaya pertanyaannya.`, true,'info');
     }
-  }, 1000 + Math.random() * 1000);
+  }, 800 + Math.random()*700);
 }
 
 function showTyping() {
-  const stream = document.getElementById('stream');
+  const stream = $('#stream');
   const msgDiv = document.createElement('div');
   msgDiv.className = 'msg bot';
   msgDiv.innerHTML = `
     <div class="avatar"><i class="fa-solid fa-robot"></i></div>
-    <div class="bubble">
-      <div class="typing">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-      </div>
-    </div>
-  `;
-  
+    <div class="bubble"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
   stream.appendChild(msgDiv);
   stream.scrollTop = stream.scrollHeight;
   return msgDiv;
 }
 
-// ===== UI FUNCTIONS =====
+// ===== TOAST & MODAL & CONTEXT MENU =====
 function showToast(message, type = 'normal') {
-  const toast = document.getElementById('toast');
+  const toast = $('#toast');
   toast.textContent = message;
-  
   toast.className = 'toast';
-  if (type === 'error') toast.classList.add('error');
-  else if (type === 'success') toast.classList.add('success');
-  else if (type === 'warning') toast.classList.add('warning');
-  
+  if (type) toast.classList.add(type);
   toast.classList.add('show');
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 3000);
+  setTimeout(()=> toast.classList.remove('show'), 2600);
 }
 
 function showContextMenu(e, menuId) {
+  // tutup semua menu lain dulu
+  $$('.ctx').forEach(m=>m.classList.remove('show'));
   const menu = document.getElementById(menuId);
   menu.style.left = e.pageX + 'px';
   menu.style.top = e.pageY + 'px';
   menu.classList.add('show');
-  
-  const hideMenu = () => {
-    menu.classList.remove('show');
-    document.removeEventListener('click', hideMenu);
-  };
-  
-  setTimeout(() => {
-    document.addEventListener('click', hideMenu);
-  }, 10);
+  const hideMenu = () => { menu.classList.remove('show'); document.removeEventListener('click', hideMenu); };
+  setTimeout(()=> document.addEventListener('click', hideMenu), 10);
 }
+function showModal(selector){ document.querySelector(selector).classList.add('show'); }
+function hideModal(selector){ document.querySelector(selector).classList.remove('show'); }
 
-function showModal(selector) {
-  document.querySelector(selector).classList.add('show');
+// ===== CUSTOM MULTISELECT =====
+let sharedOptionsList = null; // <ul> dropdown global
+function initCustomMultiSelect(){
+  // buat dropdown global sekali
+  sharedOptionsList = document.createElement('ul');
+  sharedOptionsList.className = 'custom-options';
+  document.body.appendChild(sharedOptionsList);
+
+  // klik di luar → tutup
+  document.addEventListener('click', (e)=>{
+    if (!sharedOptionsList.contains(e.target) && !e.target.closest('.custom-multiselect')){
+      sharedOptionsList.style.display='none';
+    }
+  });
+
+  // bind ke setiap .custom-multiselect
+  $$('.custom-multiselect').forEach(ms=>{
+    const targetId = ms.getAttribute('data-target');
+    const select = document.getElementById(targetId);
+    ms.addEventListener('click', (e)=>{
+      // render opsi
+      sharedOptionsList.innerHTML = '';
+      Array.from(select.options).forEach(opt=>{
+        const li = document.createElement('li');
+        li.textContent = opt.textContent;
+        if (opt.selected) li.style.opacity = .6;
+        li.addEventListener('click', (ev)=>{
+          ev.stopPropagation();
+          opt.selected = !opt.selected;
+          updateTags(ms, select);
+          sharedOptionsList.style.display='none';
+        });
+        sharedOptionsList.appendChild(li);
+      });
+      // posisikan
+      const rect = ms.getBoundingClientRect();
+      sharedOptionsList.style.left = `${rect.left + window.scrollX}px`;
+      sharedOptionsList.style.top = `${rect.bottom + window.scrollY + 6}px`;
+      sharedOptionsList.style.minWidth = rect.width+'px';
+      sharedOptionsList.style.display='block';
+    });
+    // render awal
+    updateTags(ms, select);
+  });
 }
-
-function hideModal(selector) {
-  document.querySelector(selector).classList.remove('show');
+function updateTags(ms, select){
+  ms.innerHTML = '';
+  const selected = Array.from(select.selectedOptions);
+  if (!selected.length){
+    const ph = document.createElement('span'); ph.className='placeholder'; ph.textContent='Pilih gejala';
+    ms.appendChild(ph); return;
+  }
+  selected.forEach(opt=>{
+    const tag = document.createElement('span'); tag.className='tag';
+    tag.innerHTML = `${opt.textContent} <span class="x">×</span>`;
+    tag.querySelector('.x').addEventListener('click',(e)=>{
+      e.stopPropagation(); opt.selected=false; updateTags(ms, select);
+    });
+    ms.appendChild(tag);
+  });
 }
 
 // ===== SETUP EVENT LISTENERS =====
 function setupEventListeners() {
   // Toggle sidebar
-  document.getElementById('sideToggle').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.toggle('show');
-    document.getElementById('sidebarBackdrop').classList.toggle('show');
+  $('#sideToggle').addEventListener('click', () => {
+    $('#sidebar').classList.toggle('show');
+    $('#sidebarBackdrop').classList.toggle('show');
   });
-  
-  document.getElementById('sidebarBackdrop').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.remove('show');
-    document.getElementById('sidebarBackdrop').classList.remove('show');
+  $('#sidebarBackdrop').addEventListener('click', () => {
+    $('#sidebar').classList.remove('show');
+    $('#sidebarBackdrop').classList.remove('show');
   });
-  
+
   // Input text message
-  const input = document.getElementById('input');
-  const sendBtn = document.getElementById('sendBtn');
-  
+  const input = $('#input');
+  const sendBtn = $('#sendBtn');
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      if (input.value.trim()) {
-        processQuestion(input.value.trim());
-        input.value = '';
-      }
+      if (input.value.trim()) { processQuestion(input.value.trim()); input.value = ''; }
     }
   });
-  
   sendBtn.addEventListener('click', () => {
-    if (input.value.trim()) {
-      processQuestion(input.value.trim());
-      input.value = '';
-    }
+    if (input.value.trim()) { processQuestion(input.value.trim()); input.value = ''; }
   });
-  
-  // More menu (⋮)
-  document.getElementById('moreBtn').addEventListener('click', (e) => {
-    e.stopPropagation();
-    document.getElementById('moreMenu').classList.toggle('show');
+
+  // Menu ⋮
+  $('#moreBtn').addEventListener('click', (e) => {
+    e.stopPropagation(); $('#moreMenu').classList.toggle('show');
   });
-  
-  document.addEventListener('click', () => {
-    document.getElementById('moreMenu').classList.remove('show');
-  });
-  
+  document.addEventListener('click', () => { $('#moreMenu').classList.remove('show'); });
+
   // New chat
-  document.getElementById('newChatBtn').addEventListener('click', createNewChat);
-  
+  $('#newChatBtn').addEventListener('click', createNewChat);
+
   // Account menu
-  document.getElementById('accountBtn').addEventListener('click', (e) => {
-    e.stopPropagation();
-    document.getElementById('accountMenu').classList.toggle('show');
+  $('#accountBtn').addEventListener('click', (e) => {
+    e.stopPropagation(); $('#accountMenu').classList.toggle('show');
   });
-  
+  document.addEventListener('click', ()=> $('#accountMenu').classList.remove('show'));
+
   // Attach menu
-  document.getElementById('attachBtn').addEventListener('click', (e) => {
-    e.stopPropagation();
-    document.getElementById('attachMenu').classList.toggle('show');
+  $('#attachBtn').addEventListener('click', (e) => {
+    e.stopPropagation(); $('#attachMenu').classList.toggle('show');
   });
-  
+  document.addEventListener('click', ()=> $('#attachMenu').classList.remove('show'));
+
   // Expand composer
-  document.getElementById('expandBtn').addEventListener('click', () => {
-    document.getElementById('overlay').classList.add('show');
-    document.getElementById('overlayInput').value = input.value;
-    document.getElementById('overlayInput').focus();
+  $('#expandBtn').addEventListener('click', () => {
+    $('#overlay').classList.add('show');
+    $('#overlayInput').value = $('#input').value;
+    $('#overlayInput').focus();
   });
-  
-  // Close overlay
-  document.getElementById('closeOverlay').addEventListener('click', () => {
-    document.getElementById('overlay').classList.remove('show');
+  $('#closeOverlay').addEventListener('click', () => { $('#overlay').classList.remove('show'); });
+  $('#overlayCancel').addEventListener('click', () => { $('#overlay').classList.remove('show'); });
+  $('#overlaySend').addEventListener('click', () => {
+    const overlayInput = $('#overlayInput');
+    if (overlayInput.value.trim()) { processQuestion(overlayInput.value.trim()); overlayInput.value = ''; $('#overlay').classList.remove('show'); }
   });
-  
-  document.getElementById('overlayCancel').addEventListener('click', () => {
-    document.getElementById('overlay').classList.remove('show');
+
+  // Fitur khusus (open modal)
+  $('#healthDiagnosis').addEventListener('click', () => showModal('#modalHealth'));
+  $('#feedCalculator').addEventListener('click', () => showModal('#modalFeed'));
+  $('#productionTracker').addEventListener('click', () => showModal('#modalProduction'));
+  $('#diseaseEncyclopedia').addEventListener('click', () => showModal('#modalDisease'));
+
+  // Modal close generic
+  $$('[data-close]').forEach(btn=>{
+    btn.addEventListener('click', ()=> hideModal(btn.getAttribute('data-close')));
   });
-  
-  document.getElementById('overlaySend').addEventListener('click', () => {
-    const overlayInput = document.getElementById('overlayInput');
-    if (overlayInput.value.trim()) {
-      processQuestion(overlayInput.value.trim());
-      overlayInput.value = '';
-      document.getElementById('overlay').classList.remove('show');
-    }
-  });
-  
-  // Fitur khusus
-  document.getElementById('healthDiagnosis').addEventListener('click', () => {
-    showModal('#modalHealth');
-  });
-  
-  document.getElementById('feedCalculator').addEventListener('click', () => {
-    showModal('#modalFeed');
-  });
-  
-  document.getElementById('productionTracker').addEventListener('click', () => {
-    showModal('#modalProduction');
-  });
-  
-  document.getElementById('diseaseEncyclopedia').addEventListener('click', () => {
-    showModal('#modalDisease');
-  });
-  
-  // Tombol diagnosis
-  document.getElementById('healthDiagnose').addEventListener('click', () => {
-    const symptoms = Array.from(document.getElementById('symptoms').selectedOptions)
-      .map(option => option.value);
-    
-    if (symptoms.length === 0) {
-      showToast('Pilih setidaknya satu gejala', 'warning');
-      return;
-    }
-    
+
+  // Diagnosis
+  $('#healthDiagnose').addEventListener('click', () => {
+    const symptoms = Array.from($('#symptoms').selectedOptions).map(o=>o.value);
+    if (!symptoms.length) { showToast('Pilih setidaknya satu gejala', 'warning'); return; }
     hideModal('#modalHealth');
-    
-    // Simulasi diagnosis
     addUserMessage('Diagnosis kesehatan dengan gejala: ' + symptoms.join(', '));
     const typing = showTyping();
-    
     setTimeout(() => {
       typing.remove();
       addBotMessage(
-        `Berdasarkan gejala yang dipilih, kemungkinan ayam mengalami **Newcastle Disease (ND)**.\n\n` +
-        `**Rekomendasi:**\n` +
-        `• Isolasi ayam yang sakit\n` +
-        `• Tingkatkan biosecurity kandang\n` +
-        `• Berikan vitamin dan elektrolit\n` +
-        `• Konsultasi dengan dokter hewan untuk penanganan lebih lanjut\n\n` +
-        `*Disclaimer: Diagnosis ini berdasarkan gejala yang dipilih dan mungkin tidak akurat 100%.*`,
-        true,
-        'warning'
-      );
-    }, 2000);
+        `Berdasarkan gejala yang dipilih, kemungkinan ayam mengalami **Newcastle Disease (ND)**.\n\n`+
+        `**Rekomendasi:**\n`+
+        `• Isolasi ayam yang sakit\n`+
+        `• Tingkatkan biosecurity kandang\n`+
+        `• Berikan vitamin dan elektrolit\n`+
+        `• Konsultasi dokter hewan untuk penanganan lanjut\n\n`+
+        `*Disclaimer: Diagnosis berdasarkan gejala, tidak 100% akurat.*`,
+        true,'warning');
+    }, 1200);
   });
-  
-  // Tombol kalkulator pakan
-  document.getElementById('feedCalculate').addEventListener('click', () => {
-    const count = parseInt(document.getElementById('feedChickenCount').value);
-    const age = parseInt(document.getElementById('feedChickenAge').value);
-    const type = document.getElementById('feedChickenType').value;
-    
-    if (!count || !age) {
-      showToast('Masukkan jumlah dan umur ayam', 'warning');
-      return;
-    }
-    
+
+  // Kalkulator pakan
+  $('#feedCalculate').addEventListener('click', () => {
+    const count = parseInt($('#feedChickenCount').value);
+    const age = parseInt($('#feedChickenAge').value);
+    const type = $('#feedChickenType').value;
+    if (!count || !age) { showToast('Masukkan jumlah dan umur ayam', 'warning'); return; }
     hideModal('#modalFeed');
-    
-    // Hitung kebutuhan pakan
+
     let feedPerChicken;
-    if (type === 'layer') {
-      if (age < 5) feedPerChicken = 0.05;
-      else if (age < 10) feedPerChicken = 0.07;
-      else if (age < 20) feedPerChicken = 0.1;
-      else feedPerChicken = 0.12;
+    if (type==='layer'){
+      if (age<5) feedPerChicken=0.05; else if (age<10) feedPerChicken=0.07; else if (age<20) feedPerChicken=0.1; else feedPerChicken=0.12;
     } else {
-      // broiler
-      if (age < 3) feedPerChicken = 0.05;
-      else if (age < 6) feedPerChicken = 0.1;
-      else feedPerChicken = 0.15;
+      if (age<3) feedPerChicken=0.05; else if (age<6) feedPerChicken=0.1; else feedPerChicken=0.15;
     }
-    
     const totalFeed = count * feedPerChicken;
-    
     addUserMessage(`Hitung kebutuhan pakan untuk ${count} ekor ayam ${type} umur ${age} minggu`);
-    
     addBotMessage(
-      `**Hasil Perhitungan:**\n` +
-      `• Jumlah ayam: ${count} ekor\n` +
-      `• Umur: ${age} minggu\n` +
-      `• Jenis: ${type === 'layer' ? 'Petelur (Layer)' : 'Pedaging (Broiler)'}\n` +
-      `• Kebutuhan per ekor: ${feedPerChicken} kg/hari\n` +
-      `• **Total kebutuhan pakan: ${totalFeed.toFixed(2)} kg/hari**\n\n` +
-      `*Catatan: Perhitungan ini adalah estimasi. Sesuaikan dengan kondisi aktual ayam.*`,
-      true,
-      'success'
-    );
+      `**Hasil Perhitungan:**\n`+
+      `• Jumlah ayam: ${count} ekor\n`+
+      `• Umur: ${age} minggu\n`+
+      `• Jenis: ${type==='layer'?'Petelur (Layer)':'Pedaging (Broiler)'}\n`+
+      `• Kebutuhan per ekor: ${feedPerChicken} kg/hari\n`+
+      `• **Total: ${totalFeed.toFixed(2)} kg/hari**\n\n`+
+      `*Estimasi, sesuaikan kondisi lapangan.*`, true,'success');
   });
-  
-  // Initialize the app
-  initApp();
+
+  // Production tracker (minimal)
+  $('#prodSave').addEventListener('click', ()=>{
+    const date = $('#prodDate').value;
+    const eggs = parseInt($('#prodEggCount').value||'0',10);
+    const chickens = parseInt($('#prodChickenCount').value||'0',10);
+    if (!date || !eggs || !chickens){ showToast('Lengkapi tanggal, telur, dan jumlah ayam', 'warning'); return; }
+    productionData.push({date, eggs, chickens});
+    saveData();
+    hideModal('#modalProduction');
+    const hd = (eggs/chickens*100).toFixed(1);
+    addUserMessage(`Catat produksi: ${eggs} butir (${date}) dari ${chickens} ekor`);
+    addBotMessage(`Data disimpan. Performa **HD: ${hd}%** pada ${date}.`, true,'success');
+  });
+
+  // Disease encyclopedia (mini info)
+  const diseaseInfoMap = {
+    newcastle:{ name:'Newcastle Disease (ND)', signs:'Nafsu makan turun, gangguan pernapasan, kelumpuhan.', control:'Vaksinasi, biosecurity ketat.' },
+    gumboro:{ name:'Gumboro (IBD)', signs:'Pembengkakan bursa Fabricius, diare putih.', control:'Vaksinasi tepat waktu.' },
+    bronchitis:{ name:'Bronchitis Infeksius (IB)', signs:'Batuk, bersin, produksi telur turun.', control:'Vaksin kombinasi IB.' },
+    coccidiosis:{ name:'Coccidiosis', signs:'Diare berdarah, lesu.', control:'Koksidiostat, sanitasi litter.' },
+    marek:{ name:"Marek's Disease", signs:'Kelumpuhan, pupil menyempit.', control:'Vaksin DOC day-old.' },
+    avian_influenza:{ name:'Avian Influenza (AI)', signs:'Mortalitas tinggi, sianosis jengger.', control:'Pelaporan otoritas, stamping out.' },
+    fowl_pox:{ name:'Fowl Pox', signs:'Lesi pada kulit/selaput lendir.', control:'Vaksin pox, kontrol vektor.' },
+    crdf:{ name:'CRD (Mycoplasma)', signs:'Ngorok kronis, pertumbuhan terhambat.', control:'Terapkan antibiotik sesuai vet, ventilasi baik.' }
+  };
+  $('#diseaseInfo').addEventListener('click', ()=>{
+    const val = $('#diseaseSelect').value;
+    if (!val) { showToast('Pilih penyakit dahulu', 'warning'); return; }
+    hideModal('#modalDisease');
+    const d = diseaseInfoMap[val];
+    addUserMessage(`Lihat informasi penyakit: ${d?.name||val}`);
+    addBotMessage(
+      `<div class="card-grid">
+        <div class="card"><h4>${d.name}</h4><p><b>Tanda klinis:</b> ${d.signs}</p></div>
+        <div class="card"><h4>Kontrol</h4><p>${d.control}</p></div>
+      </div>`, true,'info');
+  });
+
+  // History context actions
+  $('#ctxHistory').addEventListener('click', (e)=>{
+    const row = e.target.closest('.row'); if (!row) return;
+    const act = row.getAttribute('data-act');
+    const {chat, archived} = currentCtxData||{};
+    if (!chat) return;
+    if (act==='rename'){
+      $('#renameInput').value = chat.title || '';
+      showModal('#modalRename');
+    } else if (act==='archive'){
+      if (archived){
+        // pulihkan
+        archivedChats = archivedChats.filter(c=>c.id!==chat.id);
+        activeChats.unshift(chat);
+        showToast('Dipulihkan dari arsip', 'success');
+      } else {
+        activeChats = activeChats.filter(c=>c.id!==chat.id);
+        archivedChats.unshift(chat);
+        if (currentChatId===chat.id && activeChats.length){ currentChatId = activeChats[0].id; }
+        showToast('Diarsipkan', 'success');
+      }
+      saveData(); renderHistory(); if (getCurrentChat()) renderChat(); else clearStream();
+    } else if (act==='delete'){
+      showModal('#modalConfirm');
+    }
+    $('#ctxHistory').classList.remove('show');
+  });
+
+  // Rename save
+  $('#renameSave').addEventListener('click', ()=>{
+    const {chat} = currentCtxData||{}; if (!chat) return;
+    const v = $('#renameInput').value.trim(); if (!v) return;
+    chat.title = v; saveData(); renderHistory(); hideModal('#modalRename');
+  });
+
+  // Confirm delete
+  $('#confirmDelete').addEventListener('click', ()=>{
+    const {chat, archived} = currentCtxData||{}; if (!chat) return;
+    if (archived) archivedChats = archivedChats.filter(c=>c.id!==chat.id);
+    else activeChats = activeChats.filter(c=>c.id!==chat.id);
+    if (currentChatId===chat.id){ currentChatId = activeChats[0]?.id || null; }
+    saveData(); renderHistory(); hideModal('#modalConfirm');
+    if (currentChatId) renderChat(); else clearStream();
+    showToast('Chat dihapus', 'success');
+  });
+
+  // User bubble context (opsional; copy/select/edit cepat)
+  $('#ctxUser').addEventListener('click', (e)=>{
+    const row = e.target.closest('.row'); if (!row) return;
+    const act = row.getAttribute('data-act');
+    if (act==='copy'){
+      const sel = window.getSelection().toString();
+      if (sel) copyToClipboard(sel); else showToast('Pilih teks dulu', 'warning');
+    }else if (act==='select'){
+      const range = document.createRange();
+      const bubble = document.elementFromPoint(parseInt($('#ctxUser').style.left), parseInt($('#ctxUser').style.top))?.closest('.bubble');
+      if (bubble){
+        range.selectNodeContents(bubble.querySelector('.content'));
+        const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      }
+    }else if (act==='edit'){
+      showToast('Klik ikon pena di bubble untuk edit', 'info');
+    }
+    $('#ctxUser').classList.remove('show');
+  });
+
+  // QnA modal open/save
+  $('#addQna').addEventListener('click', ()=> showModal('#modalQna'));
+  $('#qnaSave').addEventListener('click', ()=>{
+    const q = $('#qnaQ').value.trim();
+    const a = $('#qnaA').value.trim();
+    if (!q || !a){ showToast('Isi pertanyaan & jawaban', 'warning'); return; }
+    const item = {question:q, answer:a, keywords:[...new Set(q.toLowerCase().split(/\s+/).filter(w=>w.length>3))]};
+    customQna.push(item); saveData(); initFuse(); hideModal('#modalQna');
+    showToast('QnA ditambahkan', 'success');
+  });
+
+  // Export / Import chat
+  $('#exportChat').addEventListener('click', ()=>{
+    const blob = new Blob([JSON.stringify({active:activeChats, archived:archivedChats}, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'layup_chats.json'; a.click();
+    URL.revokeObjectURL(url);
+  });
+  $('#importChat').addEventListener('click', ()=> $('#importFile').click());
+  $('#importFile').addEventListener('change', (e)=>{
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      try{
+        const data = JSON.parse(reader.result);
+        activeChats = Array.isArray(data.active)? data.active: [];
+        archivedChats = Array.isArray(data.archived)? data.archived: [];
+        currentChatId = activeChats[0]?.id || null;
+        saveData(); renderHistory(); if (currentChatId) renderChat(); else clearStream();
+        showToast('Import berhasil', 'success');
+      }catch(err){ console.error(err); showToast('File tidak valid', 'error'); }
+    };
+    reader.readAsText(file);
+  });
+
+  // Context menu for user bubble (right click)
+  $('#stream').addEventListener('contextmenu', (e)=>{
+    const bubble = e.target.closest('.msg.user .bubble');
+    if (bubble){ e.preventDefault(); showContextMenu(e, 'ctxUser'); }
+  });
 }
 
-// Start the application when DOM is loaded
+// Start the application when DOM is loaded (FIX: tidak ada pemanggilan ganda)
 document.addEventListener('DOMContentLoaded', initApp);
 </script>
 </body>
