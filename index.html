@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -600,37 +599,26 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
 <!-- Modal: Feed Calculator -->
 <div class="modal-backdrop" id="modalFeed">
   <div class="modal">
-    <h3><i class="fa-solid fa-calculator"></i> Kalkulator Kebutuhan Pakan</h3>
-    <div class="desc">Hitung kebutuhan pakan berdasarkan jumlah dan usia ayam.</div>
+    <h3><i class="fa-solid fa-calculator"></i> Kalkulator Pakan</h3>
+    <div class="desc">Hitung kebutuhan pakan berdasarkan jumlah dan umur ayam.</div>
     
     <div class="field">
       <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Jumlah Ayam</div>
-      <input type="number" id="chickenCount" placeholder="Contoh: 100" min="1"/>
+      <input type="number" id="feedChickenCount" placeholder="Contoh: 100" min="1"/>
     </div>
     
     <div class="field">
-      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Usia Ayam (minggu)</div>
-      <input type="number" id="chickenAge" placeholder="Contoh: 20" min="1" max="100"/>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Umur Ayam (minggu)</div>
+      <input type="number" id="feedChickenAge" placeholder="Contoh: 20" min="1" max="100"/>
     </div>
     
     <div class="field">
-  <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Tahap Produksi</div>
-
-  <!-- Custom Select Dark Mode -->
-  <div class="custom-select" data-target="productionStage">
-    <!-- YANG BARU — TANPA <ul class="options"> -->
-<div class="custom-select" data-target="productionStage">
-  <div class="selected">Pilih tahap produksi</div>
-</div>
-
-<!-- Hidden select tetap dipakai JS kalkulator -->
-<select id="productionStage" style="display:none">
-  <option value="starter">Starter (0-8 minggu)</option>
-  <option value="grower">Grower (9-18 minggu)</option>
-  <option value="layer">Layer (19+ minggu)</option>
-  <option value="peak_production">Puncak Produksi (25-45 minggu)</option>
-  <option value="late_production">Akhir Produksi (46+ minggu)</option>
-</select>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Jenis Ayam</div>
+      <select id="feedChickenType">
+        <option value="layer">Layer (Petelur)</option>
+        <option value="broiler">Broiler (Pedaging)</option>
+      </select>
+    </div>
     
     <div class="actions">
       <button class="ghost" data-close="#modalFeed">Batal</button>
@@ -639,913 +627,651 @@ body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-sy
   </div>
 </div>
 
-<div class="toast" id="toast">Disalin!</div>
+<!-- Modal: Production Tracker -->
+<div class="modal-backdrop" id="modalProduction">
+  <div class="modal">
+    <h3><i class="fa-solid fa-chart-line"></i> Pelacak Produksi Telur</h3>
+    <div class="desc">Masukkan data produksi harian untuk melihat tren.</div>
+    
+    <div class="field">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Tanggal</div>
+      <input type="date" id="prodDate"/>
+    </div>
+    
+    <div class="field">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Jumlah Telur</div>
+      <input type="number" id="prodEggCount" placeholder="Contoh: 85" min="0"/>
+    </div>
+    
+    <div class="field">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Jumlah Ayam</div>
+      <input type="number" id="prodChickenCount" placeholder="Contoh: 100" min="1"/>
+    </div>
+    
+    <div class="actions">
+      <button class="ghost" data-close="#modalProduction">Batal</button>
+      <button class="primary" id="prodSave">Simpan Data</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Disease Encyclopedia -->
+<div class="modal-backdrop" id="modalDisease">
+  <div class="modal">
+    <h3><i class="fa-solid fa-book-medical"></i> Ensiklopedia Penyakit</h3>
+    <div class="desc">Pilih penyakit untuk melihat informasi lengkap.</div>
+    
+    <div class="field">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Penyakit</div>
+      <select id="diseaseSelect">
+        <option value="">-- Pilih penyakit --</option>
+        <option value="newcastle">Newcastle Disease (ND)</option>
+        <option value="gumboro">Gumboro (IBD)</option>
+        <option value="bronchitis">Bronchitis Infeksius (IB)</option>
+        <option value="coccidiosis">Coccidiosis</option>
+        <option value="marek">Marek's Disease</option>
+        <option value="avian_influenza">Avian Influenza (AI)</option>
+        <option value="fowl_pox">Fowl Pox</option>
+        <option value="crdf">Chronic Respiratory Disease (CRD)</option>
+      </select>
+    </div>
+    
+    <div class="actions">
+      <button class="ghost" data-close="#modalDisease">Batal</button>
+      <button class="primary" id="diseaseInfo">Lihat Informasi</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
 <script>
-/* =================== Konfigurasi JSON =================== */
-const JSON_URL = "https://fasim-dev.github.io/Layupai/knowledge.json";           // contoh: "https://domain.com/knowledge.json"
-const FALLBACK_LOCAL = "knowledge.json";
+// ===== KONFIGURASI & INISIALISASI =====
+const APP_NAME = 'LayUp AI';
+const JSON_URL = 'https://fasim-dev.github.io/Layupai/knowledge.json';
+let knowledgeBase = []; // Basis pengetahuan dari JSON
+let customQna = [];     // QnA tambahan dari user
+let fuse;               // Fuse.js instance untuk pencarian
+let currentChatId = null;
+let currentCtx = null;
+let currentCtxData = null;
+let activeChats = [];
+let archivedChats = [];
+let productionData = [];
 
-/* =================== Helper DOM/UI =================== */
-const $ = (s, r=document)=> r.querySelector(s);
-const $$ = (s, r=document)=> Array.from(r.querySelectorAll(s));
-function escapeHtml(s){ return s.replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m])); }
-function toast(msg="Disalin!"){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1500); }
-function scrollBottom(){ const el=$("#stream"); el.scrollTop = el.scrollHeight + 1000; }
-function closeAllCtx(){ $$(".ctx.show").forEach(e=>e.classList.remove("show")); }
-
-/* =================== Storage Keys (FIX urutan) =================== */
-const storeKey = "layup_chats_v4";           // <-- didefinisikan lebih dulu
-const storeQna = "layup_qna_local_v2";
-
-/* =================== State Chat/History =================== */
-let chats = loadChats();           // list {id,name,items:[{role,text}], archived:false}
-let activeId = null;
-
-/* =================== Sidebar Toggle + Backdrop =================== */
-const sidebar = $("#sidebar");
-const sidebarBackdrop = $("#sidebarBackdrop");
-const sideToggle = $("#sideToggle");
-function setSidebar(show){
-  sidebar.classList.toggle("show", show);
-  sidebarBackdrop.classList.toggle("show", show);
-}
-sideToggle.addEventListener('click', (e)=> {
-  e.stopPropagation(); // << FIX
-  setSidebar(!sidebar.classList.contains("show"));
-});
-
-sidebarBackdrop.addEventListener('click', ()=> setSidebar(false));
-
-// klik area utama → tutup sidebar (kecuali saat klik tombol toggle)
-$("#mainArea").addEventListener('click', (e)=>{
-  if(sidebar.classList.contains('show')) setSidebar(false);
-});
-document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') setSidebar(false); });
-
-/* =================== Account Menu =================== */
-const accountBtn = $("#accountBtn"), accountMenu = $("#accountMenu");
-accountBtn.onclick = (e)=>{ e.stopPropagation(); accountMenu.classList.toggle("show"); };
-document.addEventListener('click', (e)=>{
-  if(!e.target.closest('#accountBtn') && !e.target.closest('#accountMenu')) accountMenu.classList.remove("show");
-});
-
-// Event handler untuk account menu
-$("#accProfile").onclick = ()=> { accountMenu.classList.remove("show"); toast("Fitur profil akan datang"); };
-$("#accSettings").onclick = ()=> { accountMenu.classList.remove("show"); toast("Fitur pengaturan akan datang"); };
-$("#accLogout").onclick = ()=> { accountMenu.classList.remove("show"); toast("Fitur logout akan datang"); };
-
-/* =================== Dropdown ⋮ =================== */
-$("#moreBtn").onclick = (e)=> {
-  e.stopPropagation();
-  const menu=$("#moreMenu");
-  menu.classList.toggle("show");
-  menu.setAttribute("aria-hidden", !menu.classList.contains("show"));
-};
-document.addEventListener('click', (e)=>{
-  if(!e.target.closest('#moreBtn') && !e.target.closest('#moreMenu')) $("#moreMenu").classList.remove("show");
-});
-
-/* =================== Helpers Copy =================== */
-function copyText(t){ navigator.clipboard.writeText(t).then(()=>toast("Disalin, Bosku!")); }
-
-/* =================== Storage Ops =================== */
-function loadChats(){
-  try{ return JSON.parse(localStorage.getItem(storeKey)) || []; }catch{ return []; }
-}
-function saveChats(){ localStorage.setItem(storeKey, JSON.stringify(chats)); }
-
-/* =================== History Render =================== */
-const listActive = $("#historyActive"), listArchive = $("#historyArchive");
-function renderHistory(){
-  listActive.innerHTML=""; listArchive.innerHTML="";
-  chats.sort((a,b)=>(b.ts||0)-(a.ts||0));
-  chats.forEach(c=>{
-    const el = document.createElement('div');
-    el.className = "item"; el.dataset.id = c.id;
-    el.innerHTML = `<div class="icon"><i class="fa-regular fa-message"></i></div><div class="name">${escapeHtml(c.name||'New chat')}</div>`;
-    (c.archived?listArchive:listActive).appendChild(el);
-
-    el.addEventListener('click',()=> openChat(c.id));
-    el.addEventListener('contextmenu', (e)=>{ e.preventDefault(); showHistoryCtx(e.clientX,e.clientY,c.id); });
-
-    // long-press mobile
-    let touchTimer=null;
-    el.addEventListener('touchstart', (e)=>{
-      touchTimer=setTimeout(()=>{ const t=e.touches[0]; showHistoryCtx(t.clientX,t.clientY,c.id); },500);
-    });
-    el.addEventListener('touchend', ()=> clearTimeout(touchTimer));
-  });
-}
-function openChat(id){
-  activeId=id; const c = getActive(); if(!c) return;
-  $("#stream").innerHTML="";
-  // render tanpa persist (FIX duplikasi)
-  c.items.forEach(m=> addMsg(m.text, m.role==='bot'?'bot':'user', '', false));
-  saveChats(); renderHistory();
-  if(window.innerWidth<860) setSidebar(false);
-}
-function getActive(){ return chats.find(c=>c.id===activeId) || null; }
-
-/* =================== Context menu: History =================== */
-const ctxHistory = $("#ctxHistory"); let ctxHistoryTarget=null;
-function showHistoryCtx(x,y,id){
-  ctxHistoryTarget=id;
-  ctxHistory.style.left = x+"px"; ctxHistory.style.top = y+"px";
-  closeAllCtx(); ctxHistory.classList.add("show");
-}
-ctxHistory.addEventListener('click',(e)=>{
-  const act = e.target.closest('.row')?.dataset?.act; if(!act || !ctxHistoryTarget) return;
-  const c = chats.find(c=>c.id===ctxHistoryTarget); if(!c) return;
-
-  if(act==='rename'){
-    openModal('#modalRename');
-    $("#renameInput").value = c.name || '';
-    $("#renameSave").onclick = ()=>{ 
-      const nv=$("#renameInput").value.trim();
-      if(nv){ c.name=nv; c.ts=Date.now(); saveChats(); renderHistory(); closeModal('#modalRename'); toast("Nama diganti"); }
-    };
-  }else if(act==='archive'){
-    c.archived = !c.archived; c.ts=Date.now(); saveChats(); renderHistory(); toast(c.archived?"Diarsipkan":"Dikembalikan");
-  }else if(act==='delete'){
-    openModal('#modalConfirm');
-    $("#confirmDelete").onclick = ()=>{
-      const idx=chats.findIndex(x=>x.id===c.id);
-      chats.splice(idx,1);
-      if(activeId===c.id){ activeId=null; $("#stream").innerHTML=""; }
-      saveChats(); renderHistory(); closeModal('#modalConfirm'); toast("Chat dihapus");
-    };
-  }
-  ctxHistory.classList.remove('show');
-});
-document.addEventListener('click', (e)=>{ if(!e.target.closest('.ctx')) closeAllCtx(); });
-
-/* User bubble context menu handlers */
-function openUserCtx(x,y,bubble){
-  const menu = $("#ctxUser");
-  closeAllCtx();
-  menu.style.left = x+"px"; menu.style.top = y+"px";
-  menu.classList.add('show');
-
-  const content = bubble.querySelector('.content');
-  menu.onclick = (e)=>{
-    const act = e.target.closest('.row')?.dataset?.act;
-    if(!act) return;
-    if(act==='copy'){ copyText(content.innerText.trim()); }
-    if(act==='select'){ content.style.userSelect='text'; toast("Mode pilih teks aktif"); setTimeout(()=>content.style.userSelect='', 4000); }
-    if(act==='edit'){ $("#input").value = content.innerText; $("#input").focus(); }
-    menu.classList.remove('show');
-  };
+// Inisialisasi aplikasi
+function initApp() {
+  loadData();
+  setupEventListeners();
+  createNewChat();
+  fetchKnowledgeBase();
 }
 
-/* =================== Render Pesan =================== */
-function addMsg(text, who='user', meta='', persist=true, type='normal'){
-  const wrap=document.createElement('div'); wrap.className='msg '+who;
-  const avatar = who==='user' ? '🙍' : '🤖';
-  const id = 'm'+Math.random().toString(36).slice(2,9);
-
-  let html = `
-    <div class="avatar">${avatar}</div>
-    <div class="bubble ${type}" id="${id}">
-      <div class="content">${text}</div>
-      ${meta?`<div class="meta">${escapeHtml(meta)}</div>`:''}
-      <div class="tools">
-        ${who==='bot' ? `<button class="tool-btn copyTop" title="Salin"><i class="fa-regular fa-copy"></i></button>`:''}
-        ${who==='user'? `<button class="tool-btn edit" title="Edit"><i class="fa-regular fa-pen-to-square"></i></button>`:''}
-      </div>`;
-
-  if (who==='bot'){
-    html += `
-      <div class="bot-actions" data-for="${id}">
-        <button class="act copy" title="Copy"><i class="fa-regular fa-copy"></i></button>
-        <button class="act like" title="Suka"><i class="fa-regular fa-thumbs-up"></i></button>
-        <button class="act dislike" title="Tidak suka"><i class="fa-regular fa-thumbs-down"></i></button>
-        <button class="act refresh" title="Regenerate"><i class="fa-solid fa-rotate-right"></i></button>
-        <button class="act share" title="Bagikan"><i class="fa-solid fa-share-nodes"></i></button>
-      </div>`;
-  }
-  html += `</div>`;
-  wrap.innerHTML = html;
-  $("#stream").appendChild(wrap);
-
-  if (who==='bot') {
-    const bubble = wrap.querySelector('.bubble');
-    const content = bubble.querySelector('.content');
-    bubble.querySelector('.copyTop').onclick = ()=> copyText(content.innerText.trim());
-    const actions = bubble.querySelector('.bot-actions');
-    const btnCopy = actions.querySelector('.copy');
-    const btnLike = actions.querySelector('.like');
-    const btnDislike = actions.querySelector('.dislike');
-    const btnRefresh = actions.querySelector('.refresh');
-    const btnShare = actions.querySelector('.share');
-
-    btnCopy.onclick = ()=> copyText(content.innerText.trim());
-    btnLike.onclick = ()=> { btnLike.classList.toggle('active'); if(btnLike.classList.contains('active')) btnDislike.classList.remove('active');};
-    btnDislike.onclick = ()=> { btnDislike.classList.toggle('active'); if(btnDislike.classList.contains('active')) btnLike.classList.remove('active');};
-    btnRefresh.onclick = async ()=> {
-      const lastUser = [...(getActive()?.items||[])].reverse().find(m=>m.role==='user');
-      if(!lastUser){ toast("Belum ada pertanyaan, Bosku"); return; }
-      showTyping();
-      const ans = await askLocalAI(lastUser.text);
-      setTimeout(()=>replaceTyping(ans), 600);
-    };
-    btnShare.onclick = async ()=> {
-      const text = content.innerText.trim();
-      const shareData = { title:"Jawaban LayUp AI", text };
-      if(navigator.share){ try{ await navigator.share(shareData); }catch(e){} }
-      else copyText(text);
-    };
-  } else {
-    // User: edit & context menu
-    wrap.querySelector('.edit').onclick = ()=> { $("#input").value = wrap.querySelector('.content').innerText; $("#input").focus(); };
-
-    const bubble = wrap.querySelector('.bubble');
-    const ctx = $("#ctxUser");
-    bubble.addEventListener('contextmenu',(e)=>{ e.preventDefault(); openUserCtx(e.clientX,e.clientY,bubble); });
-    let tmr=null;
-    bubble.addEventListener('touchstart',(e)=>{ tmr=setTimeout(()=>{ const t=e.touches[0]; openUserCtx(t.clientX,t.clientY,bubble); },500); });
-    bubble.addEventListener('touchend',()=> clearTimeout(tmr));
-  }
-
-  scrollBottom();
-
-  // persist conditionally
-  if(persist){
-    let ac = getActive();
-    if(!ac){ newChat(); ac=getActive(); }
-    ac.items.push({role:who, text}); 
-    if(ac.name==="New chat" && who==='user' && text.trim()) ac.name = text.trim().slice(0,36);
-    ac.ts = Date.now();
-    saveChats(); renderHistory();
-  }
-  return id;
-}
-
-/* =================== Typing =================== */
-function showTyping(){
-  const wrap=document.createElement('div'); wrap.className='msg bot typingMsg';
-  wrap.innerHTML = `
-    <div class="avatar">🤖</div>
-    <div class="bubble">
-      <div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      <div class="meta">Sedang mengetik…</div>
-    </div>`;
-  $("#stream").appendChild(wrap);
-  scrollBottom();
-}
-function replaceTyping(text){
-  const typingElements = document.querySelectorAll('.typingMsg');
-  typingElements.forEach(el => el.remove());
-  addMsg(text,'bot','',true);
-}
-
-/* =================== Fuse.js & Knowledge =================== */
-let fuse=null, kbLoaded=false, kbData=[];
-async function loadKnowledge(){
-  if (kbLoaded) return fuse;
-  let url = JSON_URL && JSON_URL.trim() ? JSON_URL.trim() : FALLBACK_LOCAL;
-  try{
-    const res = await fetch(url, {cache:'no-store'});
-    if(!res.ok) throw new Error("HTTP "+res.status);
-    const data = await res.json();
-    if(!data || !Array.isArray(data.faq)) throw new Error("Format {faq:[...] }");
-    kbData = data.faq.map(x=>({question:String(x.question||''), answer:String(x.answer||'')}));
-  }catch(e){
-    kbData = [];
-    // tidak error fatal; hanya tampil toast
-    console.warn("Knowledge load failed:", e);
-    toast("⚠️ Gagal memuat knowledge.json");
-  }
-  // merge local QnA
-  kbData = kbData.concat(getLocalQnA());
-  // merge specialized knowledge for layer chickens
-  kbData = kbData.concat(layerChickenKnowledge());
-  fuse = new Fuse(kbData, {keys:["question"], includeScore:true, threshold:0.35, distance:60, ignoreLocation:true, minMatchCharLength:2});
-  kbLoaded = true;
-  return fuse;
-}
-
-/* Specialized knowledge base for layer chickens */
-function layerChickenKnowledge() {
-  return [
-    // Nutrition and feeding
-    {question: "berapa kebutuhan pakan ayam layer", answer: "Ayam layer membutuhkan sekitar 100-110 gram pakan per ekor per hari. Kebutuhan ini bervariasi berdasarkan usia, suhu lingkungan, dan tingkat produksi."},
-    {question: "jenis pakan ayam petelur", answer: "Pakan ayam petelur terdiri dari tiga jenis: 1) Pakan starter (0-8 minggu) dengan protein 18-20%, 2) Pakan grower (9-18 minggu) dengan protein 15-16%, 3) Pakan layer (19+ minggu) dengan protein 16-18% dan kalsium tinggi."},
-    {question: "kandungan nutrisi pakan layer", answer: "Pakan layer ideal mengandung: Protein 16-18%, Kalsium 3.5-4.5%, Fosfor 0.4-0.5%, Energi metabolis 2750-2850 kkal/kg, Asam linoleat 1.5%, dan Vitamin & mineral yang cukup."},
+// ===== FETCH KNOWLEDGE BASE =====
+async function fetchKnowledgeBase() {
+  try {
+    console.log('Memulai fetch dari:', JSON_URL);
     
-    // Health and disease
-    {question: "penyakit ayam layer", answer: "Penyakit umum ayam layer: 1) ND (Newcastle Disease), 2) AI (Avian Influenza), 3) IB (Infectious Bronchitis), 4) CRD (Chronic Respiratory Disease), 5) Koksidiosis, 6) Berak kapur (Pullorum), 7) Tetelo, 8) Gumboro."},
-    {question: "vaksinasi ayam layer", answer: "Jadwal vaksinasi ayam layer: 1) Hari 1: Marek's (in ovo), 2) Hari 4-7: ND-IB, 3) Minggu 2: Gumboro, 4) Minggu 3: ND-IB kedua, 5) Minggu 4: AI (jika diperlukan), 6) Minggu 8: Coryza, 7) Minggu 10-12: ND-IB-EDS, 8) Setiap 3 bulan: ND-IB booster."},
+    // Tambahkan timestamp untuk menghindari cache
+    const url = JSON_URL + '?t=' + new Date().getTime();
     
-    // Production management
-    {question: "suhu ideal kandang layer", answer: "Suhu ideal kandang layer adalah 20-24°C. Suhu di atas 30°C dapat menurunkan produksi telur dan kualitas kerabang. Gunakan ventilasi yang baik dan cooling system jika diperlukan."},
-    {question: "pencahayaan kandang layer", answer: "Ayam layer membutuhkan 14-16 jam pencahayaan per hari. Intensitas cahaya 10-20 lux sudah cukup. Tambahkan cahaya buatan di pagi dan sore hari untuk mempertahankan produksi telur."},
-    {question: "kepadatan kandang layer", answer: "Kepadatan kandang layer yang ideal: 1) Sistem baterai: 3-4 ekor/m², 2) Sistem litter: 6-8 ekor/m², 3) Sistem free range: 4-6 ekor/m². Kepadatan berlebih menyebabkan stres dan penurunan produksi."},
-    
-    // Economics
-    {question: "keuntungan ternak layer", answer: "Keuntungan ternak layer dipengaruhi oleh: 1) Harga telur, 2) Biaya pakan (60-70% dari total biaya), 3) Tingkat produksi (peak 90-95%), 4) Mortalitas (standar <5%), 5) Harga DOC, 6) Biaya operasional. ROI biasanya 20-30% per siklus."},
-    {question: "breed ayam petelur terbaik", answer: "Breed ayam petelur terbaik: 1) ISA Brown (produksi tinggi, adaptif), 2) Lohmann Brown (efisien pakan), 3) Hy-Line Brown (telur besar), 4) Hisex Brown (tahan penyakit), 5) Novogen Brown (produksi konsisten). Pilih sesuai kondisi lokal dan pasar."}
-  ];
-}
-
-function getLocalQnA(){
-  try{ return JSON.parse(localStorage.getItem(storeQna))||[] }catch{ return [] }
-}
-function putLocalQnA(q,a){
-  const arr = getLocalQnA(); arr.push({question:q,answer:a});
-  localStorage.setItem(storeQna, JSON.stringify(arr));
-  kbLoaded=false; // force rebuild
-}
-function simpleExactFirst(q){
-  const low = q.toLowerCase().trim();
-  return kbData.find(it => low.includes(it.question.toLowerCase())) || null;
-}
-async function askLocalAI(prompt){
-  await loadKnowledge();
-  if(!prompt || !prompt.trim()) return "Tanya yang jelas ya, Bosku 😉";
-  const exact = simpleExactFirst(prompt); if(exact) return exact.answer;
-  const res = fuse.search(prompt);
-  if(res.length){ const {item,score}=res[0]; if(score<=0.7) return item.answer; }
-  return "Maaf, aku belum punya jawabannya, Bosku. Coba tanya dengan kata lain ya 🙏";
-}
-
-/* =================== New Chat / Greeting =================== */
-function newChat(){
-  const id = "c"+Math.random().toString(36).slice(2,9);
-  const c = {id, name:"New chat", items:[], archived:false, ts:Date.now()};
-  chats.unshift(c); activeId=id; saveChats(); renderHistory(); $("#stream").innerHTML="";
-  greet();
-}
-function greet(){
-  showTyping();
-  const greetText = "Halo Bosku 👋 Saya Cumil dari LayUp Ai - Saya Asisiten Ai yang di buat Oleh Fasim. Siap bantu semua pertanyaan tentang layer. Silakan tanya tentang pakan, kesehatan, produksi, atau ekonomi usaha layer! 😄";
-  setTimeout(()=>replaceTyping(greetText), 800);
-}
-
-/* =================== Composer Send/Expand =================== */
-$("#sendBtn").onclick = sendNow;
-$("#input").addEventListener('keydown',e=>{
-  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendNow(); }
-});
-function sendNow(){
-  const v=$("#input").value.trim();
-  if(!v) return;
-  $("#input").value='';
-  addMsg(v,'user');
-  showTyping();
-  askLocalAI(v).then(ans=>{
-    setTimeout(()=>replaceTyping(ans), 700);
-  });
-}
-/* Expand overlay */
-const overlay = $("#overlay");
-$("#expandBtn").onclick = ()=>{
-  $("#overlayInput").value = $("#input").value;
-  overlay.classList.add("show");
-  $("#overlayInput").focus();
-};
-$("#closeOverlay").onclick = ()=> overlay.classList.remove("show");
-$("#overlayCancel").onclick = ()=> overlay.classList.remove("show");
-$("#overlaySend").onclick = ()=>{
-  const v=$("#overlayInput").value.trim(); if(!v){ toast("Pertanyaan kosong"); return; }
-  overlay.classList.remove("show"); $("#input").value = v; sendNow();
-};
-
-/* =================== Header actions =================== */
-$("#newChatBtn").onclick = ()=> newChat();
-
-/* QnA Modal */
-$("#addQna").onclick = ()=> openModal('#modalQna');
-$("#qnaSave").onclick = ()=>{
-  const q=$("#qnaQ").value.trim(), a=$("#qnaA").value.trim();
-  if(!q || !a){ toast("Lengkapi pertanyaan & jawaban"); return; }
-  putLocalQnA(q,a);
-  $("#qnaQ").value=""; $("#qnaA").value="";
-  closeModal('#modalQna'); toast("QnA ditambahkan, Bosku!");
-  loadKnowledge(); // rebuild fuse
-};
-
-/* ===== Export / Import ===== */
-$("#exportChat").onclick = exportActiveChat;
-function pad(n){return String(n).padStart(2,'0')}
-function exportActiveChat(){
-  const ac=getActive(); if(!ac){ toast("Belum ada chat"); return; }
-  const payload = { chat: ac };
-  const blob = new Blob([JSON.stringify(payload,null,2)], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
-  const d=new Date();
-  const fname = (ac.name?.replace(/[\\/:*?"<>|]/g,'_')||'chat') + "-" +
-                `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}` +
-                ".json";
-  const a = document.createElement('a');
-  a.href = url; a.download = fname;
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(()=>{ document.body.removeChild(a); URL.revokeObjectURL(url); toast("Chat diexport ✅"); }, 0);
-}
-$("#importChat").onclick = ()=> $("#importFile").click();
-$("#importFile").addEventListener('change', (e)=>{
-  const f=e.target.files[0]; if(!f) return;
-  const r=new FileReader();
-  r.onload=()=>{ try{
-    const data=JSON.parse(r.result);
-    if(!data || !data.chat || !Array.isArray(data.chat.items)) throw 0;
-    const id = data.chat.id || "c"+Math.random().toString(36).slice(2,9);
-    data.chat.id = id;
-    chats.unshift(data.chat); activeId=id;
-    saveChats(); renderHistory(); openChat(activeId); toast("Chat diimport, Bosku!");
-  }catch{ toast("File tidak valid"); } };
-  r.readAsText(f);
-});
-
-/* =================== Attachments (kamera, foto & file) =================== */
-const attachMenu = $("#attachMenu");
-$("#attachBtn").onclick = (e)=>{ e.stopPropagation(); attachMenu.classList.toggle("show"); };
-document.addEventListener('click', (e)=>{
-  if(!e.target.closest('#attachBtn') && !e.target.closest('#attachMenu')) attachMenu.classList.remove('show');
-});
-$("#attachCamera").onclick = ()=> $("#camInput").click();
-$("#attachPhoto").onclick = ()=> $("#photoInput").click();
-$("#attachFile").onclick = ()=> $("#fileInput").click();
-
-// Handle file selection
-$("#camInput").addEventListener('change', handleFileSelection);
-$("#photoInput").addEventListener('change', handleFileSelection);
-$("#fileInput").addEventListener('change', handleFileSelection);
-
-function handleFileSelection(e){
-  if(e.target.files?.length){ 
-    const file = e.target.files[0];
-    const type = e.target.id === 'camInput' ? 'kamera' : 
-                 e.target.id === 'photoInput' ? 'foto' : 'file';
-    
-    addMsg(`📎 Lampiran ${type}: ${file.name}`,'user');
-    showTyping();
-    
-    // Simulasi pemrosesan file
-    setTimeout(()=>{
-      let response = "";
-      if(type === 'kamera' || type === 'foto'){
-        response = "Gambar diterima, Bosku. Saat ini aku belum memproses gambar, tapi akan kusimpan di konteks chat.";
-      } else {
-        response = "File diterima, Bosku. Jika perlu aku ringkas, kasih tahu ya!";
-      }
-      replaceTyping(response);
-    }, 600);
-  }
-}
-
-/* =================== Mic (Web Speech API) =================== */
-let recog=null, listening=false;
-function ensureRecog(){
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SR) return null;
-  const r=new SR(); r.lang='id-ID'; r.interimResults=false; r.continuous=false; return r;
-}
-$("#micBtn").onclick = ()=>{
-  if(!recog){ recog=ensureRecog(); if(!recog){ toast("Mic tidak didukung di browser ini"); return; } }
-  if(!listening){
-    try{
-      recog.start(); listening=true; $("#micBtn").style.background="#1e2a4a";
-      recog.onresult = (e)=>{ const t=e.results[0][0].transcript; $("#input").value = ($("#input").value+" "+t).trim(); };
-      recog.onend = ()=>{ listening=false; $("#micBtn").style.background=""; };
-      recog.onerror = ()=>{ listening=false; $("#micBtn").style.background=""; toast("Gagal rekam suara"); };
-    }catch{ listening=false; $("#micBtn").style.background=""; }
-  }else{
-    try{ recog.stop(); }catch{}
-  }
-};
-
-/* =================== Specialized Features =================== */
-
-// Health Diagnosis
-$("#healthDiagnosis").onclick = ()=> openModal('#modalHealth');
-$("#healthDiagnose").onclick = ()=>{
-  const selectedOptions = $("#symptoms").selectedOptions;
-  const symptoms = Array.from(selectedOptions).map(opt => opt.value);
-  
-  if(symptoms.length === 0) {
-    toast("Pilih minimal satu gejala");
-    return;
-  }
-  
-  closeModal('#modalHealth');
-  showTyping();
-  
-  // Simulate diagnosis
-  setTimeout(() => {
-    const diagnosis = performHealthDiagnosis(symptoms);
-    addMsg(diagnosis, 'bot', '', true, 'info');
-  }, 1000);
-};
-
-function performHealthDiagnosis(symptoms) {
-  // Simple rule-based diagnosis system
-  let diagnosis = "<h4>🩺 Hasil Diagnosis Kesehatan</h4>";
-  diagnosis += "<p>Berdasarkan gejala yang dipilih, kemungkinan ayam mengalami:</p>";
-  
-  if(symptoms.includes("gangguan_pernafasan") && symptoms.includes("lesu")) {
-    diagnosis += "<div class='bubble danger' style='margin:10px 0;padding:10px'><strong>CRD (Chronic Respiratory Disease)</strong><br>";
-    diagnosis += "Gejala: Sesak nafas, nafsu makan turun, lesu.<br>";
-    diagnosis += "Penanganan: Beri antibiotik (Tylosin atau Oxytetracycline), tingkatkan ventilasi, beri vitamin.</div>";
-  }
-  else if(symptoms.includes("diare") && symptoms.includes("lesu")) {
-    diagnosis += "<div class='bubble danger' style='margin:10px 0;padding:10px'><strong>Koksidiosis</strong><br>";
-    diagnosis += "Gejala: Diare berdarah, lesu, bulu kusam.<br>";
-    diagnosis += "Penanganan: Beri anticoccidia (Amprolium atau Sulfa drugs), jaga kebersihan kandang.</div>";
-  }
-  else if(symptoms.includes("produksi_telur_turun") && symptoms.includes("telur_abnormal")) {
-    diagnosis += "<div class='bubble warning' style='margin:10px 0;padding:10px'><strong>Kekurangan Kalsium</strong><br>";
-    diagnosis += "Gejala: Produksi turun, telur kerabang tipis atau tanpa kerabang.<br>";
-    diagnosis += "Penanganan: Tambahkan grit kapur (3-4% dalam pakan), beri vitamin D3.</div>";
-  }
-  else {
-    diagnosis += "<div class='bubble info' style='margin:10px 0;padding:10px'><strong>Gejala Umum Stres</strong><br>";
-    diagnosis += "Kemungkinan ayam mengalami stres karena lingkungan atau manajemen.<br>";
-    diagnosis += "Penanganan: Periksa suhu dan ventilasi kandang, beri vitamin, pastikan air bersih tersedia.</div>";
-  }
-  
-  diagnosis += "<p><strong>Rekomendasi:</strong> Segera konsultasi dengan dokter hewan untuk diagnosis dan penanganan yang tepat.</p>";
-  
-  return diagnosis;
-}
-
-// Feed Calculator
-$("#feedCalculator").onclick = ()=> openModal('#modalFeed');
-$("#feedCalculate").onclick = ()=>{
-  const count = parseInt($("#chickenCount").value) || 0;
-  const age = parseInt($("#chickenAge").value) || 0;
-  const stage = $("#productionStage").value;
-  
-  if(count <= 0 || age <= 0) {
-    toast("Masukkan jumlah dan usia ayam yang valid");
-    return;
-  }
-  
-  closeModal('#modalFeed');
-  showTyping();
-  
-  // Simulate calculation
-  setTimeout(() => {
-    const result = calculateFeedRequirements(count, age, stage);
-    addMsg(result, 'bot', '', true, 'success');
-  }, 800);
-};
-
-function calculateFeedRequirements(count, age, stage) {
-  let dailyRequirement, feedType, notes;
-  
-  if(age <= 8) {
-    feedType = "Starter";
-    dailyRequirement = 30;
-    notes = "Pakan starter kaya protein untuk pertumbuhan awal";
-  } else if(age <= 18) {
-    feedType = "Grower";
-    dailyRequirement = 80;
-    notes = "Pakan grower untuk persiapan produksi";
-  } else {
-    feedType = "Layer";
-    dailyRequirement = 110;
-    notes = "Pakan layer dengan kalsium tinggi untuk produksi telur";
-  }
-  
-  const totalDaily = count * dailyRequirement;
-  const totalMonthly = totalDaily * 30;
-  const costDaily = totalDaily * 8000 / 1000; // Assume Rp 8,000 per kg
-  const costMonthly = totalMonthly * 8000 / 1000;
-  
-  let result = `<h4>🍽️ Hasil Perhitungan Kebutuhan Pakan</h4>`;
-  result += `<div class="card-grid">`;
-  result += `<div class="card"><h4>Jumlah Ayam</h4><p>${count} ekor</p></div>`;
-  result += `<div class="card"><h4>Usia</h4><p>${age} minggu</p></div>`;
-  result += `<div class="card"><h4>Jenis Pakan</h4><p>${feedType}</p></div>`;
-  result += `<div class="card"><h4>Kebutuhan Harian</h4><p>${totalDaily} gram/hari</p></div>`;
-  result += `<div class="card"><h4>Kebutuhan Bulanan</h4><p>${totalMonthly/1000} kg/bulan</p></div>`;
-  result += `<div class="card"><h4>Perkiraan Biaya</h4><p>Rp ${costDaily.toFixed(0)}/hari<br>Rp ${costMonthly.toFixed(0)}/bulan</p></div>`;
-  result += `</div>`;
-  result += `<p><strong>Catatan:</strong> ${notes}. Harga pakan dapat bervariasi tergantung lokasi dan kualitas.</p>`;
-  
-  return result;
-}
-
-// Production Tracker
-$("#productionTracker").onclick = () => {
-  showTyping();
-  setTimeout(() => {
-    const productionData = generateProductionReport();
-    addMsg(productionData, 'bot', '', true, 'info');
-  }, 800);
-};
-
-function generateProductionReport() {
-  // Simulate production data
-  const weeks = ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'];
-  const production = [85, 88, 92, 90]; // Production percentage
-  const eggWeight = [58, 59, 60, 61]; // Average egg weight in grams
-  const feedConsumption = [105, 107, 109, 108]; // Feed consumption in grams/bird/day
-  
-  let report = `<h4>📊 Laporan Produksi Telur</h4>`;
-report += `<p>Berikut adalah data produksi telur 4 minggu terakhir:</p>`;
-  report += `<div class="card-grid">`;
-  for(let i = 0; i < weeks.length; i++) {
-    report += `<div class="card"><h4>${weeks[i]}</h4>`;
-    report += `<p>Produksi: ${production[i]}%<br>Berat Telur: ${eggWeight[i]}g<br>Pakan: ${feedConsumption[i]}g/ekor/hari</p></div>`;
-  }
-  report += `</div>`;
-  
-  report += `<div class="chart-container"><canvas id="productionChart"></canvas></div>`;
-  report += `<p><strong>Analisis:</strong> Produksi stabil di atas 85%. Pertahankan kualitas pakan dan manajemen kandang.</p>`;
-  
-  // Render chart after message is added
-  setTimeout(() => {
-    const ctx = document.getElementById('productionChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: weeks,
-        datasets: [{
-          label: 'Produksi (%)',
-          data: production,
-          borderColor: '#f5c869',
-          tension: 0.1,
-          fill: false
-        }]
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: false,
-            min: 80,
-            max: 100
-          }
-        }
-      }
+      mode: 'cors'
     });
-  }, 100);
-  
-  return report;
-}
-
-// Disease Encyclopedia
-$("#diseaseEncyclopedia").onclick = () => {
-  showTyping();
-  setTimeout(() => {
-    const diseases = getDiseaseEncyclopedia();
-    addMsg(diseases, 'bot', '', true, 'info');
-  }, 800);
-};
-
-function getDiseaseEncyclopedia() {
-  let encyclopedia = `<h4>📚 Ensiklopedia Penyakit Ayam Layer</h4>`;
-  encyclopedia += `<p>Berikut adalah penyakit-penyakit umum pada ayam layer:</p>`;
-  
-  encyclopedia += `<div class="card" style="margin-bottom:12px">
-    <h4>1. Newcastle Disease (ND)</h4>
-    <p><strong>Gejala:</strong> Sesak nafas, diare hijau, gangguan syaraf, produksi turun drastis.<br>
-    <strong>Penanganan:</strong> Vaksinasi rutin, isolasi ayam sakit, desinfeksi kandang.</p>
-  </div>`;
-  
-  encyclopedia += `<div class="card" style="margin-bottom:12px">
-    <h4>2. Infectious Bronchitis (IB)</h4>
-    <p><strong>Gejala:</strong> Bersin-bersin, nafas berbunyi, produksi turun, telur abnormal.<br>
-    <strong>Penanganan:</strong> Vaksinasi, tingkatkan ventilasi, beri vitamin dan antibiotik sekunder.</p>
-  </div>`;
-  
-  encyclopedia += `<div class="card" style="margin-bottom:12px">
-    <h4>3. Koksidiosis</h4>
-    <p><strong>Gejala:</strong> Diare berdarah, lesu, bulu kusam, nafsu makan turun.<br>
-    <strong>Penanganan:</strong> Beri anticoccidia, jaga litter tetap kering, desinfeksi kandang.</p>
-  </div>`;
-  
-  encyclopedia += `<div class="card" style="margin-bottom:12px">
-    <h4>4. CRD (Chronic Respiratory Disease)</h4>
-    <p><strong>Gejala:</strong> Batuk, bersin, nafas berbunyi, mata berair, produksi turun.<br>
-    <strong>Penanganan:</strong> Antibiotik (Tylosin, Oxytetracycline), tingkatkan ventilasi, kurangi kepadatan.</p>
-  </div>`;
-  
-  encyclopedia += `<p><strong>Pencegahan:</strong> Vaksinasi rutin, manajemen kandang yang baik, biosecurity ketat, pakan berkualitas.</p>`;
-  
-  return encyclopedia;
-}
-
-/* =================== Init =================== */
-window.addEventListener('load', ()=>{
-  if(!chats.length){ newChat(); setSidebar(true); }
-  else{ activeId = chats[0].id; openChat(activeId); }
-  loadKnowledge();
-});
-
-/* =================== Modal Utilities (Dark) =================== */
-function openModal(sel){ const m=$(sel); if(m) m.classList.add('show'); }
-function closeModal(sel){ const m=$(sel); if(m) m.classList.remove('show'); }
-document.addEventListener('click',(e)=>{
-  const btn = e.target.closest('[data-close]');
-  if(btn){ const sel = btn.getAttribute('data-close'); closeModal(sel); }
-});
-
-/* =================== Close all context on ESC =================== */
-document.addEventListener('keydown',(e)=>{
-  if(e.key==='Escape'){ 
-    closeAllCtx(); 
-    $("#moreMenu").classList.remove('show'); 
-    attachMenu.classList.remove('show'); 
-    accountMenu.classList.remove('show'); 
-    closeModal('#modalRename'); closeModal('#modalConfirm'); closeModal('#modalQna');
-    closeModal('#modalHealth'); closeModal('#modalFeed');
-    $("#overlay").classList.remove('show');
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    console.log('Data berhasil diambil:', data);
+    
+    // Periksa struktur data
+    if (data && Array.isArray(data.faq)) {
+      knowledgeBase = data.faq;
+      console.log(`Loaded ${knowledgeBase.length} items from knowledge base`);
+      showToast('Basis pengetahuan berhasil dimuat');
+    } else if (Array.isArray(data)) {
+      knowledgeBase = data;
+      console.log(`Loaded ${knowledgeBase.length} items from knowledge base`);
+      showToast('Basis pengetahuan berhasil dimuat');
+    } else {
+      console.warn('Struktur JSON tidak sesuai:', data);
+      showToast('Struktur JSON tidak sesuai', 'warning');
+    }
+    
+    // Inisialisasi Fuse.js setelah data dimuat
+    initFuse();
+    
+  } catch (error) {
+    console.error('Error fetching knowledge base:', error);
+    showToast('Gagal memuat basis pengetahuan', 'error');
+    
+    // Coba fallback ke file lokal jika tersedia
+    try {
+      // Ini hanya contoh, Anda bisa menambahkan fallback ke file lokal
+      // knowledgeBase = [...]; 
+      console.log('Menggunakan data fallback');
+    } catch (fallbackError) {
+      console.error('Juga gagal menggunakan fallback:', fallbackError);
+    }
   }
-});
- // === Custom Select (render dropdown ke <body>) ===
-(function () {
-  document.querySelectorAll(".custom-select").forEach(sel => {
-    const selected = sel.querySelector(".selected");
-    const hiddenSelect = document.getElementById(sel.dataset.target);
+}
 
-    // buat UL dropdown dari isi <select>
-    const ul = document.createElement("ul");
-    ul.className = "custom-options";
-    ul.innerHTML = Array.from(hiddenSelect.options)
-      .map(opt => `<li data-value="${opt.value}">${opt.textContent}</li>`)
-      .join("");
-    document.body.appendChild(ul);
+// Inisialisasi Fuse.js untuk pencarian
+function initFuse() {
+  const options = {
+    includeScore: true,
+    keys: ['question', 'answer', 'keywords']
+  };
+  
+  // Gabungkan knowledge base dengan custom QnA
+  const searchData = [...knowledgeBase, ...customQna];
+  fuse = new Fuse(searchData, options);
+  console.log('Fuse.js initialized with', searchData.length, 'items');
+}
 
-    function openDropdown() {
-      // tutup dropdown lain
-      document.querySelectorAll(".custom-options").forEach(o => (o.style.display = "none"));
+// ===== MANAJEMEN DATA LOKAL =====
+function loadData() {
+  const savedChats = localStorage.getItem('layup_chats');
+  const savedCustom = localStorage.getItem('layup_custom_qna');
+  const savedProduction = localStorage.getItem('layup_production');
 
-      const rect = sel.getBoundingClientRect();
-      ul.style.width = rect.width + "px";
-      ul.style.left = (window.scrollX + rect.left) + "px";
-      ul.style.display = "block"; // tampilkan dulu biar bisa ukur tinggi
+  if (savedChats) {
+    const chats = JSON.parse(savedChats);
+    activeChats = chats.active || [];
+    archivedChats = chats.archived || [];
+    renderHistory();
+  }
 
-      const desired = Math.min(160, ul.offsetHeight);
-      const spaceBelow = window.innerHeight - rect.bottom;
-      const spaceAbove = rect.top;
+  if (savedCustom) {
+    customQna = JSON.parse(savedCustom);
+  }
 
-      if (spaceBelow < desired + 8 && spaceAbove > spaceBelow) {
-        // buka ke atas
-        ul.style.top = (window.scrollY + rect.top - ul.offsetHeight - 4) + "px";
-      } else {
-        // buka ke bawah
-        ul.style.top = (window.scrollY + rect.bottom + 4) + "px";
-      }
-    }
+  if (savedProduction) {
+    productionData = JSON.parse(savedProduction);
+  }
+}
 
-    selected.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (ul.style.display === "block") {
-        ul.style.display = "none";
-      } else {
-        openDropdown();
-      }
-    });
+function saveData() {
+  const chatData = {
+    active: activeChats,
+    archived: archivedChats
+  };
+  localStorage.setItem('layup_chats', JSON.stringify(chatData));
+  localStorage.setItem('layup_custom_qna', JSON.stringify(customQna));
+  localStorage.setItem('layup_production', JSON.stringify(productionData));
+}
 
-    ul.addEventListener("click", (e) => {
-      const li = e.target.closest("li");
-      if (!li) return;
-      selected.textContent = li.textContent;
-      hiddenSelect.value = li.dataset.value;
-      ul.style.display = "none";
-    });
+// ===== MANAJEMEN CHAT =====
+function createNewChat() {
+  const newId = 'chat_' + Date.now();
+  currentChatId = newId;
+  
+  const newChat = {
+    id: newId,
+    title: 'Chat Baru',
+    messages: [],
+    createdAt: new Date().toISOString()
+  };
+  
+  activeChats.unshift(newChat);
+  saveData();
+  renderHistory();
+  clearStream();
+  
+  // Tambahkan pesan sambutan
+  addBotMessage('Halo! Saya LayUp AI, asisten pakar ayam petelur. Silakan tanyakan apa saja tentang beternak ayam petelur, penyakit, pakan, atau manajemen kandang.');
+}
 
-    // klik luar → tutup
-    document.addEventListener("click", (e) => {
-      if (!sel.contains(e.target) && !ul.contains(e.target)) ul.style.display = "none";
-    });
-    window.addEventListener("scroll", () => (ul.style.display = "none"), { passive: true });
-    window.addEventListener("resize", () => (ul.style.display = "none"));
-  });
-})();
-    
-// === Custom Multi Select (Diagnosa) ===
-(function () {
-  document.querySelectorAll(".custom-multiselect").forEach(sel => {
-    const selectedBox = sel.querySelector(".selected");
-    const hiddenSelect = document.getElementById(sel.dataset.target);
+function clearStream() {
+  document.getElementById('stream').innerHTML = '';
+}
 
-    // buat UL dropdown dari isi <select>
-    const ul = document.createElement("ul");
-    ul.className = "custom-options";
-    ul.innerHTML = Array.from(hiddenSelect.options)
-      .map(opt => `<li data-value="${opt.value}">${opt.textContent}</li>`)
-      .join("");
-    document.body.appendChild(ul);
-
-    function openDropdown() {
-      document.querySelectorAll(".custom-options").forEach(o => (o.style.display = "none"));
-
-      const rect = sel.getBoundingClientRect();
-      ul.style.width = rect.width + "px";
-      ul.style.left = (window.scrollX + rect.left) + "px";
-      ul.style.display = "block";
-
-      const desired = Math.min(160, ul.offsetHeight);
-      const spaceBelow = window.innerHeight - rect.bottom;
-      const spaceAbove = rect.top;
-
-      if (spaceBelow < desired + 8 && spaceAbove > spaceBelow) {
-        ul.style.top = (window.scrollY + rect.top - ul.offsetHeight - 4) + "px";
-      } else {
-        ul.style.top = (window.scrollY + rect.bottom + 4) + "px";
-      }
-    }
-
-    // buka dropdown
-    selectedBox.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (ul.style.display === "block") {
-        ul.style.display = "none";
-      } else {
-        openDropdown();
-      }
-    });
-
-    // pilih opsi
-    ul.addEventListener("click", (e) => {
-      const li = e.target.closest("li");
-      if (!li) return;
-      const value = li.dataset.value;
-
-      // toggle selected
-      const option = [...hiddenSelect.options].find(o => o.value === value);
-      option.selected = !option.selected;
-
-      renderTags();
-    });
-
-    // === render tag ke box ===
-    function renderTags() {
-      selectedBox.innerHTML = "";
-      [...hiddenSelect.selectedOptions].forEach(opt => {
-        const tag = document.createElement("div");
-        tag.className = "tag";
-        tag.innerHTML = `${opt.textContent} <span data-value="${opt.value}">×</span>`;
-        selectedBox.appendChild(tag);
-      });
-      if (hiddenSelect.selectedOptions.length === 0) {
-        selectedBox.textContent = "Pilih gejala";
-      }
-    }
-
-    // hapus tag kalau klik "×"
-    selectedBox.addEventListener("click", (e) => {
-      if (e.target.tagName === "SPAN") {
-        const val = e.target.dataset.value;
-        const option = [...hiddenSelect.options].find(o => o.value === val);
-        option.selected = false;
-        renderTags();
-      }
-    });
-
-    // tutup dropdown saat klik luar
-    document.addEventListener("click", (e) => {
-      if (!sel.contains(e.target) && !ul.contains(e.target)) ul.style.display = "none";
-    });
-    window.addEventListener("scroll", () => (ul.style.display = "none"), { passive: true });
-    window.addEventListener("resize", () => (ul.style.display = "none"));
-
-    // 🔥 render pertama kali biar tampil "Pilih gejala"
-    renderTags();
-  });
-})();
-    
-</script>
-    
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-function renderBubbleProductionChart() {
-  const ctx = document.getElementById("bubbleProductionChart");
-  if (!ctx) return;
-
-  new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: ["Minggu 1", "Minggu 2", "Minggu 3", "Minggu 4"],
-      datasets: [{
-        label: "Produksi (%)",
-        data: [85, 88, 92, 90], // ⬅️ sesuaikan dengan datamu
-        borderColor: "#4cafef",
-        backgroundColor: "rgba(76,175,239,0.2)",
-        fill: true,
-        tension: 0.3
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { labels: { color: "#fff" } } },
-      scales: {
-        x: { ticks: { color: "#fff" } },
-        y: { ticks: { color: "#fff" } }
-      }
+function renderChat() {
+  const chat = getCurrentChat();
+  if (!chat) return;
+  
+  clearStream();
+  chat.messages.forEach(msg => {
+    if (msg.role === 'user') {
+      addUserMessage(msg.content, false);
+    } else {
+      addBotMessage(msg.content, false);
     }
   });
 }
 
-// render grafik setelah bubble masuk
-setTimeout(renderBubbleProductionChart, 400);
+function getCurrentChat() {
+  return activeChats.find(chat => chat.id === currentChatId);
+}
+
+// ===== RENDER HISTORY =====
+function renderHistory() {
+  const activeContainer = document.getElementById('historyActive');
+  const archiveContainer = document.getElementById('historyArchive');
+  
+  activeContainer.innerHTML = '';
+  archivedChats.forEach(chat => {
+    const el = createHistoryElement(chat, true);
+    archiveContainer.appendChild(el);
+  });
+  
+  activeChats.forEach(chat => {
+    const el = createHistoryElement(chat, false);
+    activeContainer.appendChild(el);
+  });
+}
+
+function createHistoryElement(chat, isArchived) {
+  const div = document.createElement('div');
+  div.className = 'item' + (chat.id === currentChatId ? ' active' : '');
+  div.innerHTML = `
+    <div class="icon"><i class="fa-regular fa-message"></i></div>
+    <div class="name">${chat.title}</div>
+  `;
+  
+  div.addEventListener('click', () => {
+    if (chat.id !== currentChatId) {
+      currentChatId = chat.id;
+      renderChat();
+      renderHistory();
+    }
+  });
+  
+  // Context menu untuk history item
+  div.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    currentCtx = 'history';
+    currentCtxData = chat;
+    showContextMenu(e, 'ctxHistory');
+  });
+  
+  return div;
+}
+
+// ===== PESAN =====
+function addUserMessage(content, save = true) {
+  const stream = document.getElementById('stream');
+  const msgDiv = document.createElement('div');
+  msgDiv.className = 'msg user';
+  msgDiv.innerHTML = `
+    <div class="avatar">🧑</div>
+    <div class="bubble">
+      <div class="content">${content}</div>
+      <div class="tools">
+        <button class="tool-btn" title="Salin"><i class="fa-regular fa-copy"></i></button>
+        <button class="tool-btn" title="Edit"><i class="fa-regular fa-pen-to-square"></i></button>
+      </div>
+    </div>
+  `;
+  
+  stream.appendChild(msgDiv);
+  stream.scrollTop = stream.scrollHeight;
+  
+  if (save) {
+    const chat = getCurrentChat();
+    if (chat) {
+      chat.messages.push({
+        role: 'user',
+        content: content,
+        timestamp: new Date().toISOString()
+      });
+      
+      // Update judul chat berdasarkan pesan pertama
+      if (chat.messages.length === 1) {
+        chat.title = content.length > 30 ? content.substring(0, 30) + '...' : content;
+        renderHistory();
+      }
+      
+      saveData();
+    }
+  }
+  
+  return msgDiv;
+}
+
+function addBotMessage(content, save = true, type = 'normal') {
+  const stream = document.getElementById('stream');
+  const msgDiv = document.createElement('div');
+  msgDiv.className = 'msg bot';
+  
+  let bubbleClass = 'bubble';
+  if (type === 'info') bubbleClass += ' info';
+  else if (type === 'success') bubbleClass += ' success';
+  else if (type === 'warning') bubbleClass += ' warning';
+  else if (type === 'error') bubbleClass += ' danger';
+  
+  msgDiv.innerHTML = `
+    <div class="avatar"><i class="fa-solid fa-robot"></i></div>
+    <div class="${bubbleClass}">
+      <div class="content">${content}</div>
+      <div class="meta">${APP_NAME} · ${new Date().toLocaleTimeString()}</div>
+      <div class="bot-actions">
+        <button class="act like" title="Suka"><i class="fa-regular fa-thumbs-up"></i></button>
+        <button class="act dislike" title="Tidak Suka"><i class="fa-regular fa-thumbs-down"></i></button>
+        <button class="act" title="Salin"><i class="fa-regular fa-copy"></i></button>
+      </div>
+    </div>
+  `;
+  
+  stream.appendChild(msgDiv);
+  stream.scrollTop = stream.scrollHeight;
+  
+  if (save) {
+    const chat = getCurrentChat();
+    if (chat) {
+      chat.messages.push({
+        role: 'assistant',
+        content: content,
+        timestamp: new Date().toISOString()
+      });
+      saveData();
+    }
+  }
+  
+  return msgDiv;
+}
+
+// ===== PENCARIAN JAWABAN =====
+function findAnswer(question) {
+  if (!fuse) {
+    console.warn('Fuse.js belum diinisialisasi');
+    return null;
+  }
+  
+  const results = fuse.search(question);
+  if (results.length > 0 && results[0].score < 0.3) {
+    return results[0].item.answer;
+  }
+  
+  return null;
+}
+
+// ===== PROSES PERTANYAAN USER =====
+function processQuestion(question) {
+  addUserMessage(question);
+  
+  // Tampilkan indikator typing
+  const typingIndicator = showTyping();
+  
+  // Delay untuk simulasi AI "berpikir"
+  setTimeout(() => {
+    // Hapus indikator typing
+    if (typingIndicator) {
+      typingIndicator.remove();
+    }
+    
+    // Cari jawaban
+    const answer = findAnswer(question);
+    
+    if (answer) {
+      addBotMessage(answer);
+    } else {
+      // Jika tidak ditemukan jawaban
+      addBotMessage(
+        `Maaf, saya belum memiliki informasi spesifik tentang "${question}". ` +
+        `Sebagai alternatif, Anda bisa:\n\n` +
+        `• Menggunakan fitur "Diagnosis Kesehatan" untuk masalah kesehatan ayam\n` +
+        `• Menggunakan "Kalkulator Pakan" untuk menghitung kebutuhan pakan\n` +
+        `• Membuka "Ensiklopedia Penyakit" untuk informasi penyakit unggas\n\n` +
+        `Atau coba tanyakan dengan formulasi pertanyaan yang berbeda.`,
+        true,
+        'info'
+      );
+    }
+  }, 1000 + Math.random() * 1000);
+}
+
+function showTyping() {
+  const stream = document.getElementById('stream');
+  const msgDiv = document.createElement('div');
+  msgDiv.className = 'msg bot';
+  msgDiv.innerHTML = `
+    <div class="avatar"><i class="fa-solid fa-robot"></i></div>
+    <div class="bubble">
+      <div class="typing">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+  `;
+  
+  stream.appendChild(msgDiv);
+  stream.scrollTop = stream.scrollHeight;
+  return msgDiv;
+}
+
+// ===== UI FUNCTIONS =====
+function showToast(message, type = 'normal') {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  
+  toast.className = 'toast';
+  if (type === 'error') toast.classList.add('error');
+  else if (type === 'success') toast.classList.add('success');
+  else if (type === 'warning') toast.classList.add('warning');
+  
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+}
+
+function showContextMenu(e, menuId) {
+  const menu = document.getElementById(menuId);
+  menu.style.left = e.pageX + 'px';
+  menu.style.top = e.pageY + 'px';
+  menu.classList.add('show');
+  
+  const hideMenu = () => {
+    menu.classList.remove('show');
+    document.removeEventListener('click', hideMenu);
+  };
+  
+  setTimeout(() => {
+    document.addEventListener('click', hideMenu);
+  }, 10);
+}
+
+function showModal(selector) {
+  document.querySelector(selector).classList.add('show');
+}
+
+function hideModal(selector) {
+  document.querySelector(selector).classList.remove('show');
+}
+
+// ===== SETUP EVENT LISTENERS =====
+function setupEventListeners() {
+  // Toggle sidebar
+  document.getElementById('sideToggle').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('show');
+    document.getElementById('sidebarBackdrop').classList.toggle('show');
+  });
+  
+  document.getElementById('sidebarBackdrop').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('show');
+    document.getElementById('sidebarBackdrop').classList.remove('show');
+  });
+  
+  // Input text message
+  const input = document.getElementById('input');
+  const sendBtn = document.getElementById('sendBtn');
+  
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (input.value.trim()) {
+        processQuestion(input.value.trim());
+        input.value = '';
+      }
+    }
+  });
+  
+  sendBtn.addEventListener('click', () => {
+    if (input.value.trim()) {
+      processQuestion(input.value.trim());
+      input.value = '';
+    }
+  });
+  
+  // More menu (⋮)
+  document.getElementById('moreBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('moreMenu').classList.toggle('show');
+  });
+  
+  document.addEventListener('click', () => {
+    document.getElementById('moreMenu').classList.remove('show');
+  });
+  
+  // New chat
+  document.getElementById('newChatBtn').addEventListener('click', createNewChat);
+  
+  // Account menu
+  document.getElementById('accountBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('accountMenu').classList.toggle('show');
+  });
+  
+  // Attach menu
+  document.getElementById('attachBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('attachMenu').classList.toggle('show');
+  });
+  
+  // Expand composer
+  document.getElementById('expandBtn').addEventListener('click', () => {
+    document.getElementById('overlay').classList.add('show');
+    document.getElementById('overlayInput').value = input.value;
+    document.getElementById('overlayInput').focus();
+  });
+  
+  // Close overlay
+  document.getElementById('closeOverlay').addEventListener('click', () => {
+    document.getElementById('overlay').classList.remove('show');
+  });
+  
+  document.getElementById('overlayCancel').addEventListener('click', () => {
+    document.getElementById('overlay').classList.remove('show');
+  });
+  
+  document.getElementById('overlaySend').addEventListener('click', () => {
+    const overlayInput = document.getElementById('overlayInput');
+    if (overlayInput.value.trim()) {
+      processQuestion(overlayInput.value.trim());
+      overlayInput.value = '';
+      document.getElementById('overlay').classList.remove('show');
+    }
+  });
+  
+  // Fitur khusus
+  document.getElementById('healthDiagnosis').addEventListener('click', () => {
+    showModal('#modalHealth');
+  });
+  
+  document.getElementById('feedCalculator').addEventListener('click', () => {
+    showModal('#modalFeed');
+  });
+  
+  document.getElementById('productionTracker').addEventListener('click', () => {
+    showModal('#modalProduction');
+  });
+  
+  document.getElementById('diseaseEncyclopedia').addEventListener('click', () => {
+    showModal('#modalDisease');
+  });
+  
+  // Tombol diagnosis
+  document.getElementById('healthDiagnose').addEventListener('click', () => {
+    const symptoms = Array.from(document.getElementById('symptoms').selectedOptions)
+      .map(option => option.value);
+    
+    if (symptoms.length === 0) {
+      showToast('Pilih setidaknya satu gejala', 'warning');
+      return;
+    }
+    
+    hideModal('#modalHealth');
+    
+    // Simulasi diagnosis
+    addUserMessage('Diagnosis kesehatan dengan gejala: ' + symptoms.join(', '));
+    const typing = showTyping();
+    
+    setTimeout(() => {
+      typing.remove();
+      addBotMessage(
+        `Berdasarkan gejala yang dipilih, kemungkinan ayam mengalami **Newcastle Disease (ND)**.\n\n` +
+        `**Rekomendasi:**\n` +
+        `• Isolasi ayam yang sakit\n` +
+        `• Tingkatkan biosecurity kandang\n` +
+        `• Berikan vitamin dan elektrolit\n` +
+        `• Konsultasi dengan dokter hewan untuk penanganan lebih lanjut\n\n` +
+        `*Disclaimer: Diagnosis ini berdasarkan gejala yang dipilih dan mungkin tidak akurat 100%.*`,
+        true,
+        'warning'
+      );
+    }, 2000);
+  });
+  
+  // Tombol kalkulator pakan
+  document.getElementById('feedCalculate').addEventListener('click', () => {
+    const count = parseInt(document.getElementById('feedChickenCount').value);
+    const age = parseInt(document.getElementById('feedChickenAge').value);
+    const type = document.getElementById('feedChickenType').value;
+    
+    if (!count || !age) {
+      showToast('Masukkan jumlah dan umur ayam', 'warning');
+      return;
+    }
+    
+    hideModal('#modalFeed');
+    
+    // Hitung kebutuhan pakan
+    let feedPerChicken;
+    if (type === 'layer') {
+      if (age < 5) feedPerChicken = 0.05;
+      else if (age < 10) feedPerChicken = 0.07;
+      else if (age < 20) feedPerChicken = 0.1;
+      else feedPerChicken = 0.12;
+    } else {
+      // broiler
+      if (age < 3) feedPerChicken = 0.05;
+      else if (age < 6) feedPerChicken = 0.1;
+      else feedPerChicken = 0.15;
+    }
+    
+    const totalFeed = count * feedPerChicken;
+    
+    addUserMessage(`Hitung kebutuhan pakan untuk ${count} ekor ayam ${type} umur ${age} minggu`);
+    
+    addBotMessage(
+      `**Hasil Perhitungan:**\n` +
+      `• Jumlah ayam: ${count} ekor\n` +
+      `• Umur: ${age} minggu\n` +
+      `• Jenis: ${type === 'layer' ? 'Petelur (Layer)' : 'Pedaging (Broiler)'}\n` +
+      `• Kebutuhan per ekor: ${feedPerChicken} kg/hari\n` +
+      `• **Total kebutuhan pakan: ${totalFeed.toFixed(2)} kg/hari**\n\n` +
+      `*Catatan: Perhitungan ini adalah estimasi. Sesuaikan dengan kondisi aktual ayam.*`,
+      true,
+      'success'
+    );
+  });
+  
+  // Initialize the app
+  initApp();
+}
+
+// Start the application when DOM is loaded
+document.addEventListener('DOMContentLoaded', initApp);
 </script>
 </body>
 </html>
