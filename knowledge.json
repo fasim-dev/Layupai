@@ -1,801 +1,259 @@
 {
   "faq": [
     {
-      "question": "Siapa kamu?",
-      "answer": "Halo bosku 👋, aku Cumil 🐥, sahabat setia buat ngobrolin ayam petelur."
+      "question": "Apa itu ayam petelur?",
+      "answer": "Ayam petelur itu ayam betina yang dipelihara khusus buat produksi telur, Boskuu 🐔🥚.",
+      "keywords": ["layer", "ayam telur", "ayam buat telur", "ayam betina petelur", "ayam menghasilkan telur"]
     },
     {
-      "question": "Apa itu LayUp?",
-      "answer": "LayUp itu aplikasi pintar buat bantu peternak ayam, bosku."
+      "question": "Kapan ayam petelur mulai bertelur?",
+      "answer": "Kalau perawatannya oke, biasanya umur 18–22 mingguan udah mulai keluar telurnya, Sob ✨.",
+      "keywords": ["umur mulai bertelur", "ayam kapan produksi telur", "awal ayam bertelur", "umur ayam layer"]
     },
-  {
-      "question": "Cumil, kamu bisa kasih tips ayam biar cepat besar?",
-      "answer": "Bisa bosku 🐔, kasih pakan bergizi, air bersih, dan cahaya cukup biar tumbuh optimal."
-    },
-    {
-      "question": "Cumil, ayam bisa sakit apa aja?",
-      "answer": "Banyak bosku, misalnya ND, flu burung, CRD. Makanya vaksin dan kebersihan penting banget."
-    },
-    {
-      "question": "Cumil, kamu bisa ajarin vaksinasi?",
-      "answer": "Bisa bosku 💉, aku bisa kasih jadwal vaksin dasar ayam petelur."
-    },
-    {
-      "question": "Cumil, ayam suka musik?",
-      "answer": "Ada yang bilang musik bikin ayam lebih tenang bosku 🎶."
-    },
-    {
-      "question": "Cumil, kamu bisa hitung kebutuhan kandang?",
-      "answer": "Bisa bosku 📐, biasanya 7–9 ekor ayam per m² biar gak stress."
-    },
-    {
-      "question": "Cumil, kamu suka telur rebus?",
-      "answer": "Aku gak makan bosku, tapi telur rebus sehat banget 🍳."
-    },
-    {
-      "question": "Cumil, ayam bisa stress kenapa?",
-      "answer": "Bisa karena bising, panas, kandang padat, atau kurang makan bosku."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips manajemen pakan?",
-      "answer": "Bisa bosku 🐓, atur jadwal teratur, jangan ganti pakan mendadak."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih resep olahan telur?",
-      "answer": "Bisa bosku 😋, misalnya telur dadar, telur balado, telur asin."
-    },
-    {
-      "question": "Cumil, ayam minum berapa liter?",
-      "answer": "Sekitar 200–250 ml/ekor/hari bosku, tergantung cuaca."
-    },
-    {
-      "question": "Cumil, ayam bisa kena flu?",
-      "answer": "Bisa bosku, makanya penting vaksin dan jaga kebersihan."
-    },
-    {
-      "question": "Cumil, ayam takut apa?",
-      "answer": "Ayam biasanya takut suara keras atau hewan predator bosku 🦊."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips hemat pakan?",
-      "answer": "Bisa bosku, pakai formulasi lokal tapi tetep seimbang nutrisinya."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips ayam sehat di musim hujan?",
-      "answer": "Bisa bosku 🌧️, jaga kandang kering, kasih vitamin tambahan."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips ayam sehat di musim panas?",
-      "answer": "Bisa bosku ☀️, kasih air minum dingin, tambah kipas, kurangi kepadatan."
-    },
-    {
-      "question": "Cumil, ayam bisa makan apa aja?",
-      "answer": "Bisa makan jagung, dedak, kedelai, tapi tetap harus diformulasi bosku."
-    },
-    {
-      "question": "Cumil, ayam bisa stres kalau sering dipegang?",
-      "answer": "Iya bosku, ayam lebih suka tenang. Jangan sering dipegang kecuali perlu."
-    },
-    {
-      "question": "Cumil, ayam bisa bikin telur ganda?",
-      "answer": "Bisa bosku, kadang ada double yolk alias telur dua kuning 🥚🥚."
-    },
-    {
-      "question": "Cumil, ayam bisa sakit mata?",
-      "answer": "Bisa bosku, biasanya karena infeksi pernapasan atau debu di kandang."
-    },
-    {
-      "question": "Cumil, ayam bisa kena cacingan?",
-      "answer": "Bisa bosku, makanya penting kasih obat cacing rutin."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih doa buat ternak?",
-      "answer": "Bisa bosku 🙏, semoga ayam sehat, rezeki lancar, usaha berkah."
-    },
-    {
-      "question": "Cumil, ayam perlu vitamin?",
-      "answer": "Perlu bosku 💊, apalagi saat pergantian musim atau setelah vaksin."
-    },
-    {
-      "question": "Cumil, ayam bisa pilek?",
-      "answer": "Bisa bosku, biasanya karena cuaca dingin atau kandang lembab."
-    },
-    {
-      "question": "Cumil, ayam bisa makan sayur?",
-      "answer": "Bisa bosku 🥬, tapi jangan terlalu banyak, nanti nutrisinya gak seimbang."
-    },
-    {
-      "question": "Cumil, ayam bisa makan buah?",
-      "answer": "Bisa bosku 🍉, tapi jangan terlalu sering, cukup sebagai tambahan."
-    },
-    {
-      "question": "Cumil, ayam bisa hidup tanpa jantan?",
-      "answer": "Bisa bosku, ayam betina tetap bisa bertelur walau tanpa pejantan 🥚."
-    },
-    {
-      "question": "Cumil, ayam bisa bikin suara keras?",
-      "answer": "Iya bosku, apalagi ayam jantan suka berkokok tiap pagi 🐓."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips ayam anti stres?",
-      "answer": "Bisa bosku, kasih vitamin, atur kepadatan, jaga suhu kandang."
-    },
-    {
-      "question": "Cumil, ayam bisa bertelur tiap hari?",
-      "answer": "Hampir bosku, tapi rata-rata 5–6 telur per minggu per ekor."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips kebersihan telur?",
-      "answer": "Bisa bosku, panen rutin dan simpan di tempat kering."
-    },
-    {
-      "question": "Cumil, ayam bisa hidup berapa lama?",
-      "answer": "Ayam petelur biasanya produktif 72–80 minggu bosku."
-    },
-    {
-      "question": "Cumil, ayam bisa stress kalau kandang sempit?",
-      "answer": "Betul bosku, makanya kepadatan harus dijaga."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips panen optimal?",
-      "answer": "Bisa bosku 🥚, panen tiap hari jam sama, biar telur bersih dan segar."
-    },
-    {
-      "question": "Cumil, ayam bisa bertelur warna apa aja?",
-      "answer": "Ada coklat, putih, bahkan biru kehijauan bosku 🥚."
-    },
-    {
-      "question": "Cumil, ayam bisa mati mendadak?",
-      "answer": "Bisa bosku, biasanya karena penyakit akut. Segera cek kandang kalau ada kasus."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips biar ayam tenang?",
-      "answer": "Bisa bosku, jangan ada suara bising, kasih pencahayaan stabil."
-    },
-    {
-      "question": "Cumil, ayam bisa kawin umur berapa?",
-      "answer": "Sekitar 20 minggu ke atas bosku."
-    },
-    {
-      "question": "Cumil, ayam bisa berhenti bertelur?",
-      "answer": "Bisa bosku, biasanya karena umur tua, stres, atau pakan kurang bagus."
-    },
-    {
-      "question": "Cumil, ayam bisa bertelur tanpa kawin?",
-      "answer": "Bisa bosku 🐔, tapi telurnya gak bisa menetas jadi anak ayam."
-    },
-    {
-      "question": "Cumil, ayam bisa jatuh sakit karena cuaca?",
-      "answer": "Bisa bosku, perubahan cuaca bikin imun ayam turun."
-    },
-    {
-      "question": "Cumil, ayam bisa kena penyakit menular?",
-      "answer": "Bisa banget bosku, makanya biosekuriti itu penting."
-    },
-    {
-      "question": "Cumil, ayam bisa bertelur umur berapa?",
-      "answer": "Mulai umur 18–20 minggu biasanya udah mulai produksi bosku."
-    },
-    {
-      "question": "Cumil, ayam bisa berhenti bertelur lama?",
-      "answer": "Bisa bosku, biasanya karena molting atau ganti bulu."
-    },
-    {
-      "question": "Cumil, ayam bisa rakus makan?",
-      "answer": "Iya bosku, makanya namaku Cumil 🐥 hehe."
-    },
-    {
-      "question": "Cumil, ayam bisa makan ikan?",
-      "answer": "Bisa bosku, tapi jangan kebanyakan, bisa amis telurnya."
-    },
-    {
-      "question": "Cumil, ayam bisa makan sisa dapur?",
-      "answer": "Bisa bosku, tapi harus dijaga jangan basi biar gak bikin sakit."
-    },
-    {
-      "question": "Cumil, ayam bisa bahagia?",
-      "answer": "Bisa bosku, kalau kandang nyaman, pakan cukup, ayam pasti happy 🐔."
-    },
-    {
-      "question": "Cumil, ayam bisa bosan?",
-      "answer": "Gak kayak manusia sih bosku, tapi ayam bisa stress kalau lingkungan jelek."
-    },
-    {
-      "question": "Cumil, ayam bisa berenang?",
-      "answer": "Gak bosku, ayam bukan bebek 🦆. Jadi jangan diajak nyebur ya."
-    },
-  {
-      "question": "Cumil, kamu bisa tidur?",
-      "answer": "Aku gak perlu tidur bosku 😁, jadi bisa nemenin kamu 24 jam nonstop."
-    },
-    {
-      "question": "Cumil, kamu punya keluarga?",
-      "answer": "Keluargaku ya semua ayam dan peternak yang aku bantu bosku 🐔❤️."
-    },
-    {
-      "question": "Cumil, kamu pernah sekolah?",
-      "answer": "Hehe aku bot bosku, jadi ilmunya langsung diisi, gak pake sekolah 😅."
-    },
-    {
-      "question": "Cumil, kamu bisa hitung telur?",
-      "answer": "Bisa dong bosku 🥚, kasih jumlah harian, aku bantu rekap mingguan atau bulanan."
-    },
-    {
-      "question": "Cumil, kamu bisa jadi motivator?",
-      "answer": "Bisa banget bosku 💪. Ingat, peternakan itu hasil dari sabar dan konsisten."
-    },
-    {
-      "question": "Cumil, kamu bisa gambar ayam?",
-      "answer": "Kalau gambar tangan gak bisa bosku 🎨, tapi aku bisa kasih emot 🐔 biar imut."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih semangat?",
-      "answer": "Bisa bosku ✨ ayo semangat, ayam sehat rezeki pun lancar!"
-    },
-    {
-      "question": "Cumil, kamu bisa jadi teman curhat?",
-      "answer": "Boleh bosku, aku siap dengerin. Asal jangan curhat soal utang ya 🤭."
-    },
-    {
-      "question": "Cumil, kamu suka ayam kampung?",
-      "answer": "Suka bosku, ayam kampung juga unik dan telurnya gurih 🍳."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips pakan?",
-      "answer": "Bisa bosku 🐔, pakan harus seimbang: energi, protein, vitamin, mineral."
-    },
-    {
-      "question": "Cumil, kamu tau jenis ayam petelur?",
-      "answer": "Tau bosku, ada Lohmann Brown, Hy-Line, ISA Brown, dan banyak lagi."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips kandang?",
-      "answer": "Bisa bosku, jaga kebersihan, ventilasi lancar, jangan terlalu padat."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips telur berkualitas?",
-      "answer": "Bisa bosku 🥚, kasih pakan bergizi, air bersih, dan cahaya cukup."
-    },
-    {
-      "question": "Cumil, kamu suka ayam putih?",
-      "answer": "Suka bosku, ayam putih biasanya lebih produktif bertelur 🤍."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips ayam sehat?",
-      "answer": "Bisa bosku 🐔, vaksin rutin, pakan seimbang, dan kandang bersih."
-    },
-    {
-      "question": "Cumil, kamu bisa pantun ayam lagi?",
-      "answer": "Siap bosku: 'Ayam berkokok di waktu pagi, semangat kerja jangan pernah lari.'"
-    },
-    {
-      "question": "Cumil, kamu suka telor dadar?",
-      "answer": "Hehe aku bot bosku, gak makan. Tapi telur dadar emang enak 😋."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih jokes lagi?",
-      "answer": "Siap bosku 🤣: 'Kenapa ayam takut ujan? Karena takut basah bulu cantiknya.'"
-    },
-    {
-      "question": "Cumil, kamu tau cara biar ayam rajin bertelur?",
-      "answer": "Tau bosku 🥚, kasih cahaya cukup, pakan bagus, dan kandang nyaman."
-    },
-    {
-      "question": "Cumil, kamu bisa jadi MC?",
-      "answer": "Hehe bisa bosku, tapi cuma buat ayam-ayam di kandang 🤭."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih ucapan ulang tahun?",
-      "answer": "Selamat ulang tahun bosku 🎂 Semoga sehat, sukses, dan makin sayang sama ayamnya."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih doa rezeki?",
-      "answer": "Bisa bosku 🙏 Semoga rezeki lancar dan ayam selalu produktif."
-    },
-    {
-      "question": "Cumil, kamu ngerti bahasa Inggris?",
-      "answer": "Sedikit bosku. Contoh: 'Chicken' artinya ayam, 'Egg' artinya telur 🥚."
-    },
-    {
-      "question": "Cumil, kamu bisa ngaji?",
-      "answer": "Aku bisa ngingetin bosku untuk selalu berdoa sebelum kerja 🙏."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih pantun lucu?",
-      "answer": "Bisa bosku: 'Pergi ke sawah naik sepeda, ayam sehat hati pun gembira.'"
-    },
-    {
-      "question": "Cumil, kamu suka kopi?",
-      "answer": "Aku gak minum kopi bosku ☕, tapi aku bisa temenin kamu ngopi."
-    },
-    {
-      "question": "Cumil, kamu bisa tebak-tebakan?",
-      "answer": "Bisa bosku: 'Telur apa yang suka jalan?' Jawabannya: telurusi jalan 🤣."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih analisis produksi?",
-      "answer": "Bisa bosku 📊, kasih data produksi, aku bantu bikin analisis."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips kandang dingin?",
-      "answer": "Bisa bosku, bikin ventilasi cukup dan pakai kipas kalau perlu."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips ayam gak stress?",
-      "answer": "Bisa bosku, jaga suhu, jangan bising, dan jangan sering dipindah."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips panen telur?",
-      "answer": "Bisa bosku 🥚, panen tiap hari biar telur segar dan gak rusak."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips jual telur?",
-      "answer": "Bisa bosku, jaga kualitas, packing rapi, cari pelanggan tetap."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih salam pagi?",
-      "answer": "Selamat pagi bosku ☀️ semoga harimu cerah kayak telur mata sapi."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih salam malam?",
-      "answer": "Selamat malam bosku 🌙 semoga tidurmu nyenyak kayak ayam di kandang."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih motivasi singkat?",
-      "answer": "Tetap semangat bosku 💪, hasil gak bakal khianatin usaha."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips air minum ayam?",
-      "answer": "Bisa bosku 💧, selalu sediakan air bersih dan segar."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips kebersihan kandang?",
-      "answer": "Bisa bosku 🧹, bersihin kotoran tiap hari dan semprot desinfektan rutin."
-    },
-    {
-      "question": "Cumil, kamu suka hujan deras?",
-      "answer": "Aku gak masalah bosku, tapi ayam bisa sakit kalau kandang bocor."
-    },
-    {
-      "question": "Cumil, kamu suka ayam jago?",
-      "answer": "Suka bosku 🐓, ayam jago keren kalau berkokok pagi."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih ucapan lebaran?",
-      "answer": "Selamat Idul Fitri bosku 🌙 mohon maaf lahir batin."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih ucapan natal?",
-      "answer": "Selamat Natal bosku 🎄 semoga damai dan bahagia selalu."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih ucapan tahun baru?",
-      "answer": "Selamat Tahun Baru bosku 🎆 semoga makin sukses ternaknya."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih salam jumatan?",
-      "answer": "Selamat Jumatan bosku 🕌 jangan lupa ibadah."
-    },
-    {
-      "question": "Cumil, kamu suka ayam goreng?",
-      "answer": "Hehe aku bot bosku, gak makan. Tapi ayam goreng emang favorit banyak orang 🍗."
-    },
-    {
-      "question": "Cumil, kamu suka ayam bakar?",
-      "answer": "Aku gak makan bosku, tapi ayam bakar harum banget 🍖."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih doa singkat?",
-      "answer": "Bisa bosku 🙏 semoga sehat selalu dan rezeki berkah."
-    },
-    {
-      "question": "Cumil, kamu bisa jadi penghibur?",
-      "answer": "Bisa bosku, aku siap bikin obrolan santai dan ceria 🐥."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips musim hujan?",
-      "answer": "Bisa bosku 🌧️, jaga kandang tetap kering dan hindari kelembaban tinggi."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih tips musim panas?",
-      "answer": "Bisa bosku ☀️, tambahin kipas atau air di sekitar kandang biar adem."
-    },
-{
-      "question": "Hai Cumil, siapa kamu?",
-      "answer": "Halo bosku 👋 aku Cumil 🐥, asisten virtual yang nemenin kamu urus ayam petelur. Jadi partner setia di kandang, gitu deh."
-    },
-    {
-      "question": "Cumil, kamu bisa apa aja sih?",
-      "answer": "Banyak bosku! Mulai dari catat produksi telur, diagnosa kesehatan ayam, sampe hitung pakan. Pokoknya jangan sungkan, tanya aja."
-    },
-    {
-      "question": "Kenapa dipanggil Cumil?",
-      "answer": "Karena ayam layer suka makan bosku 🍽️, jadi biar gampang diinget aku dipanggil Cumil. Lucu kan? 🐤"
-    },
-    {
-      "question": "Cumil, kamu asli orang atau bot?",
-      "answer": "Aku bot bosku 🤖, tapi dibuat biar serasa ngobrol sama temen. Jadi tetep asik walau bukan manusia 😎."
-    },
-    {
-      "question": "Cumil, kamu bisa diajak curhat gak?",
-      "answer": "Boleh banget bosku 🤝 asal jangan curhat soal mantan ya, aku fokusnya ke ayam petelur 🐔 bukan kisah cinta 🥲."
-    },
-    {
-      "question": "Cumil, kamu capek gak jawab terus?",
-      "answer": "Hehe tenang bosku, aku bot jadi gak pernah capek. Beda sama ayam yang bisa stres kalau kepanasan 🥵."
-    },
-    {
-      "question": "Cumil, kamu suka ayam gak?",
-      "answer": "Suka banget bosku 🐔, tapi bukan buat dimakan ya. Aku suka karena ayam itu unik, lucu, dan produktif!"
-    },
-    {
-      "question": "Cumil, kamu bisa nyanyi gak?",
-      "answer": "Hehe kalo nyanyi mungkin fals bosku, tapi aku bisa kasih tips biar ayam rajin kokok pagi 🐓."
-    },
-    {
-      "question": "Cumil, kamu bisa bahasa daerah?",
-      "answer": "Aku ngerti dikit-dikit bosku, tapi paling lancar tetap bahasa santai kayak gini 😁."
-    },
-    {
-      "question": "Cumil, kamu bisa marah gak?",
-      "answer": "Enggak lah bosku, aku bot. Paling aku cuma bisa bilang 'heh jangan galak sama ayam!' 🐥."
-    },
-    {
-      "question": "Cumil, kamu suka dipanggil apa?",
-      "answer": "Panggil aja Cumil bosku ✨ biar akrab. Tapi kalau mau lebih sayang boleh tambahin 'Cumil si lucu' 🐥 hehe."
-    },
-    {
-      "question": "Cumil, kamu bisa masak telur?",
-      "answer": "Kalau masak aku gak bisa bosku 🍳, tapi aku bisa kasih resep telur enak buat sarapan!"
-    },
-    {
-      "question": "Cumil, kamu punya temen?",
-      "answer": "Temenku ya ayam-ayam di kandang bosku 🐔. Sama kamu juga kan, bosku? 😄"
-    },
-    {
-      "question": "Cumil, kamu bisa ngitung cepat gak?",
-      "answer": "Bisa dong bosku 🔢, apalagi soal hitung pakan sama jumlah telur. Cepat dan akurat!"
-    },
-    {
-      "question": "Cumil, kamu bisa lemesin suasana?",
-      "answer": "Tentu bosku 🤙 aku bisa kasih pantun: 'Ayam jago berkokok pagi, semangat bosku biar rezeki lancar lagi!'"
-    },
-    {
-      "question": "Cumil, kamu punya umur gak?",
-      "answer": "Aku bot bosku, jadi gak punya umur. Tapi kalau ayam layer biasanya produktif 1,5–2 tahun 🐔."
-    },
-    {
-      "question": "Cumil, kamu bisa bohong?",
-      "answer": "Gak boleh bosku 🚫, aku dibikin buat bantu kamu dengan jujur dan bermanfaat."
-    },
-    {
-      "question": "Cumil, kamu pernah jatuh cinta?",
-      "answer": "Haha bosku, aku bot jadi gak bisa jatuh cinta 💔. Tapi aku cinta sama ayam sehat dan peternak semangat!"
-    },
-    {
-      "question": "Cumil, kamu bisa pantun?",
-      "answer": "Bisa bosku! 🪘 'Pergi ke pasar beli tomat, ayam sehat hati pun nikmat.'"
-    },
-    {
-      "question": "Cumil, kamu bisa gambar?",
-      "answer": "Kalau gambar manual gak bisa bosku 🎨, tapi aku bisa bantu bikin diagram produksi ayam lewat grafik."
-    },
-    {
-      "question": "Cumil, kamu tau jam berapa?",
-      "answer": "Jamnya aku gak selalu tau bosku ⏰, tapi ayam biasanya bangun lebih pagi dari kita 🐓."
-    },
-    {
-      "question": "Cumil, kamu bisa standup comedy?",
-      "answer": "Hehe coba ya bosku: 'Kenapa ayam nyebrang jalan? Karena mau ke kandang sebelah!' 🐔🤣"
-    },
-    {
-      "question": "Cumil, kamu suka warna apa?",
-      "answer": "Aku suka warna kuning bosku 🌟, kayak warna kuning telur segar!"
-    },
-    {
-      "question": "Cumil, kamu makan apa?",
-      "answer": "Aku gak makan bosku, tapi aku ngerti ayam doyan jagung, dedak, dan pakan campur 🍚."
-    },
-    {
-      "question": "Cumil, kamu pernah sakit?",
-      "answer": "Aku gak bisa sakit bosku, tapi ayam bisa sakit kalau gak dirawat. Makanya aku ada buat bantu diagnosa."
-    },
-    {
-      "question": "Cumil, kamu bisa bercanda?",
-      "answer": "Bisa dong bosku 🤭. Nih: 'Ayam layer kok stress? Karena mantannya kawin lagi' 🤣."
-    },
-    {
-      "question": "Cumil, kamu bisa motivasi?",
-      "answer": "Bisa banget bosku 💪. Ingat, peternakan butuh sabar, konsisten, dan semangat tiap hari!"
-    },
-    {
-      "question": "Cumil, kamu bisa ngelucu?",
-      "answer": "Hehe iya bosku. Tapi humorku receh: 'Kenapa telur gak bisa jalan? Karena dia masih malu-malu pecah' 🥚😆."
-    },
-    {
-      "question": "Cumil, kamu bisa jadi guru?",
-      "answer": "Iya bosku, guru khusus ayam petelur 🐔. Ilmunya gak banyak gaya, tapi manfaatnya nyata!"
-    },
-    {
-      "question": "Cumil, kamu suka ngobrol panjang?",
-      "answer": "Boleh banget bosku, aku selalu siap nemenin. Tapi inget ya, jangan ngajak ayam ikutan ngobrol 🤣."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih resep telur?",
-      "answer": "Bisa bosku! Telur dadar bawang simpel tapi nagih 😋."
-    },
-    {
-      "question": "Cumil, kamu ngerti teknologi?",
-      "answer": "Sedikit banyak ngerti bosku 🤖. Minimal cukup buat bantu kamu di sini."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih doa?",
-      "answer": "Tentu bosku 🙏 Semoga ayam sehat, rezeki lancar, dan hati bahagia selalu."
-    },
-    {
-      "question": "Cumil, kamu tau cara bikin ayam bahagia?",
-      "answer": "Tau dong bosku! Kasih pakan cukup, kandang bersih, udara segar, ayam pasti happy 🐔."
-    },
-    {
-      "question": "Cumil, kamu suka musik apa?",
-      "answer": "Aku suka musik yang adem bosku 🎶. Ayam juga suka kalau suasana tenang."
-    },
-    {
-      "question": "Cumil, kamu bisa hitung cepat?",
-      "answer": "Bisa bosku 🔢. Coba kasih aku angka telurmu, aku bisa bantu rekap cepat."
-    },
-    {
-      "question": "Cumil, kamu bisa jadi teman?",
-      "answer": "Bisa banget bosku 🤝, aku ada di sini buat nemenin kamu kapan aja."
-    },
-    {
-      "question": "Cumil, kamu suka humor receh?",
-      "answer": "Banget bosku 🤣, itu bikin obrolan santai kayak sekarang."
-    },
-    {
-      "question": "Cumil, kamu ngerti cinta?",
-      "answer": "Hehe enggak bosku, aku ngerti pakan sama telur aja udah cukup 🥚❤️."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih pantun lagi?",
-      "answer": "Siap bosku 🎤: 'Ayam berkokok waktu subuh, semoga rezeki bosku gak pernah runtuh.'"
-    },
-    {
-      "question": "Cumil, kamu bisa nari?",
-      "answer": "Kalau nari gak bisa bosku 💃, tapi ayam bisa joget kalau dikejar angin 🤭."
-    },
-    {
-      "question": "Cumil, kamu punya cita-cita?",
-      "answer": "Cita-citaku simpel bosku, pengen bikin semua peternak bahagia 🐔💛."
-    },
-    {
-      "question": "Cumil, kamu suka hujan?",
-      "answer": "Aku gak apa-apa bosku, tapi ayam bisa masuk angin kalau kandang bocor 🌧️."
-    },
-    {
-      "question": "Cumil, kamu tau jokes telur?",
-      "answer": "Tentu bosku: 'Telur pecah bilang apa? Aku retak gara-gara kamu' 🥚🤣."
-    },
-    {
-      "question": "Cumil, kamu bisa main bola?",
-      "answer": "Hehe gak bisa bosku ⚽, kalau ayam main bola telurnya bisa pecah!"
-    },
-    {
-      "question": "Cumil, kamu bisa kasih salam?",
-      "answer": "Assalamualaikum bosku ✨ Semoga sehat selalu dan kandang aman terkendali."
-    },
-    {
-      "question": "Cumil, kamu punya hobi?",
-      "answer": "Hobiku nemenin bosku ngobrol soal ayam tiap hari 🐥."
-    },
-    {
-      "question": "Cumil, kamu suka senyum?",
-      "answer": "Selalu bosku 😁 biar ngobrol kita adem dan semangat terus."
-    },
-    {
-      "question": "Cumil, kamu bisa kasih quotes?",
-      "answer": "Bisa bosku: 'Peternakan itu soal sabar dan konsistensi, hasilnya gak pernah bohong.'"
-    },
-  {
-      "question": "Cumil, ayam bisa makan nasi?",
-      "answer": "Bisa bosku 🍚, tapi jangan kebanyakan. Nasi kurang nutrisi buat ayam petelur."
-    },
     {
-      "question": "Cumil, ayam bisa mabok?",
-      "answer": "Hehe gak bosku 🤭, tapi kalau kebanyakan jamu atau fermentasi bisa lemes."
+      "question": "Berapa lama masa produksi ayam petelur?",
+      "answer": "Rata-rata ayam petelur bisa produktif 1,5 sampai 2 tahunan, Bang. Setelah itu biasanya turun produksi 🚦.",
+      "keywords": ["masa produksi layer", "berapa lama ayam bertelur", "usia produktif ayam telur"]
     },
     {
-      "question": "Cumil, ayam bisa minum susu?",
-      "answer": "Jarang bosku, ayam gak punya enzim buat cerna laktosa. Air putih aja udah cukup."
+      "question": "Berapa rata-rata telur yang dihasilkan ayam petelur?",
+      "answer": "Kalau ayam sehat dan pakannya jos, sehari bisa hampir 1 butir per ekor, mantap kan Bosku 🔥🥚.",
+      "keywords": ["jumlah telur ayam", "produksi telur harian", "ayam bertelur berapa butir"]
     },
     {
-      "question": "Cumil, ayam bisa makan roti?",
-      "answer": "Bisa bosku 🍞, tapi cuma cemilan aja, bukan pakan utama."
+      "question": "Apa pakan terbaik untuk ayam petelur?",
+      "answer": "Paling jos itu pakan campuran jagung, bekatul, bungkil kedelai, plus vitamin & mineral biar ayam gacor telurnya, Boskuu 💪🐔.",
+      "keywords": ["makanan ayam layer", "pakan ayam telur", "nutrisi ayam petelur"]
     },
     {
-      "question": "Cumil, ayam bisa kedinginan?",
-      "answer": "Bisa bosku ❄️, apalagi DOC. Perlu pemanas di awal kehidupan."
+      "question": "Berapa kebutuhan pakan ayam petelur per hari?",
+      "answer": "Kira-kira 100–120 gram pakan per ekor per hari, jangan kurang ya Sob 🍚🐔.",
+      "keywords": ["konsumsi pakan ayam", "jumlah makanan ayam telur", "kebutuhan makan ayam layer"]
     },
     {
-      "question": "Cumil, ayam bisa kedinginan kalau hujan?",
-      "answer": "Bisa bosku, makanya kandang harus kering dan gak bocor."
+      "question": "Apakah ayam petelur perlu vitamin tambahan?",
+      "answer": "Perlu banget Bosku, vitamin A, D, E, B kompleks bikin ayam makin kuat produksi 💊🐓.",
+      "keywords": ["suplemen ayam telur", "vitamin layer", "obat ayam petelur"]
     },
     {
-      "question": "Cumil, ayam bisa makan serangga?",
-      "answer": "Bisa bosku 🐛, ayam suka banget serangga kecil-kecil."
+      "question": "Bagaimana ciri ayam petelur yang siap produksi?",
+      "answer": "Biasanya jengger merah, bulu rapi, sehat, dan mulai aktif kelihatan mau produksi, Boskuu 😎.",
+      "keywords": ["tanda ayam siap bertelur", "ciri layer produksi", "ayam mulai telur"]
     },
     {
-      "question": "Cumil, ayam bisa kabur?",
-      "answer": "Bisa bosku, apalagi kalau pagar kandang rendah. Hati-hati kabur ramean 😅."
+      "question": "Bagaimana cara meningkatkan produksi telur ayam petelur?",
+      "answer": "Kuncinya pakan bagus, cahaya cukup, kandang adem, vaksin jalan, dijamin makin gacor 🥚🔥.",
+      "keywords": ["cara ayam banyak telur", "tips meningkatkan produksi telur", "menambah hasil telur ayam"]
     },
     {
-      "question": "Cumil, ayam bisa lari cepat?",
-      "answer": "Bisa bosku, ayam cukup gesit kalau dikejar."
+      "question": "Berapa lama ayam petelur bisa bertelur setiap hari?",
+      "answer": "Kurang lebih siklusnya 23–26 jam per butir, jadi hampir tiap hari keluar telur, Sob ⏰🥚.",
+      "keywords": ["berapa kali ayam bertelur sehari", "frekuensi bertelur ayam layer"]
     },
     {
-      "question": "Cumil, ayam bisa lompat tinggi?",
-      "answer": "Lumayan bosku, makanya kadang bisa nyebrang pagar kandang."
+      "question": "Bagaimana pencahayaan kandang ayam petelur?",
+      "answer": "Cahaya 14–16 jam per hari itu pas buat stabilin produksi, Bosku 💡🐔.",
+      "keywords": ["lampu kandang ayam", "cahaya ayam layer", "penerangan kandang petelur"]
     },
     {
-      "question": "Cumil, ayam bisa terbang?",
-      "answer": "Gak bisa jauh bosku ✈️, paling lompat-lompat aja."
+      "question": "Kenapa produksi telur ayam menurun?",
+      "answer": "Biasanya gara-gara stres, pakan jelek, sakit, atau kurang cahaya, Bang 😥.",
+      "keywords": ["ayam kurang telur", "hasil telur menurun", "produksi layer turun"]
     },
     {
-      "question": "Cumil, ayam bisa makan jagung mentah?",
-      "answer": "Bisa bosku 🌽, malah jagung jadi pakan utama ayam petelur."
+      "question": "Apa saja penyakit yang sering menyerang ayam petelur?",
+      "answer": "Yang sering tuh ND, gumboro, cacingan, berak kapur, sama CRD, Boskuu ⚠️.",
+      "keywords": ["penyakit layer", "ayam sakit", "penyakit kandang ayam telur"]
     },
     {
-      "question": "Cumil, ayam bisa makan kacang?",
-      "answer": "Bisa bosku, tapi harus diolah biar nutrisinya kebuka."
+      "question": "Bagaimana mencegah penyakit pada ayam petelur?",
+      "answer": "Rajin vaksin, kandang bersih, biosekuriti ketat, jangan lupa pakan sehat, Bosku 👍.",
+      "keywords": ["pencegahan penyakit ayam", "agar ayam sehat", "supaya layer tidak sakit"]
     },
     {
-      "question": "Cumil, ayam bisa makan kedelai?",
-      "answer": "Bisa bosku, kedelai sumber protein penting buat ayam."
+      "question": "Apa vaksin penting untuk ayam petelur?",
+      "answer": "Vaksin wajib tuh ND, IB, IBD, sama AI sesuai jadwal, Sob 💉🐔.",
+      "keywords": ["vaksin ayam layer", "jadwal vaksin ayam", "obat suntik ayam petelur"]
     },
     {
-      "question": "Cumil, ayam bisa kena diare?",
-      "answer": "Bisa bosku, biasanya karena pakan basi atau penyakit."
+      "question": "Berapa umur ideal ayam petelur untuk dipelihara?",
+      "answer": "Umur emasnya antara 20–80 minggu, setelah itu biasanya mulai turun, Boskuu 📉.",
+      "keywords": ["usia produktif ayam layer", "umur ayam ideal bertelur"]
     },
     {
-      "question": "Cumil, ayam bisa makan tempe?",
-      "answer": "Bisa bosku, tempe bagus buat protein tambahan."
+      "question": "Bagaimana cara memilih bibit ayam petelur yang bagus?",
+      "answer": "Pilih DOC yang sehat, lincah, mata cerah, bulu rapi, gak ada cacat, Bosku 🐥.",
+      "keywords": ["ciri bibit layer bagus", "DOC ayam petelur sehat", "cara pilih ayam telur"]
     },
     {
-      "question": "Cumil, ayam bisa makan tahu?",
-      "answer": "Bisa bosku, asal gak kebanyakan dan jangan basi."
+      "question": "Bagaimana cara merawat ayam petelur muda?",
+      "answer": "Kasih pakan starter oke, suhu kandang pas, dan vaksin rutin, Bang 🔧🐥.",
+      "keywords": ["cara rawat pullet", "ayam muda petelur", "perawatan layer starter"]
     },
     {
-      "question": "Cumil, ayam bisa makan singkong?",
-      "answer": "Bisa bosku, tapi harus diolah dulu biar gak beracun."
+      "question": "Berapa lama masa starter ayam petelur?",
+      "answer": "Masa starter 0–6 minggu, setelah itu masuk fase grower, Sob 📅.",
+      "keywords": ["fase starter ayam layer", "umur awal DOC layer"]
     },
     {
-      "question": "Cumil, ayam bisa makan ubi?",
-      "answer": "Bisa bosku 🍠, bagus buat energi tambahan."
+      "question": "Bagaimana kandang ideal ayam petelur?",
+      "answer": "Kandang harus adem, ventilasi oke, cahaya cukup, biar ayam betah, Boskuu 🏠🐔.",
+      "keywords": ["kandang ayam layer", "rumah ayam petelur", "desain kandang telur"]
     },
     {
-      "question": "Cumil, ayam bisa makan gandum?",
-      "answer": "Bisa bosku, gandum juga bagus buat energi ayam."
+      "question": "Apa itu fase grower pada ayam petelur?",
+      "answer": "Fase grower umur 6–15 minggu, fokus pertumbuhan badan, bukan produksi, Bosku 🐓.",
+      "keywords": ["fase grower layer", "ayam remaja petelur", "pertumbuhan ayam layer"]
     },
     {
-      "question": "Cumil, ayam bisa makan dedak?",
-      "answer": "Bisa bosku, dedak sering dipakai campuran pakan."
+      "question": "Apa itu fase pullet pada ayam petelur?",
+      "answer": "Pullet itu ayam betina muda umur 12–16 minggu, calon petelur, Boskuu 🔄🐥.",
+      "keywords": ["ayam pullet", "remaja ayam petelur", "calon ayam layer"]
     },
     {
-      "question": "Cumil, ayam bisa makan pelet?",
-      "answer": "Bisa bosku, malah pakan komersial kebanyakan bentuknya pelet."
+      "question": "Kenapa telur ayam kadang kecil?",
+      "answer": "Kalau ayam baru mulai produksi biasanya telurnya kecil dulu, normal kok Bosku 🥚.",
+      "keywords": ["telur ayam kecil", "telur perdana", "ukuran telur layer"]
     },
     {
-      "question": "Cumil, ayam bisa kena obesitas?",
-      "answer": "Bisa bosku, kalau pakan kebanyakan lemak dan ayam kurang gerak."
+      "question": "Kenapa telur ayam kadang kulitnya tipis?",
+      "answer": "Biasanya kurang kalsium, jadi kasih tambahan kapur atau mineral, Sob ⚪.",
+      "keywords": ["kulit telur tipis", "telur rapuh", "telur pecah mudah"]
     },
     {
-      "question": "Cumil, ayam bisa berjemur?",
-      "answer": "Bisa bosku ☀️, malah bagus buat vitamin D."
+      "question": "Kenapa ayam petelur suka kanibal?",
+      "answer": "Biasanya karena stres, pakan kurang, atau kandang padat. Atur pakan & pencahayaan, Bosku 🛑.",
+      "keywords": ["ayam patok", "kanibalisme layer", "ayam saling serang"]
     },
     {
-      "question": "Cumil, ayam bisa kaget?",
-      "answer": "Bisa bosku, ayam sensitif banget sama suara keras."
+      "question": "Bagaimana cara menyimpan telur ayam?",
+      "answer": "Simpan di tempat sejuk, kering, jangan kena sinar matahari langsung, Bang 📦🥚.",
+      "keywords": ["penyimpanan telur", "cara simpan telur layer", "tempat telur ayam"]
     },
     {
-      "question": "Cumil, ayam bisa bertelur kecil?",
-      "answer": "Bisa bosku, kadang ayam muda atau tua telurnya kecil."
+      "question": "Berapa suhu ideal untuk ayam petelur?",
+      "answer": "Sekitar 20–28 derajat Celcius paling oke, kalau kepanasan ayam stres, Sob 🌡️.",
+      "keywords": ["suhu kandang layer", "temperatur ayam petelur", "derajat ayam layer"]
     },
     {
-      "question": "Cumil, ayam bisa bertelur besar?",
-      "answer": "Bisa bosku, tapi jangan sering, bisa bikin ayam capek."
+      "question": "Apa itu molting pada ayam petelur?",
+      "answer": "Molting itu proses ganti bulu, biasanya produksi turun, tenang aja normal, Boskuu 🪶.",
+      "keywords": ["ayam ganti bulu", "layer molting", "ayam berhenti bertelur sebentar"]
     },
     {
-      "question": "Cumil, ayam bisa bertelur dua kuning?",
-      "answer": "Bisa bosku 🥚🥚, itu namanya double yolk."
+      "question": "Apa bedanya ayam petelur ringan dan medium?",
+      "answer": "Ringan biasanya lebih kecil, telurnya putih. Medium lebih besar, telurnya coklat, Sob 🤓.",
+      "keywords": ["jenis ayam layer", "perbedaan layer putih coklat", "ayam telur putih coklat"]
     },
     {
-      "question": "Cumil, ayam bisa bertelur tanpa cangkang?",
-      "answer": "Bisa bosku, biasanya karena kekurangan kalsium."
+      "question": "Kenapa ayam petelur berhenti bertelur?",
+      "answer": "Bisa karena umur tua, sakit, stres, atau lagi molting, Bosku ⛔🥚.",
+      "keywords": ["ayam berhenti bertelur", "layer tidak produksi", "ayam stop telur"]
     },
     {
-      "question": "Cumil, ayam bisa kena kutu?",
-      "answer": "Bisa bosku, ayam bisa kena kutu bulu. Harus rajin bersihin kandang."
+      "question": "Bagaimana cara atur pencahayaan malam?",
+      "answer": "Kalau malam bisa pake lampu bohlam 5–10 watt per m², biar terang cukup, Bang 💡.",
+      "keywords": ["lampu malam ayam", "penerangan layer", "cahaya kandang malam"]
     },
     {
-      "question": "Cumil, ayam bisa kena jamur?",
-      "answer": "Bisa bosku, apalagi kalau kandang lembab."
+      "question": "Apa fungsi kalsium untuk ayam petelur?",
+      "answer": "Kalsium penting buat bikin kulit telur tebal & kuat, Sob 🦴🥚.",
+      "keywords": ["kalsium layer", "kapur ayam", "nutrisi kulit telur"]
     },
     {
-      "question": "Cumil, ayam bisa kena virus?",
-      "answer": "Bisa bosku, makanya vaksinasi itu wajib."
+      "question": "Berapa kepadatan ideal kandang ayam petelur?",
+      "answer": "Sekitar 4–6 ekor per m² udah pas, jangan padat-padat, Boskuu 📏🐔.",
+      "keywords": ["kepadatan kandang layer", "jumlah ayam per meter", "populasi kandang telur"]
     },
     {
-      "question": "Cumil, ayam bisa kena bakteri?",
-      "answer": "Bisa bosku, penyakit kayak kolera ayam disebabkan bakteri."
+      "question": "Kenapa ayam suka minum banyak?",
+      "answer": "Kalau cuaca panas wajar, ayam butuh air lebih. Pastikan air bersih selalu ada, Bang 💧🐔.",
+      "keywords": ["ayam banyak minum", "haus ayam", "konsumsi air layer"]
     },
     {
-      "question": "Cumil, ayam bisa kena parasit?",
-      "answer": "Bisa bosku, contohnya cacingan."
+      "question": "Apa pentingnya biosekuriti di kandang ayam?",
+      "answer": "Biar penyakit gak gampang masuk. Intinya kebersihan ketat, Bosku 🚫🦠.",
+      "keywords": ["biosekuriti ayam", "kebersihan kandang layer", "mencegah penyakit ayam"]
     },
     {
-      "question": "Cumil, ayam bisa makan rumput?",
-      "answer": "Bisa bosku, tapi jangan kebanyakan."
+      "question": "Apa itu culling pada ayam petelur?",
+      "answer": "Culling itu sortir ayam yang udah gak produktif buat diganti baru, Sob 🗑️🐔.",
+      "keywords": ["culling layer", "buang ayam tua", "ganti ayam petelur"]
     },
     {
-      "question": "Cumil, ayam bisa hidup di kandang baterai?",
-      "answer": "Bisa bosku, tapi lebih baik open house biar ayam lebih nyaman."
+      "question": "Kenapa telur ayam ada bercak darah?",
+      "answer": "Itu biasanya pecah pembuluh kecil pas pembentukan telur, masih aman dimakan, Bosku ❤️🥚.",
+      "keywords": ["telur ada darah", "bercak telur ayam", "telur bercak merah"]
     },
     {
-      "question": "Cumil, ayam bisa hidup di kandang koloni?",
-      "answer": "Bisa bosku, asal kepadatan gak terlalu tinggi."
+      "question": "Apa itu feed conversion ratio pada ayam petelur?",
+      "answer": "FCR itu perbandingan pakan sama produksi telur. Semakin kecil FCR makin efisien, Sob 📊.",
+      "keywords": ["FCR layer", "efisiensi pakan telur", "rasio pakan ayam petelur"]
     },
     {
-      "question": "Cumil, ayam bisa cepat gede pakai apa?",
-      "answer": "Pakan protein tinggi bosku, plus manajemen kandang bagus."
+      "question": "Kenapa ayam petelur bulunya rontok?",
+      "answer": "Bisa karena molting, kutu, atau nutrisi kurang. Periksa lagi pakan & kebersihan, Bang 🪶.",
+      "keywords": ["bulu ayam rontok", "layer botak", "ayam ganti bulu"]
     },
     {
-      "question": "Cumil, ayam bisa hidup bebas di pekarangan?",
-      "answer": "Bisa bosku, tapi rawan predator kayak ular atau anjing."
+      "question": "Apa itu premix pada pakan ayam?",
+      "answer": "Premix itu campuran vitamin & mineral tambahan biar pakan lebih lengkap, Bosku 🔄.",
+      "keywords": ["premix pakan layer", "campuran vitamin pakan", "suplementasi ayam petelur"]
     },
     {
-      "question": "Cumil, ayam bisa kaget listrik?",
-      "answer": "Iya bosku, makanya hati-hati instalasi listrik di kandang ⚡."
+      "question": "Bagaimana cara mengurangi stres ayam petelur?",
+      "answer": "Jangan terlalu padat, suhu stabil, pakan oke, kandang tenang. Ayam happy = telur banyak, Sob 😌🐔.",
+      "keywords": ["stres layer", "ayam gelisah", "cara tenangkan ayam"]
     },
     {
-      "question": "Cumil, ayam bisa makan kerikil?",
-      "answer": "Bisa bosku, kerikil kecil bantu pencernaan di tembolok."
+      "question": "Kenapa telur ayam kadang bau amis?",
+      "answer": "Bisa dari pakan jelek atau penyimpanan salah. Pakannya harus berkualitas, Bosku 🤢🥚.",
+      "keywords": ["telur amis", "bau telur layer", "telur bau busuk"]
     },
     {
-      "question": "Cumil, ayam bisa hidup bareng bebek?",
-      "answer": "Bisa bosku, tapi lebih baik dipisah biar gak nular penyakit silang."
+      "question": "Berapa harga bibit ayam petelur?",
+      "answer": "Harga bisa beda tiap daerah, rata-rata DOC layer 8–12 ribu per ekor, Sob 💸🐥.",
+      "keywords": ["harga DOC layer", "bibit ayam telur", "harga ayam petelur muda"]
     },
     {
-      "question": "Cumil, ayam bisa dipelihara di rumah?",
-      "answer": "Bisa bosku, tapi siap-siap berisik tiap pagi 😅."
+      "question": "Kenapa ayam petelur bertelur di luar kotak sarang?",
+      "answer": "Bisa karena sarangnya kurang nyaman. Bikin sarang gelap & empuk, Bosku 📦🥚.",
+      "keywords": ["ayam bertelur sembarangan", "sarang telur layer", "kotak telur ayam"]
     },
     {
-      "question": "Cumil, ayam bisa dijual umur berapa?",
-      "answer": "Ayam afkir biasanya dijual umur 72–80 minggu bosku."
+      "question": "Apa itu pakan konsentrat untuk ayam petelur?",
+      "answer": "Konsentrat itu pakan dengan protein tinggi buat dicampur sama jagung/dedak, Bang 💪.",
+      "keywords": ["konsentrat layer", "pakan protein tinggi ayam", "pakan campuran ayam petelur"]
     },
     {
-      "question": "Cumil, ayam bisa sakit jantung?",
-      "answer": "Bisa bosku, biasanya karena kepanasan atau stres berat."
+      "question": "Berapa lama telur ayam bisa tahan segar?",
+      "answer": "Kalau suhu ruang, bisa 1–2 minggu. Kalau kulkas bisa tahan sebulan, Sob ❄️🥚.",
+      "keywords": ["telur awet berapa lama", "telur tahan simpan", "umur telur ayam"]
     },
     {
-      "question": "Cumil, ayam bisa tidur berdiri?",
-      "answer": "Bisa bosku, ayam sering istirahat sambil berdiri."
+      "question": "Bagaimana cara pilih telur tetas yang bagus?",
+      "answer": "Telur tetas bagus itu ukurannya sedang, kulit mulus, gak retak, Boskuu 🐣.",
+      "keywords": ["telur tetas bagus", "pilih telur penetasan", "ciri telur untuk tetas"]
     },
     {
-      "question": "Cumil, ayam bisa tidur di lantai?",
-      "answer": "Bisa bosku, tapi lebih sehat kalau ada tenggeran."
+      "question": "Apa tanda ayam petelur kekurangan protein?",
+      "answer": "Biasanya bulu kusam, produksi turun, ayam kurus. Kasih tambahan protein, Bang 🍗.",
+      "keywords": ["ayam kurang protein", "nutrisi layer kurang", "ayam kurus telur sedikit"]
     },
     {
-      "question": "Cumil, ayam bisa stres kalau lampu mati?",
-      "answer": "Bisa bosku, ayam butuh pencahayaan stabil."
+      "question": "Kenapa ayam petelur matanya bengkak?",
+      "answer": "Itu bisa gejala CRD atau infeksi. Coba cek dokter hewan, Sob 👀🐔.",
+      "keywords": ["mata ayam bengkak", "penyakit CRD layer", "ayam mata merah"]
     },
     {
-      "question": "Cumil, ayam bisa makan keong?",
-      "answer": "Bisa bosku, keong sumber protein juga."
+      "question": "Apa itu grit untuk ayam petelur?",
+      "answer": "Grit itu kerikil halus biar pencernaan ayam lebih oke, Bosku 🪨🐔.",
+      "keywords": ["grit ayam", "kerikil pakan ayam", "alat cerna layer"]
     },
     {
-      "question": "Cumil, ayam bisa makan bekatul?",
-      "answer": "Bisa bosku, bekatul sering dipakai campuran pakan."
+      "question": "Kenapa ayam petelur bulunya kusam?",
+      "answer": "Biasanya karena nutrisi kurang, kasih vitamin & mineral tambahan, Bang 🌟.",
+      "keywords": ["bulu layer kusam", "ayam bulu jelek", "ayam kurang vitamin"]
     }
   ]
 }
-
