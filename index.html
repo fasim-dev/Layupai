@@ -1,1 +1,1551 @@
 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<title>LayUp AI - Pakar Ayam Petelur</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+<style>
+:root{
+  --bg:#0b0f19; --panel:#121a2e; --panel2:#0e1425; --border:#2a3553;
+  --accent:#f5c869; --muted:#a9b9da; --hover:#ffffff18;
+  --shadow:0 12px 36px #0009;
+  --success:#2bd47d; --warning:#ffc107; --danger:#ff667a; --info:#17a2b8;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:#fff;font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+.app{display:flex;height:100vh;overflow:hidden}
+
+/* ===== Sidebar + Backdrop ===== */
+.sidebar-backdrop{position:fixed;inset:0;background:#0009;opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:24}
+.sidebar-backdrop.show{opacity:1;pointer-events:auto;backdrop-filter:blur(2px)}
+.sidebar{width:280px;background:var(--panel);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .28s cubic-bezier(.22,.61,.36,1);
+  z-index:25}
+.sidebar.show{transform:translateX(0)}
+.side-head{display:flex;align-items:center;gap:8px;padding:12px;border-bottom:1px solid var(--border);font-weight:700}
+.side-list{flex:1;overflow:auto;padding:10px}
+.group-title{font-size:12px;color:var(--muted);margin:10px 6px}
+.item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;cursor:pointer;transition:background .2s}
+.item:hover{background:#ffffff10}
+.item .icon{width:22px;height:22px;border-radius:6px;background:#1a2641;display:flex;align-items:center;justify-content:center;font-size:12px}
+.item .name{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side-foot{border-top:1px solid var(--border);padding:10px}
+.account{display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;cursor:pointer;transition:background .2s}
+.account:hover{background:#ffffff10}
+.account .avatar{width:28px;height:28px;border-radius:50%;background:#1a2641;display:flex;align-items:center;justify-content:center}
+
+/* Specialized menu items */
+.item.special{background:#1a2641;border:1px solid var(--border);margin:8px 0}
+.item.special .icon{background:var(--accent);color:#000}
+
+/* Account submenu */
+.account-menu{position:fixed;left:14px;bottom:60px;background:var(--panel);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);display:none;min-width:200px;z-index:60;animation:pop .2s ease}
+.account-menu.show{display:block}
+.account-menu .row{padding:10px 12px;cursor:pointer}
+.account-menu .row:hover{background:#ffffff12}
+
+/* ===== Main ===== */
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+
+/* Header */
+.topbar{display:flex;align-items:center;justify-content:space-between;background:var(--panel);
+  border-bottom:1px solid var(--border);padding:10px 12px;position:sticky;top:0;z-index:30;backdrop-filter:saturate(1.1) blur(4px)}
+.left{display:flex;align-items:center;gap:10px}
+.toggler{border:1px solid var(--border);background:#ffffff10;color:#fff;border-radius:10px;padding:8px;cursor:pointer;transition:transform .15s, background .2s}
+.toggler:hover{background:var(--hover)}
+.toggler:active{transform:scale(.96)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.logo{width:28px;height:28px;border-radius:8px;background:conic-gradient(from 210deg at 50% 50%, #80d0ff, #7df7cf, #e8ff9c, #80d0ff);box-shadow:0 0 0 2px #0002 inset}
+.actions{display:flex;gap:8px}
+.btn{border:1px solid var(--border);background:#ffffff10;color:#fff;padding:8px 10px;border-radius:10px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;transition:box-shadow .25s, background .2s, transform .12s}
+.btn:hover{background:var(--hover);box-shadow:0 6px 18px #0006}
+.btn:active{transform:translateY(1px)}
+.icon-only .label{display:none}
+
+/* Dropdown (⋮) */
+.menu{position:absolute;right:12px;top:52px;background:var(--panel);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);min-width:220px;display:none;z-index:60;animation:pop .2s ease}
+.menu.show{display:block}
+.menu .item{display:flex;gap:10px;align-items:center;padding:10px 12px;cursor:pointer;color:#e6efff}
+.menu .item:hover{background:#ffffff10}
+.menu .item i{width:18px;text-align:center;color:#cfe2ff}
+
+/* Stream */
+.stream{flex:1;overflow:auto;padding:18px 14px;scroll-behavior:smooth}
+.msg{display:grid;grid-template-columns:auto 1fr;gap:10px;margin:10px 0;animation:rise .25s ease both}
+.avatar{width:34px;height:34px;border-radius:10px;background:#1b2540;display:flex;align-items:center;justify-content:center;font-size:18px}
+.bubble{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:12px 12px;max-width:min(780px,90%);position:relative}
+.user .bubble{background:#1a2641}
+.content{word-break:break-word}
+.meta{color:var(--muted);font-size:12px;margin-top:6px}
+
+/* Specialized message types */
+.bubble.info{background:#1a2641;border-color:var(--info)}
+.bubble.success{background:#1a2e2a;border-color:var(--success)}
+.bubble.warning{background:#2e281a;border-color:var(--warning)}
+.bubble.danger{background:#2e1a1f;border-color:var(--danger)}
+
+/* Cards for specialized content */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px;margin:12px 0}
+.card{padding:12px;background:var(--panel2);border-radius:12px;border:1px solid var(--border)}
+.card h4{margin:0 0 8px 0;font-size:14px;color:var(--accent)}
+.card p{margin:0;font-size:13px}
+
+/* Calculator form */
+.calc-form{display:grid;gap:10px;margin:12px 0}
+.calc-form .field{display:grid;gap:4px}
+.calc-form label{font-size:13px;color:var(--muted)}
+.calc-form input, .calc-form select{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px;color:#fff}
+.calc-form button{background:var(--accent);color:#000;border:none;padding:8px;border-radius:8px;font-weight:700;cursor:pointer}
+
+/* Chart container */
+.chart-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 240px; /* bisa disesuaikan, misalnya 200–300px */
+  margin: 12px 0;
+  overflow: hidden;
+}
+
+.chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Top tools (copy/edit on bubble) */
+.tools{position:absolute;top:8px;right:8px;display:flex;gap:6px}
+.tool-btn{background:#ffffff10;border:1px solid var(--border);color:#cfe2ff;padding:4px 6px;border-radius:8px;font-size:12px;cursor:pointer;transition:background .2s}
+.tool-btn:hover{background:#ffffff18}
+
+/* Bot action toolbar */
+.bot-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.act{border:1px solid var(--border);background:#ffffff0f;color:#e6efff;border-radius:10px;padding:6px;display:inline-flex;gap:6px;align-items:center;cursor:pointer;font-size:12px;transition:background .2s, transform .12s}
+.act:hover{background:#ffffff1a}
+.act:active{transform:translateY(1px)}
+.act.like.active{border-color:#2bd47d;background:#2bd47d22}
+.act.dislike.active{border-color:#ff667a;background:#ff667a22}
+
+/* Context menu (history & user bubble) */
+.ctx{position:fixed;background:var(--panel);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);display:none;z-index:70;min-width:180px;animation:pop .18s ease}
+.ctx.show{display:block}
+.ctx .row{padding:10px 12px;cursor:pointer;display:flex;gap:8px;align-items:center}
+.ctx .row:hover{background:#ffffff12}
+
+/* Composer */
+.dock{border-top:1px solid var(--border);padding:14px;background:linear-gradient(180deg,#0b0f19 0%, #0b0f19e0 70%, #0b0f19)}
+.compose-wrap{display:flex;justify-content:center}
+.compose{position:relative;display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--border);border-radius:16px;padding:10px;max-width:780px;width:100%;box-shadow:0 6px 24px #0006}
+.icon-left,.icon-right{display:flex;gap:6px;align-items:center}
+.icon-btn{border:1px solid var(--border);background:#ffffff10;color:#e6efff;border-radius:10px;padding:8px;cursor:pointer;transition:background .2s, transform .12s}
+.icon-btn:hover{background:#ffffff18}
+.icon-btn:active{transform:translateY(1px)}
+.textbox{flex:1;min-height:24px;max-height:160px}
+.textbox textarea{width:100%;min-height:24px;max-height:160px;resize:none;border:0;outline:none;background:transparent;color:#fff;font:15px/1.5 inherit;padding:4px 6px}
+.send{background:var(--accent);border:none;color:#000;font-weight:700;padding:10px 12px;border-radius:12px;cursor:pointer;transition:transform .12s, box-shadow .2s}
+.send:hover{box-shadow:0 8px 18px #0007}
+.send:active{transform:translateY(1px)}
+.send:disabled{opacity:.5;cursor:not-allowed}
+
+/* Attach submenu */
+.attach-menu{position:absolute;left:46px;bottom:60px;background:var(--panel);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);display:none;z-index:65;min-width:160px;animation:pop .18s ease}
+.attach-menu.show{display:block}
+.attach-menu .row{padding:10px 12px;display:flex;gap:8px;align-items:center;cursor:pointer}
+.attach-menu .row:hover{background:#ffffff12}
+
+/* Fullscreen Composer */
+.overlay{position:fixed;inset:0;background:#0008;display:none;z-index:70;align-items:center;justify-content:center;animation:fade .2s ease}
+.overlay.show{display:flex}
+.overlay .panel{width:min(980px,92vw);height:min(70vh,560px);background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);animation:pop .22s ease}
+.overlay textarea{flex:1;background:var(--panel2);color:#fff;border:1px solid var(--border);border-radius:12px;resize:none;padding:12px}
+.overlay .row{display:flex;gap:8px;justify-content:flex-end}
+.ghost{background:#ffffff10;border:1px solid var(--border);color:#e6efff;padding:10px 12px;border-radius:10px;cursor:pointer}
+.ghost:hover{background:#ffffff18}
+
+/* Typing */
+.typing{display:flex;gap:5px;align-items:center}
+.dot{width:7px;height:7px;background:#fff;border-radius:50%;opacity:.4;animation:blink 1.3s infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+
+/* Toast */
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#10182c;border:1px solid var(--border);color:#dbe7ff;padding:10px 14px;border-radius:10px;z-index:80;box-shadow:0 10px 30px #0008;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+
+/* Dark modal (rename, confirm, qna) */
+.modal-backdrop{position:fixed;inset:0;background:#0008;display:none;z-index:75;align-items:center;justify-content:center;backdrop-filter:blur(3px);animation:fade .2s ease}
+.modal-backdrop.show{display:flex}
+.modal{width:min(520px,92vw);background:var(--panel);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:14px;animation:pop .18s ease}
+.modal h3{margin:0 0 8px 0}
+.modal .desc{color:var(--muted);font-size:13px;margin-bottom:10px}
+.modal .field{margin:8px 0}
+.modal input, .modal textarea{width:100%;background:var(--panel2);color:#fff;border:1px solid var(--border);border-radius:10px;padding:10px}
+.modal .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.modal .danger{background:#ff6b81;border:none;color:white}
+.modal .primary{background:var(--accent);border:none;color:#000}
+.modal .ghost{background:#ffffff10;border:1px solid var(--border);color:#e6efff}
+
+/* Animations */
+@keyframes pop{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Responsive */
+@media (max-width:860px){
+  .sidebar{position:fixed;height:100%;top:0;left:0;width:50vw}
+}
+@media (max-width:520px){
+  .sidebar{width:50vw}
+}
+@media (max-width:640px){
+  .bubble{max-width:100%}
+}
+  /* === Perbaikan Responsif === */
+
+/* Sidebar: biar teks panjang bisa wrap */
+.sidebar .name {
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* Header: biar tombol wrap kalau layar kecil */
+.topbar {
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Bubble: pastikan konten panjang (misalnya URL) tetap wrap */
+.bubble .content {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Card grid: kurangi min-width supaya bisa masuk di layar sempit */
+.card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+.card {
+  min-width: 0; /* biar flex/grid tidak maksa lebar */
+}
+
+/* Chart container: pastikan tidak overflow */
+.chart-container, 
+.chart-container canvas {
+  width: 100% !important;
+  max-width: 100%;
+}
+
+/* Modal input/select: pastikan tidak melebar */
+.modal input, 
+.modal select, 
+.modal textarea {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Composer: biar tombol dan textarea lebih fleksibel di layar kecil */
+/* Composer tetap 1 baris */
+.compose {
+  flex-wrap: nowrap;   /* jangan pecah baris */
+}
+.compose .textbox {
+  flex: 1 1 auto;      /* textarea tetap fleksibel, tapi sejajar */
+  min-width: 0;        /* biar nggak maksa overflow */
+}
+  /* Form di modal dark mode */
+.modal input,
+.modal select,
+.modal textarea {
+  background: var(--panel2) !important;
+  color: #fff !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px;
+  padding: 8px;
+  appearance: none; /* hilangkan default bawaan browser */
+}
+
+/* Dropdown arrow untuk select */
+.modal select {
+  background-image: linear-gradient(45deg, transparent 50%, #ccc 50%),
+                    linear-gradient(135deg, #ccc 50%, transparent 50%);
+  background-position: right 12px top 50%, right 8px top 50%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 28px;
+}
+
+/* Option dalam select */
+.modal select option {
+  background: var(--panel2);
+  color: #fff;
+}
+  /* Custom Select */
+.custom-select {
+  position: relative;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-select .selected {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-select .selected::after {
+  content: "▼";
+  font-size: 12px;
+  margin-left: 8px;
+  color: var(--muted);
+}
+
+/* Dropdown global (ditempel ke body) */
+.custom-options {
+  position: absolute;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  max-height: 160px;
+  overflow-y: auto;
+  box-shadow: var(--shadow);
+  z-index: 100000;
+  display: none;
+}
+
+.custom-options li {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.custom-options li:hover {
+  background: var(--hover);
+}
+  /* default: opsi ke bawah */
+.custom-select {
+  position: relative;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  overflow: visible !important; /* <– biar dropdown bisa keluar */
+}
+  
+  /* Kotak multi-select */
+.custom-multiselect {
+  position: relative;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px 10px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* Tag hasil pilihan */
+.custom-multiselect .tag {
+  background: var(--panel);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.custom-multiselect .tag span {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Sidebar Backdrop -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="side-head">LayUp AI - Pakar Layer</div>
+    <div class="side-list">
+      <div class="group-title">Fitur Khusus</div>
+      <div class="item special" id="healthDiagnosis">
+        <div class="icon"><i class="fa-solid fa-stethoscope"></i></div>
+        <div class="name">Diagnosis Kesehatan</div>
+      </div>
+      <div class="item special" id="feedCalculator">
+        <div class="icon"><i class="fa-solid fa-calculator"></i></div>
+        <div class="name">Kalkulator Pakan</div>
+      </div>
+      <div class="item special" id="productionTracker">
+        <div class="icon"><i class="fa-solid fa-chart-line"></i></div>
+        <div class="name">Pelacak Produksi</div>
+      </div>
+      <div class="item special" id="diseaseEncyclopedia">
+        <div class="icon"><i class="fa-solid fa-book-medical"></i></div>
+        <div class="name">Ensiklopedia Penyakit</div>
+      </div>
+      
+      <div class="group-title">Riwayat Chat</div>
+      <div id="historyActive"></div>
+      <div class="group-title" style="margin-top:14px">Arsip</div>
+      <div id="historyArchive"></div>
+    </div>
+    <div class="side-foot">
+      <div class="account" id="accountBtn">
+        <div class="avatar">🧑</div>
+        <div style="flex:1">
+          <div style="font-weight:600">Akun Peternak</div>
+          <div style="color:var(--muted);font-size:12px">free plan</div>
+        </div>
+        <i class="fa-solid fa-chevron-up"></i>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ACCOUNT MENU -->
+  <div class="account-menu" id="accountMenu">
+    <div class="row" id="accProfile"><i class="fa-regular fa-user"></i> Profil</div>
+    <div class="row" id="accSettings"><i class="fa-solid fa-gear"></i> Pengaturan</div>
+    <div class="row" id="accLogout"><i class="fa-solid fa-right-from-bracket"></i> Keluar</div>
+  </div>
+
+  <!-- MAIN -->
+  <main class="main" id="mainArea">
+    <!-- Header -->
+    <header class="topbar">
+      <div class="left">
+        <button class="toggler" id="sideToggle" title="Buka/tutup sidebar"><i class="fa-solid fa-bars"></i></button>
+        <div class="brand"><div class="logo" aria-hidden="true"></div><div class="title">LayUp AI</div></div>
+      </div>
+      <div class="actions">
+        <button class="btn icon-only" id="newChatBtn" title="Chat baru"><i class="fa-solid fa-plus"></i><span class="label">New Chat</span></button>
+        <button class="btn icon-only" id="moreBtn" title="Menu"><i class="fa-solid fa-ellipsis-vertical"></i><span class="label">More</span></button>
+        <!-- Dropdown ⋮ -->
+        <div class="menu" id="moreMenu" role="menu" aria-hidden="true">
+          <div class="item" id="addQna"><i class="fa-solid fa-square-plus"></i><span>Tambah QnA</span></div>
+          <div class="item" id="exportChat"><i class="fa-solid fa-file-export"></i><span>Export Chat</span></div>
+          <div class="item" id="importChat"><i class="fa-solid fa-file-import"></i><span>Import Chat</span></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Chat stream -->
+    <section class="stream" id="stream" aria-live="polite"></section>
+
+    <!-- Composer -->
+    <footer class="dock">
+      <div class="compose-wrap">
+        <div class="compose">
+          <!-- Left icons -->
+          <div class="icon-left">
+            <button class="icon-btn" id="micBtn" title="Suara (mic)"><i class="fa-solid fa-microphone"></i></button>
+            <button class="icon-btn" id="attachBtn" title="Lampiran"><i class="fa-solid fa-plus"></i></button>
+          </div>
+          <div class="textbox"><textarea id="input" placeholder="yuk tanya tentang ayam petelur…"></textarea></div>
+          <div class="icon-right">
+            <button class="icon-btn" id="expandBtn" title="Perbesar"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></button>
+            <button class="send" id="sendBtn" title="Kirim"><i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+
+          <!-- Attach submenu -->
+          <div class="attach-menu" id="attachMenu">
+            <div class="row" id="attachCamera"><i class="fa-solid fa-camera"></i> Kamera</div>
+            <div class="row" id="attachPhoto"><i class="fa-solid fa-image"></i> Foto</div>
+            <div class="row" id="attachFile"><i class="fa-solid fa-file-arrow-up"></i> File</div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<!-- File inputs -->
+<input type="file" id="fileInput" style="display:none"/>
+<input type="file" id="camInput" accept="image/*" capture="environment" style="display:none"/>
+<input type="file" id="photoInput" accept="image/*" style="display:none"/>
+<input type="file" id="importFile" accept="application/json" style="display:none"/>
+
+<!-- Fullscreen Composer -->
+<div class="overlay" id="overlay">
+  <div class="panel">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div style="font-weight:700">Compose</div>
+      <button class="ghost" id="closeOverlay"><i class="fa-solid fa-compress"></i> Tutup</button>
+    </div>
+    <textarea id="overlayInput" placeholder="Tulis pertanyaan di sini…"></textarea>
+    <div class="row">
+      <button class="ghost" id="overlayCancel">Batal</button>
+      <button class="send" id="overlaySend">Kirim</button>
+    </div>
+  </div>
+</div>
+
+<!-- Context menu: History item -->
+<div class="ctx" id="ctxHistory">
+  <div class="row" data-act="rename"><i class="fa-regular fa-pen-to-square"></i> Ganti nama</div>
+  <div class="row" data-act="archive"><i class="fa-regular fa-folder"></i> Arsipkan</div>
+  <div class="row" data-act="delete"><i class="fa-regular fa-trash-can"></i> Hapus</div>
+</div>
+
+<!-- Context menu: User bubble -->
+<div class="ctx" id="ctxUser">
+  <div class="row" data-act="copy"><i class="fa-regular fa-copy"></i> Salin teks</div>
+  <div class="row" data-act="select"><i class="fa-regular fa-square"></i> Pilih teks</div>
+  <div class="row" data-act="edit"><i class="fa-regular fa-pen-to-square"></i> Edit pesan</div>
+</div>
+
+<!-- Dark Modal: Rename -->
+<div class="modal-backdrop" id="modalRename">
+  <div class="modal">
+    <h3>Ganti Nama Chat</h3>
+    <div class="desc">Masukkan nama baru untuk riwayat chat ini.</div>
+    <div class="field"><input id="renameInput" placeholder="Nama baru"/></div>
+    <div class="actions">
+      <button class="ghost" data-close="#modalRename">Batal</button>
+      <button class="primary" id="renameSave">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Dark Modal: Confirm Delete -->
+<div class="modal-backdrop" id="modalConfirm">
+  <div class="modal">
+    <h3>Hapus Chat?</h3>
+    <div class="desc">Tindakan ini tidak bisa dibatalkan, Bosku.</div>
+    <div class="actions">
+      <button class="ghost" data-close="#modalConfirm">Batal</button>
+      <button class="danger" id="confirmDelete">Hapus</button>
+    </div>
+  </div>
+</div>
+
+<!-- Dark Modal: Tambah QnA -->
+<div class="modal-backdrop" id="modalQna">
+  <div class="modal">
+    <h3>Tambah QnA</h3>
+    <div class="desc">Data disimpan lokal (browser) dan langsung dipakai AI.</div>
+    <div class="field">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Pertanyaan</div>
+      <input id="qnaQ" placeholder="Contoh: Apa itu pakan layer?"/>
+    </div>
+    <div class="field">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Jawaban</div>
+      <textarea id="qnaA" rows="3" placeholder="Jawaban ringkas dan jelas…"></textarea>
+    </div>
+    <div class="actions">
+      <button class="ghost" data-close="#modalQna">Batal</button>
+      <button class="primary" id="qnaSave">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Health Diagnosis -->
+<div class="modal-backdrop" id="modalHealth">
+  <div class="modal">
+    <h3><i class="fa-solid fa-stethoscope"></i> Diagnosis Kesehatan Ayam</h3>
+    <div class="desc">Pilih gejala yang dialami ayam untuk mendapatkan diagnosis.</div>
+    
+    <div class="field">
+  <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Gejala yang Diamati</div>
+  
+  <!-- Custom Multi Select -->
+  <div class="custom-multiselect" data-target="symptoms">
+    <div class="selected">Pilih gejala</div>
+  </div>
+
+  <!-- hidden select tetap ada, tapi disembunyikan -->
+  <select id="symptoms" multiple style="display:none">
+    <option value="nafsu_makan_turun">Nafsu makan turun</option>
+    <option value="lesu">Lesu dan tidak aktif</option>
+    <option value="bulu_kusam">Bulu kusam dan berdiri</option>
+    <option value="diare">Diare (mencret)</option>
+    <option value="gangguan_pernafasan">Gangguan pernafasan</option>
+    <option value="produksi_telur_turun">Produksi telur menurun</option>
+    <option value="telur_abnormal">Telur abnormal (kerabang tipis, bentuk tidak normal)</option>
+    <option value="warna_comb_pucat">Warna comb pucat</option>
+    <option value="pembengkakan">Pembengkakan pada wajah atau persendian</option>
+    <option value="kelumpuhan">Kelumpuhan atau gangguan syaraf</option>
+  </select>
+</div>
+    
+    <div class="actions">
+      <button class="ghost" data-close="#modalHealth">Batal</button>
+      <button class="primary" id="healthDiagnose">Diagnosis</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Feed Calculator -->
+<div class="modal-backdrop" id="modalFeed">
+  <div class="modal">
+    <h3><i class="fa-solid fa-calculator"></i> Kalkulator Kebutuhan Pakan</h3>
+    <div class="desc">Hitung kebutuhan pakan berdasarkan jumlah dan usia ayam.</div>
+    
+    <div class="field">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Jumlah Ayam</div>
+      <input type="number" id="chickenCount" placeholder="Contoh: 100" min="1"/>
+    </div>
+    
+    <div class="field">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Usia Ayam (minggu)</div>
+      <input type="number" id="chickenAge" placeholder="Contoh: 20" min="1" max="100"/>
+    </div>
+    
+    <div class="field">
+  <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Tahap Produksi</div>
+
+  <!-- Custom Select Dark Mode -->
+  <div class="custom-select" data-target="productionStage">
+    <!-- YANG BARU — TANPA <ul class="options"> -->
+<div class="custom-select" data-target="productionStage">
+  <div class="selected">Pilih tahap produksi</div>
+</div>
+
+<!-- Hidden select tetap dipakai JS kalkulator -->
+<select id="productionStage" style="display:none">
+  <option value="starter">Starter (0-8 minggu)</option>
+  <option value="grower">Grower (9-18 minggu)</option>
+  <option value="layer">Layer (19+ minggu)</option>
+  <option value="peak_production">Puncak Produksi (25-45 minggu)</option>
+  <option value="late_production">Akhir Produksi (46+ minggu)</option>
+</select>
+    
+    <div class="actions">
+      <button class="ghost" data-close="#modalFeed">Batal</button>
+      <button class="primary" id="feedCalculate">Hitung</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Disalin!</div>
+
+<script>
+/* =================== Konfigurasi JSON =================== */
+const JSON_URL = "https://fasim-dev.github.io/Layupai/knowledge.json";           // contoh: "https://domain.com/knowledge.json"
+const FALLBACK_LOCAL = "knowledge.json";
+
+/* =================== Helper DOM/UI =================== */
+const $ = (s, r=document)=> r.querySelector(s);
+const $$ = (s, r=document)=> Array.from(r.querySelectorAll(s));
+function escapeHtml(s){ return s.replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m])); }
+function toast(msg="Disalin!"){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1500); }
+function scrollBottom(){ const el=$("#stream"); el.scrollTop = el.scrollHeight + 1000; }
+function closeAllCtx(){ $$(".ctx.show").forEach(e=>e.classList.remove("show")); }
+
+/* =================== Storage Keys (FIX urutan) =================== */
+const storeKey = "layup_chats_v4";           // <-- didefinisikan lebih dulu
+const storeQna = "layup_qna_local_v2";
+
+/* =================== State Chat/History =================== */
+let chats = loadChats();           // list {id,name,items:[{role,text}], archived:false}
+let activeId = null;
+
+/* =================== Sidebar Toggle + Backdrop =================== */
+const sidebar = $("#sidebar");
+const sidebarBackdrop = $("#sidebarBackdrop");
+const sideToggle = $("#sideToggle");
+function setSidebar(show){
+  sidebar.classList.toggle("show", show);
+  sidebarBackdrop.classList.toggle("show", show);
+}
+sideToggle.addEventListener('click', (e)=> {
+  e.stopPropagation(); // << FIX
+  setSidebar(!sidebar.classList.contains("show"));
+});
+
+sidebarBackdrop.addEventListener('click', ()=> setSidebar(false));
+
+// klik area utama → tutup sidebar (kecuali saat klik tombol toggle)
+$("#mainArea").addEventListener('click', (e)=>{
+  if(sidebar.classList.contains('show')) setSidebar(false);
+});
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') setSidebar(false); });
+
+/* =================== Account Menu =================== */
+const accountBtn = $("#accountBtn"), accountMenu = $("#accountMenu");
+accountBtn.onclick = (e)=>{ e.stopPropagation(); accountMenu.classList.toggle("show"); };
+document.addEventListener('click', (e)=>{
+  if(!e.target.closest('#accountBtn') && !e.target.closest('#accountMenu')) accountMenu.classList.remove("show");
+});
+
+// Event handler untuk account menu
+$("#accProfile").onclick = ()=> { accountMenu.classList.remove("show"); toast("Fitur profil akan datang"); };
+$("#accSettings").onclick = ()=> { accountMenu.classList.remove("show"); toast("Fitur pengaturan akan datang"); };
+$("#accLogout").onclick = ()=> { accountMenu.classList.remove("show"); toast("Fitur logout akan datang"); };
+
+/* =================== Dropdown ⋮ =================== */
+$("#moreBtn").onclick = (e)=> {
+  e.stopPropagation();
+  const menu=$("#moreMenu");
+  menu.classList.toggle("show");
+  menu.setAttribute("aria-hidden", !menu.classList.contains("show"));
+};
+document.addEventListener('click', (e)=>{
+  if(!e.target.closest('#moreBtn') && !e.target.closest('#moreMenu')) $("#moreMenu").classList.remove("show");
+});
+
+/* =================== Helpers Copy =================== */
+function copyText(t){ navigator.clipboard.writeText(t).then(()=>toast("Disalin, Bosku!")); }
+
+/* =================== Storage Ops =================== */
+function loadChats(){
+  try{ return JSON.parse(localStorage.getItem(storeKey)) || []; }catch{ return []; }
+}
+function saveChats(){ localStorage.setItem(storeKey, JSON.stringify(chats)); }
+
+/* =================== History Render =================== */
+const listActive = $("#historyActive"), listArchive = $("#historyArchive");
+function renderHistory(){
+  listActive.innerHTML=""; listArchive.innerHTML="";
+  chats.sort((a,b)=>(b.ts||0)-(a.ts||0));
+  chats.forEach(c=>{
+    const el = document.createElement('div');
+    el.className = "item"; el.dataset.id = c.id;
+    el.innerHTML = `<div class="icon"><i class="fa-regular fa-message"></i></div><div class="name">${escapeHtml(c.name||'New chat')}</div>`;
+    (c.archived?listArchive:listActive).appendChild(el);
+
+    el.addEventListener('click',()=> openChat(c.id));
+    el.addEventListener('contextmenu', (e)=>{ e.preventDefault(); showHistoryCtx(e.clientX,e.clientY,c.id); });
+
+    // long-press mobile
+    let touchTimer=null;
+    el.addEventListener('touchstart', (e)=>{
+      touchTimer=setTimeout(()=>{ const t=e.touches[0]; showHistoryCtx(t.clientX,t.clientY,c.id); },500);
+    });
+    el.addEventListener('touchend', ()=> clearTimeout(touchTimer));
+  });
+}
+function openChat(id){
+  activeId=id; const c = getActive(); if(!c) return;
+  $("#stream").innerHTML="";
+  // render tanpa persist (FIX duplikasi)
+  c.items.forEach(m=> addMsg(m.text, m.role==='bot'?'bot':'user', '', false));
+  saveChats(); renderHistory();
+  if(window.innerWidth<860) setSidebar(false);
+}
+function getActive(){ return chats.find(c=>c.id===activeId) || null; }
+
+/* =================== Context menu: History =================== */
+const ctxHistory = $("#ctxHistory"); let ctxHistoryTarget=null;
+function showHistoryCtx(x,y,id){
+  ctxHistoryTarget=id;
+  ctxHistory.style.left = x+"px"; ctxHistory.style.top = y+"px";
+  closeAllCtx(); ctxHistory.classList.add("show");
+}
+ctxHistory.addEventListener('click',(e)=>{
+  const act = e.target.closest('.row')?.dataset?.act; if(!act || !ctxHistoryTarget) return;
+  const c = chats.find(c=>c.id===ctxHistoryTarget); if(!c) return;
+
+  if(act==='rename'){
+    openModal('#modalRename');
+    $("#renameInput").value = c.name || '';
+    $("#renameSave").onclick = ()=>{ 
+      const nv=$("#renameInput").value.trim();
+      if(nv){ c.name=nv; c.ts=Date.now(); saveChats(); renderHistory(); closeModal('#modalRename'); toast("Nama diganti"); }
+    };
+  }else if(act==='archive'){
+    c.archived = !c.archived; c.ts=Date.now(); saveChats(); renderHistory(); toast(c.archived?"Diarsipkan":"Dikembalikan");
+  }else if(act==='delete'){
+    openModal('#modalConfirm');
+    $("#confirmDelete").onclick = ()=>{
+      const idx=chats.findIndex(x=>x.id===c.id);
+      chats.splice(idx,1);
+      if(activeId===c.id){ activeId=null; $("#stream").innerHTML=""; }
+      saveChats(); renderHistory(); closeModal('#modalConfirm'); toast("Chat dihapus");
+    };
+  }
+  ctxHistory.classList.remove('show');
+});
+document.addEventListener('click', (e)=>{ if(!e.target.closest('.ctx')) closeAllCtx(); });
+
+/* User bubble context menu handlers */
+function openUserCtx(x,y,bubble){
+  const menu = $("#ctxUser");
+  closeAllCtx();
+  menu.style.left = x+"px"; menu.style.top = y+"px";
+  menu.classList.add('show');
+
+  const content = bubble.querySelector('.content');
+  menu.onclick = (e)=>{
+    const act = e.target.closest('.row')?.dataset?.act;
+    if(!act) return;
+    if(act==='copy'){ copyText(content.innerText.trim()); }
+    if(act==='select'){ content.style.userSelect='text'; toast("Mode pilih teks aktif"); setTimeout(()=>content.style.userSelect='', 4000); }
+    if(act==='edit'){ $("#input").value = content.innerText; $("#input").focus(); }
+    menu.classList.remove('show');
+  };
+}
+
+/* =================== Render Pesan =================== */
+function addMsg(text, who='user', meta='', persist=true, type='normal'){
+  const wrap=document.createElement('div'); wrap.className='msg '+who;
+  const avatar = who==='user' ? '🙍' : '🤖';
+  const id = 'm'+Math.random().toString(36).slice(2,9);
+
+  let html = `
+    <div class="avatar">${avatar}</div>
+    <div class="bubble ${type}" id="${id}">
+      <div class="content">${text}</div>
+      ${meta?`<div class="meta">${escapeHtml(meta)}</div>`:''}
+      <div class="tools">
+        ${who==='bot' ? `<button class="tool-btn copyTop" title="Salin"><i class="fa-regular fa-copy"></i></button>`:''}
+        ${who==='user'? `<button class="tool-btn edit" title="Edit"><i class="fa-regular fa-pen-to-square"></i></button>`:''}
+      </div>`;
+
+  if (who==='bot'){
+    html += `
+      <div class="bot-actions" data-for="${id}">
+        <button class="act copy" title="Copy"><i class="fa-regular fa-copy"></i></button>
+        <button class="act like" title="Suka"><i class="fa-regular fa-thumbs-up"></i></button>
+        <button class="act dislike" title="Tidak suka"><i class="fa-regular fa-thumbs-down"></i></button>
+        <button class="act refresh" title="Regenerate"><i class="fa-solid fa-rotate-right"></i></button>
+        <button class="act share" title="Bagikan"><i class="fa-solid fa-share-nodes"></i></button>
+      </div>`;
+  }
+  html += `</div>`;
+  wrap.innerHTML = html;
+  $("#stream").appendChild(wrap);
+
+  if (who==='bot') {
+    const bubble = wrap.querySelector('.bubble');
+    const content = bubble.querySelector('.content');
+    bubble.querySelector('.copyTop').onclick = ()=> copyText(content.innerText.trim());
+    const actions = bubble.querySelector('.bot-actions');
+    const btnCopy = actions.querySelector('.copy');
+    const btnLike = actions.querySelector('.like');
+    const btnDislike = actions.querySelector('.dislike');
+    const btnRefresh = actions.querySelector('.refresh');
+    const btnShare = actions.querySelector('.share');
+
+    btnCopy.onclick = ()=> copyText(content.innerText.trim());
+    btnLike.onclick = ()=> { btnLike.classList.toggle('active'); if(btnLike.classList.contains('active')) btnDislike.classList.remove('active');};
+    btnDislike.onclick = ()=> { btnDislike.classList.toggle('active'); if(btnDislike.classList.contains('active')) btnLike.classList.remove('active');};
+    btnRefresh.onclick = async ()=> {
+      const lastUser = [...(getActive()?.items||[])].reverse().find(m=>m.role==='user');
+      if(!lastUser){ toast("Belum ada pertanyaan, Bosku"); return; }
+      showTyping();
+      const ans = await askLocalAI(lastUser.text);
+      setTimeout(()=>replaceTyping(ans), 600);
+    };
+    btnShare.onclick = async ()=> {
+      const text = content.innerText.trim();
+      const shareData = { title:"Jawaban LayUp AI", text };
+      if(navigator.share){ try{ await navigator.share(shareData); }catch(e){} }
+      else copyText(text);
+    };
+  } else {
+    // User: edit & context menu
+    wrap.querySelector('.edit').onclick = ()=> { $("#input").value = wrap.querySelector('.content').innerText; $("#input").focus(); };
+
+    const bubble = wrap.querySelector('.bubble');
+    const ctx = $("#ctxUser");
+    bubble.addEventListener('contextmenu',(e)=>{ e.preventDefault(); openUserCtx(e.clientX,e.clientY,bubble); });
+    let tmr=null;
+    bubble.addEventListener('touchstart',(e)=>{ tmr=setTimeout(()=>{ const t=e.touches[0]; openUserCtx(t.clientX,t.clientY,bubble); },500); });
+    bubble.addEventListener('touchend',()=> clearTimeout(tmr));
+  }
+
+  scrollBottom();
+
+  // persist conditionally
+  if(persist){
+    let ac = getActive();
+    if(!ac){ newChat(); ac=getActive(); }
+    ac.items.push({role:who, text}); 
+    if(ac.name==="New chat" && who==='user' && text.trim()) ac.name = text.trim().slice(0,36);
+    ac.ts = Date.now();
+    saveChats(); renderHistory();
+  }
+  return id;
+}
+
+/* =================== Typing =================== */
+function showTyping(){
+  const wrap=document.createElement('div'); wrap.className='msg bot typingMsg';
+  wrap.innerHTML = `
+    <div class="avatar">🤖</div>
+    <div class="bubble">
+      <div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="meta">Sedang mengetik…</div>
+    </div>`;
+  $("#stream").appendChild(wrap);
+  scrollBottom();
+}
+function replaceTyping(text){
+  const typingElements = document.querySelectorAll('.typingMsg');
+  typingElements.forEach(el => el.remove());
+  addMsg(text,'bot','',true);
+}
+
+/* =================== Fuse.js & Knowledge =================== */
+let fuse=null, kbLoaded=false, kbData=[];
+async function loadKnowledge(){
+  if (kbLoaded) return fuse;
+  let url = JSON_URL && JSON_URL.trim() ? JSON_URL.trim() : FALLBACK_LOCAL;
+  try{
+    const res = await fetch(url, {cache:'no-store'});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const data = await res.json();
+    if(!data || !Array.isArray(data.faq)) throw new Error("Format {faq:[...] }");
+    kbData = data.faq.map(x=>({question:String(x.question||''), answer:String(x.answer||'')}));
+  }catch(e){
+    kbData = [];
+    // tidak error fatal; hanya tampil toast
+    console.warn("Knowledge load failed:", e);
+    toast("⚠️ Gagal memuat knowledge.json");
+  }
+  // merge local QnA
+  kbData = kbData.concat(getLocalQnA());
+  // merge specialized knowledge for layer chickens
+  kbData = kbData.concat(layerChickenKnowledge());
+  fuse = new Fuse(kbData, {keys:["question"], includeScore:true, threshold:0.35, distance:60, ignoreLocation:true, minMatchCharLength:2});
+  kbLoaded = true;
+  return fuse;
+}
+
+/* Specialized knowledge base for layer chickens */
+function layerChickenKnowledge() {
+  return [
+    // Nutrition and feeding
+    {question: "berapa kebutuhan pakan ayam layer", answer: "Ayam layer membutuhkan sekitar 100-110 gram pakan per ekor per hari. Kebutuhan ini bervariasi berdasarkan usia, suhu lingkungan, dan tingkat produksi."},
+    {question: "jenis pakan ayam petelur", answer: "Pakan ayam petelur terdiri dari tiga jenis: 1) Pakan starter (0-8 minggu) dengan protein 18-20%, 2) Pakan grower (9-18 minggu) dengan protein 15-16%, 3) Pakan layer (19+ minggu) dengan protein 16-18% dan kalsium tinggi."},
+    {question: "kandungan nutrisi pakan layer", answer: "Pakan layer ideal mengandung: Protein 16-18%, Kalsium 3.5-4.5%, Fosfor 0.4-0.5%, Energi metabolis 2750-2850 kkal/kg, Asam linoleat 1.5%, dan Vitamin & mineral yang cukup."},
+    
+    // Health and disease
+    {question: "penyakit ayam layer", answer: "Penyakit umum ayam layer: 1) ND (Newcastle Disease), 2) AI (Avian Influenza), 3) IB (Infectious Bronchitis), 4) CRD (Chronic Respiratory Disease), 5) Koksidiosis, 6) Berak kapur (Pullorum), 7) Tetelo, 8) Gumboro."},
+    {question: "vaksinasi ayam layer", answer: "Jadwal vaksinasi ayam layer: 1) Hari 1: Marek's (in ovo), 2) Hari 4-7: ND-IB, 3) Minggu 2: Gumboro, 4) Minggu 3: ND-IB kedua, 5) Minggu 4: AI (jika diperlukan), 6) Minggu 8: Coryza, 7) Minggu 10-12: ND-IB-EDS, 8) Setiap 3 bulan: ND-IB booster."},
+    
+    // Production management
+    {question: "suhu ideal kandang layer", answer: "Suhu ideal kandang layer adalah 20-24°C. Suhu di atas 30°C dapat menurunkan produksi telur dan kualitas kerabang. Gunakan ventilasi yang baik dan cooling system jika diperlukan."},
+    {question: "pencahayaan kandang layer", answer: "Ayam layer membutuhkan 14-16 jam pencahayaan per hari. Intensitas cahaya 10-20 lux sudah cukup. Tambahkan cahaya buatan di pagi dan sore hari untuk mempertahankan produksi telur."},
+    {question: "kepadatan kandang layer", answer: "Kepadatan kandang layer yang ideal: 1) Sistem baterai: 3-4 ekor/m², 2) Sistem litter: 6-8 ekor/m², 3) Sistem free range: 4-6 ekor/m². Kepadatan berlebih menyebabkan stres dan penurunan produksi."},
+    
+    // Economics
+    {question: "keuntungan ternak layer", answer: "Keuntungan ternak layer dipengaruhi oleh: 1) Harga telur, 2) Biaya pakan (60-70% dari total biaya), 3) Tingkat produksi (peak 90-95%), 4) Mortalitas (standar <5%), 5) Harga DOC, 6) Biaya operasional. ROI biasanya 20-30% per siklus."},
+    {question: "breed ayam petelur terbaik", answer: "Breed ayam petelur terbaik: 1) ISA Brown (produksi tinggi, adaptif), 2) Lohmann Brown (efisien pakan), 3) Hy-Line Brown (telur besar), 4) Hisex Brown (tahan penyakit), 5) Novogen Brown (produksi konsisten). Pilih sesuai kondisi lokal dan pasar."}
+  ];
+}
+
+function getLocalQnA(){
+  try{ return JSON.parse(localStorage.getItem(storeQna))||[] }catch{ return [] }
+}
+function putLocalQnA(q,a){
+  const arr = getLocalQnA(); arr.push({question:q,answer:a});
+  localStorage.setItem(storeQna, JSON.stringify(arr));
+  kbLoaded=false; // force rebuild
+}
+function simpleExactFirst(q){
+  const low = q.toLowerCase().trim();
+  return kbData.find(it => low.includes(it.question.toLowerCase())) || null;
+}
+async function askLocalAI(prompt){
+  await loadKnowledge();
+  if(!prompt || !prompt.trim()) return "Tanya yang jelas ya, Bosku 😉";
+  const exact = simpleExactFirst(prompt); if(exact) return exact.answer;
+  const res = fuse.search(prompt);
+  if(res.length){ const {item,score}=res[0]; if(score<=0.7) return item.answer; }
+  return "Maaf, aku belum punya jawabannya, Bosku. Coba tanya dengan kata lain ya 🙏";
+}
+
+/* =================== New Chat / Greeting =================== */
+function newChat(){
+  const id = "c"+Math.random().toString(36).slice(2,9);
+  const c = {id, name:"New chat", items:[], archived:false, ts:Date.now()};
+  chats.unshift(c); activeId=id; saveChats(); renderHistory(); $("#stream").innerHTML="";
+  greet();
+}
+function greet(){
+  showTyping();
+  const greetText = "Halo Bosku 👋 Saya Cumil dari LayUp Ai - Saya Asisiten Ai yang di buat Oleh Fasim. Siap bantu semua pertanyaan tentang layer. Silakan tanya tentang pakan, kesehatan, produksi, atau ekonomi usaha layer! 😄";
+  setTimeout(()=>replaceTyping(greetText), 800);
+}
+
+/* =================== Composer Send/Expand =================== */
+$("#sendBtn").onclick = sendNow;
+$("#input").addEventListener('keydown',e=>{
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendNow(); }
+});
+function sendNow(){
+  const v=$("#input").value.trim();
+  if(!v) return;
+  $("#input").value='';
+  addMsg(v,'user');
+  showTyping();
+  askLocalAI(v).then(ans=>{
+    setTimeout(()=>replaceTyping(ans), 700);
+  });
+}
+/* Expand overlay */
+const overlay = $("#overlay");
+$("#expandBtn").onclick = ()=>{
+  $("#overlayInput").value = $("#input").value;
+  overlay.classList.add("show");
+  $("#overlayInput").focus();
+};
+$("#closeOverlay").onclick = ()=> overlay.classList.remove("show");
+$("#overlayCancel").onclick = ()=> overlay.classList.remove("show");
+$("#overlaySend").onclick = ()=>{
+  const v=$("#overlayInput").value.trim(); if(!v){ toast("Pertanyaan kosong"); return; }
+  overlay.classList.remove("show"); $("#input").value = v; sendNow();
+};
+
+/* =================== Header actions =================== */
+$("#newChatBtn").onclick = ()=> newChat();
+
+/* QnA Modal */
+$("#addQna").onclick = ()=> openModal('#modalQna');
+$("#qnaSave").onclick = ()=>{
+  const q=$("#qnaQ").value.trim(), a=$("#qnaA").value.trim();
+  if(!q || !a){ toast("Lengkapi pertanyaan & jawaban"); return; }
+  putLocalQnA(q,a);
+  $("#qnaQ").value=""; $("#qnaA").value="";
+  closeModal('#modalQna'); toast("QnA ditambahkan, Bosku!");
+  loadKnowledge(); // rebuild fuse
+};
+
+/* ===== Export / Import ===== */
+$("#exportChat").onclick = exportActiveChat;
+function pad(n){return String(n).padStart(2,'0')}
+function exportActiveChat(){
+  const ac=getActive(); if(!ac){ toast("Belum ada chat"); return; }
+  const payload = { chat: ac };
+  const blob = new Blob([JSON.stringify(payload,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const d=new Date();
+  const fname = (ac.name?.replace(/[\\/:*?"<>|]/g,'_')||'chat') + "-" +
+                `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}` +
+                ".json";
+  const a = document.createElement('a');
+  a.href = url; a.download = fname;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{ document.body.removeChild(a); URL.revokeObjectURL(url); toast("Chat diexport ✅"); }, 0);
+}
+$("#importChat").onclick = ()=> $("#importFile").click();
+$("#importFile").addEventListener('change', (e)=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ try{
+    const data=JSON.parse(r.result);
+    if(!data || !data.chat || !Array.isArray(data.chat.items)) throw 0;
+    const id = data.chat.id || "c"+Math.random().toString(36).slice(2,9);
+    data.chat.id = id;
+    chats.unshift(data.chat); activeId=id;
+    saveChats(); renderHistory(); openChat(activeId); toast("Chat diimport, Bosku!");
+  }catch{ toast("File tidak valid"); } };
+  r.readAsText(f);
+});
+
+/* =================== Attachments (kamera, foto & file) =================== */
+const attachMenu = $("#attachMenu");
+$("#attachBtn").onclick = (e)=>{ e.stopPropagation(); attachMenu.classList.toggle("show"); };
+document.addEventListener('click', (e)=>{
+  if(!e.target.closest('#attachBtn') && !e.target.closest('#attachMenu')) attachMenu.classList.remove('show');
+});
+$("#attachCamera").onclick = ()=> $("#camInput").click();
+$("#attachPhoto").onclick = ()=> $("#photoInput").click();
+$("#attachFile").onclick = ()=> $("#fileInput").click();
+
+// Handle file selection
+$("#camInput").addEventListener('change', handleFileSelection);
+$("#photoInput").addEventListener('change', handleFileSelection);
+$("#fileInput").addEventListener('change', handleFileSelection);
+
+function handleFileSelection(e){
+  if(e.target.files?.length){ 
+    const file = e.target.files[0];
+    const type = e.target.id === 'camInput' ? 'kamera' : 
+                 e.target.id === 'photoInput' ? 'foto' : 'file';
+    
+    addMsg(`📎 Lampiran ${type}: ${file.name}`,'user');
+    showTyping();
+    
+    // Simulasi pemrosesan file
+    setTimeout(()=>{
+      let response = "";
+      if(type === 'kamera' || type === 'foto'){
+        response = "Gambar diterima, Bosku. Saat ini aku belum memproses gambar, tapi akan kusimpan di konteks chat.";
+      } else {
+        response = "File diterima, Bosku. Jika perlu aku ringkas, kasih tahu ya!";
+      }
+      replaceTyping(response);
+    }, 600);
+  }
+}
+
+/* =================== Mic (Web Speech API) =================== */
+let recog=null, listening=false;
+function ensureRecog(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR) return null;
+  const r=new SR(); r.lang='id-ID'; r.interimResults=false; r.continuous=false; return r;
+}
+$("#micBtn").onclick = ()=>{
+  if(!recog){ recog=ensureRecog(); if(!recog){ toast("Mic tidak didukung di browser ini"); return; } }
+  if(!listening){
+    try{
+      recog.start(); listening=true; $("#micBtn").style.background="#1e2a4a";
+      recog.onresult = (e)=>{ const t=e.results[0][0].transcript; $("#input").value = ($("#input").value+" "+t).trim(); };
+      recog.onend = ()=>{ listening=false; $("#micBtn").style.background=""; };
+      recog.onerror = ()=>{ listening=false; $("#micBtn").style.background=""; toast("Gagal rekam suara"); };
+    }catch{ listening=false; $("#micBtn").style.background=""; }
+  }else{
+    try{ recog.stop(); }catch{}
+  }
+};
+
+/* =================== Specialized Features =================== */
+
+// Health Diagnosis
+$("#healthDiagnosis").onclick = ()=> openModal('#modalHealth');
+$("#healthDiagnose").onclick = ()=>{
+  const selectedOptions = $("#symptoms").selectedOptions;
+  const symptoms = Array.from(selectedOptions).map(opt => opt.value);
+  
+  if(symptoms.length === 0) {
+    toast("Pilih minimal satu gejala");
+    return;
+  }
+  
+  closeModal('#modalHealth');
+  showTyping();
+  
+  // Simulate diagnosis
+  setTimeout(() => {
+    const diagnosis = performHealthDiagnosis(symptoms);
+    addMsg(diagnosis, 'bot', '', true, 'info');
+  }, 1000);
+};
+
+function performHealthDiagnosis(symptoms) {
+  // Simple rule-based diagnosis system
+  let diagnosis = "<h4>🩺 Hasil Diagnosis Kesehatan</h4>";
+  diagnosis += "<p>Berdasarkan gejala yang dipilih, kemungkinan ayam mengalami:</p>";
+  
+  if(symptoms.includes("gangguan_pernafasan") && symptoms.includes("lesu")) {
+    diagnosis += "<div class='bubble danger' style='margin:10px 0;padding:10px'><strong>CRD (Chronic Respiratory Disease)</strong><br>";
+    diagnosis += "Gejala: Sesak nafas, nafsu makan turun, lesu.<br>";
+    diagnosis += "Penanganan: Beri antibiotik (Tylosin atau Oxytetracycline), tingkatkan ventilasi, beri vitamin.</div>";
+  }
+  else if(symptoms.includes("diare") && symptoms.includes("lesu")) {
+    diagnosis += "<div class='bubble danger' style='margin:10px 0;padding:10px'><strong>Koksidiosis</strong><br>";
+    diagnosis += "Gejala: Diare berdarah, lesu, bulu kusam.<br>";
+    diagnosis += "Penanganan: Beri anticoccidia (Amprolium atau Sulfa drugs), jaga kebersihan kandang.</div>";
+  }
+  else if(symptoms.includes("produksi_telur_turun") && symptoms.includes("telur_abnormal")) {
+    diagnosis += "<div class='bubble warning' style='margin:10px 0;padding:10px'><strong>Kekurangan Kalsium</strong><br>";
+    diagnosis += "Gejala: Produksi turun, telur kerabang tipis atau tanpa kerabang.<br>";
+    diagnosis += "Penanganan: Tambahkan grit kapur (3-4% dalam pakan), beri vitamin D3.</div>";
+  }
+  else {
+    diagnosis += "<div class='bubble info' style='margin:10px 0;padding:10px'><strong>Gejala Umum Stres</strong><br>";
+    diagnosis += "Kemungkinan ayam mengalami stres karena lingkungan atau manajemen.<br>";
+    diagnosis += "Penanganan: Periksa suhu dan ventilasi kandang, beri vitamin, pastikan air bersih tersedia.</div>";
+  }
+  
+  diagnosis += "<p><strong>Rekomendasi:</strong> Segera konsultasi dengan dokter hewan untuk diagnosis dan penanganan yang tepat.</p>";
+  
+  return diagnosis;
+}
+
+// Feed Calculator
+$("#feedCalculator").onclick = ()=> openModal('#modalFeed');
+$("#feedCalculate").onclick = ()=>{
+  const count = parseInt($("#chickenCount").value) || 0;
+  const age = parseInt($("#chickenAge").value) || 0;
+  const stage = $("#productionStage").value;
+  
+  if(count <= 0 || age <= 0) {
+    toast("Masukkan jumlah dan usia ayam yang valid");
+    return;
+  }
+  
+  closeModal('#modalFeed');
+  showTyping();
+  
+  // Simulate calculation
+  setTimeout(() => {
+    const result = calculateFeedRequirements(count, age, stage);
+    addMsg(result, 'bot', '', true, 'success');
+  }, 800);
+};
+
+function calculateFeedRequirements(count, age, stage) {
+  let dailyRequirement, feedType, notes;
+  
+  if(age <= 8) {
+    feedType = "Starter";
+    dailyRequirement = 30;
+    notes = "Pakan starter kaya protein untuk pertumbuhan awal";
+  } else if(age <= 18) {
+    feedType = "Grower";
+    dailyRequirement = 80;
+    notes = "Pakan grower untuk persiapan produksi";
+  } else {
+    feedType = "Layer";
+    dailyRequirement = 110;
+    notes = "Pakan layer dengan kalsium tinggi untuk produksi telur";
+  }
+  
+  const totalDaily = count * dailyRequirement;
+  const totalMonthly = totalDaily * 30;
+  const costDaily = totalDaily * 8000 / 1000; // Assume Rp 8,000 per kg
+  const costMonthly = totalMonthly * 8000 / 1000;
+  
+  let result = `<h4>🍽️ Hasil Perhitungan Kebutuhan Pakan</h4>`;
+  result += `<div class="card-grid">`;
+  result += `<div class="card"><h4>Jumlah Ayam</h4><p>${count} ekor</p></div>`;
+  result += `<div class="card"><h4>Usia</h4><p>${age} minggu</p></div>`;
+  result += `<div class="card"><h4>Jenis Pakan</h4><p>${feedType}</p></div>`;
+  result += `<div class="card"><h4>Kebutuhan Harian</h4><p>${totalDaily} gram/hari</p></div>`;
+  result += `<div class="card"><h4>Kebutuhan Bulanan</h4><p>${totalMonthly/1000} kg/bulan</p></div>`;
+  result += `<div class="card"><h4>Perkiraan Biaya</h4><p>Rp ${costDaily.toFixed(0)}/hari<br>Rp ${costMonthly.toFixed(0)}/bulan</p></div>`;
+  result += `</div>`;
+  result += `<p><strong>Catatan:</strong> ${notes}. Harga pakan dapat bervariasi tergantung lokasi dan kualitas.</p>`;
+  
+  return result;
+}
+
+// Production Tracker
+$("#productionTracker").onclick = () => {
+  showTyping();
+  setTimeout(() => {
+    const productionData = generateProductionReport();
+    addMsg(productionData, 'bot', '', true, 'info');
+  }, 800);
+};
+
+function generateProductionReport() {
+  // Simulate production data
+  const weeks = ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'];
+  const production = [85, 88, 92, 90]; // Production percentage
+  const eggWeight = [58, 59, 60, 61]; // Average egg weight in grams
+  const feedConsumption = [105, 107, 109, 108]; // Feed consumption in grams/bird/day
+  
+  let report = `<h4>📊 Laporan Produksi Telur</h4>`;
+report += `<p>Berikut adalah data produksi telur 4 minggu terakhir:</p>`;
+  report += `<div class="card-grid">`;
+  for(let i = 0; i < weeks.length; i++) {
+    report += `<div class="card"><h4>${weeks[i]}</h4>`;
+    report += `<p>Produksi: ${production[i]}%<br>Berat Telur: ${eggWeight[i]}g<br>Pakan: ${feedConsumption[i]}g/ekor/hari</p></div>`;
+  }
+  report += `</div>`;
+  
+  report += `<div class="chart-container"><canvas id="productionChart"></canvas></div>`;
+  report += `<p><strong>Analisis:</strong> Produksi stabil di atas 85%. Pertahankan kualitas pakan dan manajemen kandang.</p>`;
+  
+  // Render chart after message is added
+  setTimeout(() => {
+    const ctx = document.getElementById('productionChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: weeks,
+        datasets: [{
+          label: 'Produksi (%)',
+          data: production,
+          borderColor: '#f5c869',
+          tension: 0.1,
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: false,
+            min: 80,
+            max: 100
+          }
+        }
+      }
+    });
+  }, 100);
+  
+  return report;
+}
+
+// Disease Encyclopedia
+$("#diseaseEncyclopedia").onclick = () => {
+  showTyping();
+  setTimeout(() => {
+    const diseases = getDiseaseEncyclopedia();
+    addMsg(diseases, 'bot', '', true, 'info');
+  }, 800);
+};
+
+function getDiseaseEncyclopedia() {
+  let encyclopedia = `<h4>📚 Ensiklopedia Penyakit Ayam Layer</h4>`;
+  encyclopedia += `<p>Berikut adalah penyakit-penyakit umum pada ayam layer:</p>`;
+  
+  encyclopedia += `<div class="card" style="margin-bottom:12px">
+    <h4>1. Newcastle Disease (ND)</h4>
+    <p><strong>Gejala:</strong> Sesak nafas, diare hijau, gangguan syaraf, produksi turun drastis.<br>
+    <strong>Penanganan:</strong> Vaksinasi rutin, isolasi ayam sakit, desinfeksi kandang.</p>
+  </div>`;
+  
+  encyclopedia += `<div class="card" style="margin-bottom:12px">
+    <h4>2. Infectious Bronchitis (IB)</h4>
+    <p><strong>Gejala:</strong> Bersin-bersin, nafas berbunyi, produksi turun, telur abnormal.<br>
+    <strong>Penanganan:</strong> Vaksinasi, tingkatkan ventilasi, beri vitamin dan antibiotik sekunder.</p>
+  </div>`;
+  
+  encyclopedia += `<div class="card" style="margin-bottom:12px">
+    <h4>3. Koksidiosis</h4>
+    <p><strong>Gejala:</strong> Diare berdarah, lesu, bulu kusam, nafsu makan turun.<br>
+    <strong>Penanganan:</strong> Beri anticoccidia, jaga litter tetap kering, desinfeksi kandang.</p>
+  </div>`;
+  
+  encyclopedia += `<div class="card" style="margin-bottom:12px">
+    <h4>4. CRD (Chronic Respiratory Disease)</h4>
+    <p><strong>Gejala:</strong> Batuk, bersin, nafas berbunyi, mata berair, produksi turun.<br>
+    <strong>Penanganan:</strong> Antibiotik (Tylosin, Oxytetracycline), tingkatkan ventilasi, kurangi kepadatan.</p>
+  </div>`;
+  
+  encyclopedia += `<p><strong>Pencegahan:</strong> Vaksinasi rutin, manajemen kandang yang baik, biosecurity ketat, pakan berkualitas.</p>`;
+  
+  return encyclopedia;
+}
+
+/* =================== Init =================== */
+window.addEventListener('load', ()=>{
+  if(!chats.length){ newChat(); setSidebar(true); }
+  else{ activeId = chats[0].id; openChat(activeId); }
+  loadKnowledge();
+});
+
+/* =================== Modal Utilities (Dark) =================== */
+function openModal(sel){ const m=$(sel); if(m) m.classList.add('show'); }
+function closeModal(sel){ const m=$(sel); if(m) m.classList.remove('show'); }
+document.addEventListener('click',(e)=>{
+  const btn = e.target.closest('[data-close]');
+  if(btn){ const sel = btn.getAttribute('data-close'); closeModal(sel); }
+});
+
+/* =================== Close all context on ESC =================== */
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Escape'){ 
+    closeAllCtx(); 
+    $("#moreMenu").classList.remove('show'); 
+    attachMenu.classList.remove('show'); 
+    accountMenu.classList.remove('show'); 
+    closeModal('#modalRename'); closeModal('#modalConfirm'); closeModal('#modalQna');
+    closeModal('#modalHealth'); closeModal('#modalFeed');
+    $("#overlay").classList.remove('show');
+  }
+});
+ // === Custom Select (render dropdown ke <body>) ===
+(function () {
+  document.querySelectorAll(".custom-select").forEach(sel => {
+    const selected = sel.querySelector(".selected");
+    const hiddenSelect = document.getElementById(sel.dataset.target);
+
+    // buat UL dropdown dari isi <select>
+    const ul = document.createElement("ul");
+    ul.className = "custom-options";
+    ul.innerHTML = Array.from(hiddenSelect.options)
+      .map(opt => `<li data-value="${opt.value}">${opt.textContent}</li>`)
+      .join("");
+    document.body.appendChild(ul);
+
+    function openDropdown() {
+      // tutup dropdown lain
+      document.querySelectorAll(".custom-options").forEach(o => (o.style.display = "none"));
+
+      const rect = sel.getBoundingClientRect();
+      ul.style.width = rect.width + "px";
+      ul.style.left = (window.scrollX + rect.left) + "px";
+      ul.style.display = "block"; // tampilkan dulu biar bisa ukur tinggi
+
+      const desired = Math.min(160, ul.offsetHeight);
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+
+      if (spaceBelow < desired + 8 && spaceAbove > spaceBelow) {
+        // buka ke atas
+        ul.style.top = (window.scrollY + rect.top - ul.offsetHeight - 4) + "px";
+      } else {
+        // buka ke bawah
+        ul.style.top = (window.scrollY + rect.bottom + 4) + "px";
+      }
+    }
+
+    selected.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (ul.style.display === "block") {
+        ul.style.display = "none";
+      } else {
+        openDropdown();
+      }
+    });
+
+    ul.addEventListener("click", (e) => {
+      const li = e.target.closest("li");
+      if (!li) return;
+      selected.textContent = li.textContent;
+      hiddenSelect.value = li.dataset.value;
+      ul.style.display = "none";
+    });
+
+    // klik luar → tutup
+    document.addEventListener("click", (e) => {
+      if (!sel.contains(e.target) && !ul.contains(e.target)) ul.style.display = "none";
+    });
+    window.addEventListener("scroll", () => (ul.style.display = "none"), { passive: true });
+    window.addEventListener("resize", () => (ul.style.display = "none"));
+  });
+})();
+    
+// === Custom Multi Select (Diagnosa) ===
+(function () {
+  document.querySelectorAll(".custom-multiselect").forEach(sel => {
+    const selectedBox = sel.querySelector(".selected");
+    const hiddenSelect = document.getElementById(sel.dataset.target);
+
+    // buat UL dropdown dari isi <select>
+    const ul = document.createElement("ul");
+    ul.className = "custom-options";
+    ul.innerHTML = Array.from(hiddenSelect.options)
+      .map(opt => `<li data-value="${opt.value}">${opt.textContent}</li>`)
+      .join("");
+    document.body.appendChild(ul);
+
+    function openDropdown() {
+      document.querySelectorAll(".custom-options").forEach(o => (o.style.display = "none"));
+
+      const rect = sel.getBoundingClientRect();
+      ul.style.width = rect.width + "px";
+      ul.style.left = (window.scrollX + rect.left) + "px";
+      ul.style.display = "block";
+
+      const desired = Math.min(160, ul.offsetHeight);
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+
+      if (spaceBelow < desired + 8 && spaceAbove > spaceBelow) {
+        ul.style.top = (window.scrollY + rect.top - ul.offsetHeight - 4) + "px";
+      } else {
+        ul.style.top = (window.scrollY + rect.bottom + 4) + "px";
+      }
+    }
+
+    // buka dropdown
+    selectedBox.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (ul.style.display === "block") {
+        ul.style.display = "none";
+      } else {
+        openDropdown();
+      }
+    });
+
+    // pilih opsi
+    ul.addEventListener("click", (e) => {
+      const li = e.target.closest("li");
+      if (!li) return;
+      const value = li.dataset.value;
+
+      // toggle selected
+      const option = [...hiddenSelect.options].find(o => o.value === value);
+      option.selected = !option.selected;
+
+      renderTags();
+    });
+
+    // === render tag ke box ===
+    function renderTags() {
+      selectedBox.innerHTML = "";
+      [...hiddenSelect.selectedOptions].forEach(opt => {
+        const tag = document.createElement("div");
+        tag.className = "tag";
+        tag.innerHTML = `${opt.textContent} <span data-value="${opt.value}">×</span>`;
+        selectedBox.appendChild(tag);
+      });
+      if (hiddenSelect.selectedOptions.length === 0) {
+        selectedBox.textContent = "Pilih gejala";
+      }
+    }
+
+    // hapus tag kalau klik "×"
+    selectedBox.addEventListener("click", (e) => {
+      if (e.target.tagName === "SPAN") {
+        const val = e.target.dataset.value;
+        const option = [...hiddenSelect.options].find(o => o.value === val);
+        option.selected = false;
+        renderTags();
+      }
+    });
+
+    // tutup dropdown saat klik luar
+    document.addEventListener("click", (e) => {
+      if (!sel.contains(e.target) && !ul.contains(e.target)) ul.style.display = "none";
+    });
+    window.addEventListener("scroll", () => (ul.style.display = "none"), { passive: true });
+    window.addEventListener("resize", () => (ul.style.display = "none"));
+
+    // 🔥 render pertama kali biar tampil "Pilih gejala"
+    renderTags();
+  });
+})();
+    
+</script>
+    
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+function renderBubbleProductionChart() {
+  const ctx = document.getElementById("bubbleProductionChart");
+  if (!ctx) return;
+
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["Minggu 1", "Minggu 2", "Minggu 3", "Minggu 4"],
+      datasets: [{
+        label: "Produksi (%)",
+        data: [85, 88, 92, 90], // ⬅️ sesuaikan dengan datamu
+        borderColor: "#4cafef",
+        backgroundColor: "rgba(76,175,239,0.2)",
+        fill: true,
+        tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: "#fff" } } },
+      scales: {
+        x: { ticks: { color: "#fff" } },
+        y: { ticks: { color: "#fff" } }
+      }
+    }
+  });
+}
+
+// render grafik setelah bubble masuk
+setTimeout(renderBubbleProductionChart, 400);
+</script>
+</body>
+</html>
