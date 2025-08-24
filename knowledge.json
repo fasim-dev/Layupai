@@ -186,6 +186,425 @@
         "bye bye cumil", "dah ya cumil", "sampai ketemu lagi cumil", "sampai besok cumil", "sampai lain kali cumil",
         "pulang cumil", "istirahat cumil", "tidur cumil", "off cumil", "offline cumil"
       ]
+    },
+     {
+      "question": "pakan ayam petelur yang bagus apa",
+      "answer": [
+        "Campur jagung giling, bekatul, konsentrat, dan hijauan dikit udah paling mantap. Ayam jadi sehat, telurnya gacor tiap hari 🐔. Ingat, pakan pas bikin rezeki deras, semangat terus ya bosku 🔥."
+      ],
+      "keywords": [
+        "pakan",
+        "ayam",
+        "petelur",
+        "bagus"
+      ]
+    },
+    {
+      "question": "berapa kebutuhan pakan ayam petelur per hari",
+      "answer": [
+        "Sekitar 110–120 gram per ekor per hari. Jangan kebanyakan nanti boncos; jangan kurang nanti ayam loyo. Pas-pasin aja biar cuan mantul, ngerti kan bosku? 😎"
+      ],
+      "keywords": [
+        "pakan",
+        "kebutuhan",
+        "per",
+        "hari"
+      ]
+    },
+    {
+      "question": "apa fungsi konsentrat pada pakan ayam",
+      "answer": [
+        "Konsentrat itu sumber protein & vitamin. Tanpa ini, ayam bisa ngambek nggak mau produksi 😅. Kasih secukupnya biar untungmu naik, setuju bosku?"
+      ],
+      "keywords": [
+        "konsentrat",
+        "fungsi",
+        "pakan"
+      ]
+    },
+    {
+      "question": "bolehkah ayam petelur makan dedak saja",
+      "answer": [
+        "Dedak doang? Waduh, ayam bisa kurus bosku. Campur sama jagung & konsentrat biar nutrisinya lengkap. Ayam kenyang, kamu pun tenang ✨."
+      ],
+      "keywords": [
+        "dedak",
+        "pakan"
+      ]
+    },
+    {
+      "question": "apakah perlu vitamin tambahan untuk ayam petelur",
+      "answer": [
+        "Kadang perlu, apalagi pas cuaca ekstrem atau ayam loyo. Vitamin bikin imun kuat 💪. Ayam sehat, telur lebat, cuan merapat, setuju kan bosku? 😉"
+      ],
+      "keywords": [
+        "vitamin",
+        "tambahan"
+      ]
+    },
+    {
+      "question": "apa pakan alternatif ayam petelur yang murah",
+      "answer": [
+        "Bisa pakai azolla, daun pepaya, sisa sayur, singkong kering. Hemat tapi tetap berkualitas. Kreatif cari pakan hemat, untung pun kian merapat bosku 💡."
+      ],
+      "keywords": [
+        "alternatif",
+        "murah"
+      ]
+    },
+    {
+      "question": "berapa rasio jagung dan konsentrat",
+      "answer": [
+        "Umumnya 50% jagung, 25% konsentrat, 20% bekatul, 5% hijauan. Komposisi pas bikin ayam sehat dan peternak kuat, cuan pun nggak telat bosku 🔥."
+      ],
+      "keywords": [
+        "rasio",
+        "jagung",
+        "konsentrat"
+      ]
+    },
+    {
+      "question": "kenapa ayam petelur tidak mau makan",
+      "answer": [
+        "Mungkin pakan apek, ayam sakit, atau stres. Bikin pakan segar dan kandang nyaman. Ayam happy = telur steady, semangat ya bosku 😁."
+      ],
+      "keywords": [
+        "ayam",
+        "tidak",
+        "makan"
+      ]
+    },
+    {
+      "question": "apakah ayam petelur perlu air bersih selalu",
+      "answer": [
+        "Harus! Air kotor bikin ayam sakit. Air bersih kunci hidup, pakan sehat kunci panen, jaga dua-duanya ya bosku 💧🐓."
+      ],
+      "keywords": [
+        "air",
+        "bersih"
+      ]
+    },
+    {
+      "question": "kapan waktu terbaik memberi pakan ayam",
+      "answer": [
+        "2–3 kali sehari: pagi, siang, sore dengan takaran pas. Jadwal rapi, hasil rapi, rezeki pun happy, setuju bosku? 😎"
+      ],
+      "keywords": [
+        "waktu",
+        "pakan"
+      ]
+    },
+    {
+      "question": "apa tanda ayam kekurangan protein",
+      "answer": [
+        "Kurus, bulu kusam, telur kecil-kecil. Protein cukup bikin telur penuh cinta, jangan pelit ya bosku ❤️."
+      ],
+      "keywords": [
+        "kekurangan",
+        "protein"
+      ]
+    },
+    {
+      "question": "bagaimana cara buat pakan fermentasi",
+      "answer": [
+        "Campur dedak, jagung, konsentrat, EM4+air, diamkan 1-2 hari. Fermentasi bikin pakan hemat dan berkualitas. Pinter kan kita bosku? 🤩"
+      ],
+      "keywords": [
+        "fermentasi",
+        "pakan"
+      ]
+    },
+    {
+      "question": "apakah kulit kerang perlu ditambahkan",
+      "answer": [
+        "Ya, sumber kalsium biar cangkang tebal. Kalsium kuat, cangkang sehat, untung hebat bosku 🔥."
+      ],
+      "keywords": [
+        "kulit",
+        "kerang",
+        "kalsium"
+      ]
+    },
+    {
+      "question": "berapa biaya pakan per ekor per hari",
+      "answer": [
+        "Sekitar Rp1.200–1.800/ekor/hari tergantung harga bahan. Kelola biaya, panen bahagia, cuan berjaya bosku 💰."
+      ],
+      "keywords": [
+        "biaya",
+        "pakan"
+      ]
+    },
+    {
+      "question": "apa efek kelebihan pakan",
+      "answer": [
+        "Ayam jadi gemuk, produksi turun, biaya bengkak. Atur pas biar cuan nggak ambyar, paham kan bosku? 😅"
+      ],
+      "keywords": [
+        "kelebihan",
+        "pakan"
+      ]
+    },
+    {
+      "question": "apa pakan terbaik untuk ayam starter",
+      "answer": [
+        "Starter butuh protein 18–20%. Pakai pakan crumble/pellet. Awal sehat, produksi mantap, hajar terus bosku 💪."
+      ],
+      "keywords": [
+        "pakan",
+        "starter"
+      ]
+    },
+    {
+      "question": "apa pakan untuk ayam grower",
+      "answer": [
+        "Grower butuh protein sedang 15–17%. Nutrisi seimbang bikin ayam ready produksi. Step by step bosku, santai tapi cuan 😁."
+      ],
+      "keywords": [
+        "pakan",
+        "grower"
+      ]
+    },
+    {
+      "question": "apa pakan untuk ayam layer produksi",
+      "answer": [
+        "Layer butuh protein 16–18%, kalsium tinggi 3,5–4%. Nutrisi pas bikin telur deras, dompet keras bosku 😎."
+      ],
+      "keywords": [
+        "pakan",
+        "layer"
+      ]
+    },
+    {
+      "question": "bagaimana cara simpan pakan",
+      "answer": [
+        "Simpan di tempat kering & bersih. Pakai FIFO: pakan lama dipakai dulu. Simpel tapi penting, jangan disepelekan bosku 📦."
+      ],
+      "keywords": [
+        "simpan",
+        "pakan"
+      ]
+    },
+    {
+      "question": "apa herbal yang bisa dicampur pakan",
+      "answer": [
+        "Bawang putih bubuk, kunyit, jahe, sedikit aja. Herbal bikin daya tahan naik. Rahasia peternak cerdas nih bosku 🌿."
+      ],
+      "keywords": [
+        "herbal",
+        "pakan"
+      ]
+    },
+    {
+      "question": "bagaimana cara kurangi bau pakan di kandang",
+      "answer": [
+        "Rajin bersihin sisa pakan, kasih probiotik di pakan/air, dan jaga ventilasi lancar. Kandang wangi, ayam happy, tetangga pun senang, setuju bosku? 🌬️🐔"
+      ],
+      "keywords": [
+        "bau",
+        "pakan",
+        "kandang"
+      ]
+    },
+    {
+      "question": "apa pengaruh cuaca panas pada pakan ayam",
+      "answer": [
+        "Cuaca panas bikin ayam malas makan, jadi pakan bisa berkurang. Atur ventilasi, kasih air sejuk. Ayam adem, telur tetap kenceng, cuan aman bosku ☀️💦."
+      ],
+      "keywords": [
+        "cuaca",
+        "panas",
+        "pakan"
+      ]
+    },
+    {
+      "question": "apa perlu lampu malam untuk ayam petelur",
+      "answer": [
+        "Perlu, biar jam makannya cukup dan produksi stabil. Tapi jangan norak, cukup 16 jam cahaya. Lampu on, telur pun nambah, gasss bosku 💡🥚."
+      ],
+      "keywords": [
+        "lampu",
+        "malam",
+        "ayam"
+      ]
+    },
+    {
+      "question": "apa pakan bikin kuning telur lebih pekat",
+      "answer": [
+        "Bisa bosku, tambahin jagung kuning atau marigold powder. Warna kuning pekat, pembeli makin naksir 😋."
+      ],
+      "keywords": [
+        "kuning",
+        "telur",
+        "pakan"
+      ]
+    },
+    {
+      "question": "bagaimana cara efisiensi pakan",
+      "answer": [
+        "Gunakan pakan sesuai umur & kondisi ayam, jangan mubazir. Efisiensi pakan = efisiensi cuan, inget itu bosku 💡."
+      ],
+      "keywords": [
+        "efisiensi",
+        "pakan"
+      ]
+    },
+    {
+      "question": "apa pentingnya serat di pakan ayam",
+      "answer": [
+        "Serat bantu pencernaan. Jangan kebanyakan, nanti nutrisinya ketahan. Seimbang aja, biar ayam lancar jaya, paham kan bosku? 🌾"
+      ],
+      "keywords": [
+        "serat",
+        "pakan"
+      ]
+    },
+    {
+      "question": "bagaimana cara naikin nafsu makan ayam",
+      "answer": [
+        "Kasih pakan fresh, tambah vitamin penambah nafsu, dan pastiin kandang adem. Nafsu naik, telur deras, cuan deras bosku 😁."
+      ],
+      "keywords": [
+        "nafsu",
+        "makan",
+        "ayam"
+      ]
+    },
+    {
+      "question": "bolehkah pakai pakan ikan untuk ayam",
+      "answer": [
+        "Bisa sedikit campur buat protein, tapi jangan dominan, kandungannya beda. Campuran kreatif, tapi tetap hati-hati ya bosku 🎣🐓."
+      ],
+      "keywords": [
+        "pakan",
+        "ikan",
+        "ayam"
+      ]
+    },
+    {
+      "question": "apa efek pakan basi",
+      "answer": [
+        "Ayam bisa diare & drop produksi. Simpan pakan bener biar gak basi. Ayam sehat, hati pun tenang, yuk disiplin bosku 🚫."
+      ],
+      "keywords": [
+        "pakan",
+        "basi"
+      ]
+    },
+    {
+      "question": "berapa kali kasih pakan hijauan",
+      "answer": [
+        "2–3 kali seminggu cukup sebagai selingan. Hijauan bikin ayam happy, kantong pun hemat, win-win bosku 🌱."
+      ],
+      "keywords": [
+        "pakan",
+        "hijauan"
+      ]
+    },
+    {
+      "question": "apa manfaat minyak ikan di pakan",
+      "answer": [
+        "Bikin bulu mengkilap dan nafsu makan naik. Sedikit aja ya bosku, jangan sampai pakan bau amis banget 🐟."
+      ],
+      "keywords": [
+        "minyak",
+        "ikan",
+        "pakan"
+      ]
+    },
+    {
+      "question": "gimana cara campur vitamin ke pakan",
+      "answer": [
+        "Tabur vitamin bubuk merata di pakan atau cair di air minum. Simple tapi efeknya mantul, ayam makin power bosku 💪."
+      ],
+      "keywords": [
+        "campur",
+        "vitamin",
+        "pakan"
+      ]
+    },
+    {
+      "question": "apa perlu probiotik untuk ayam",
+      "answer": [
+        "Perlu, bantu pencernaan dan daya tahan. Ayam sehat, bau kandang pun berkurang. Cuan makin enak dinikmati bosku 😎."
+      ],
+      "keywords": [
+        "probiotik",
+        "ayam"
+      ]
+    },
+    {
+      "question": "apa pakan bikin ayam cepat gemuk",
+      "answer": [
+        "Jagung, dedak, konsentrat dengan protein tinggi. Tapi hati-hati obesitas, sesuaikan umur ya bosku 🍗."
+      ],
+      "keywords": [
+        "pakan",
+        "gemuk"
+      ]
+    },
+    {
+      "question": "berapa lama simpan pakan di gudang",
+      "answer": [
+        "Ideal 1–2 bulan, lebih dari itu kualitas turun. FIFO wajib, cuan lancar, pakan aman bosku 📦."
+      ],
+      "keywords": [
+        "simpan",
+        "pakan",
+        "gudang"
+      ]
+    },
+    {
+      "question": "apa pakan bikin telur bau amis",
+      "answer": [
+        "Kelebihan ikan/limbah protein bisa bikin amis. Komposisi pas, telur pun wangi, pembeli happy bosku 🤭."
+      ],
+      "keywords": [
+        "pakan",
+        "telur",
+        "bau"
+      ]
+    },
+    {
+      "question": "bagaimana cara ukur FCR",
+      "answer": [
+        "FCR = total pakan / total berat telur. Angka makin kecil makin efisien. Pahami ini, cuan makin mantap bosku 🔢."
+      ],
+      "keywords": [
+        "FCR",
+        "pakan"
+      ]
+    },
+    {
+      "question": "apa pakan organik buat ayam petelur",
+      "answer": [
+        "Bisa pakai dedak, jagung, bungkil kedelai organik. Pakan sehat, telur premium, harga pun naik, asik kan bosku 🌾🥚."
+      ],
+      "keywords": [
+        "pakan",
+        "organik"
+      ]
+    },
+    {
+      "question": "bagaimana cara turunkan biaya pakan",
+      "answer": [
+        "Mix pakan sendiri dari bahan lokal, pakai limbah aman. Hemat pakan, untung mantap, pinter banget kamu bosku 💡."
+      ],
+      "keywords": [
+        "turunkan",
+        "biaya",
+        "pakan"
+      ]
+    },
+    {
+      "question": "apa motivasi beternak ayam",
+      "answer": [
+        "Ingat, bosku: ayam sehat, telur lebat, rezeki deras. Nikmati prosesnya, jangan menyerah. Quote: \"Peternak tangguh selalu panen berkah 🐔✨.\""
+      ],
+      "keywords": [
+        "motivasi",
+        "beternak"
+      ]
     }
   ]
 }
