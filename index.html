@@ -60,6 +60,7 @@
 
         <!-- ACCOUNT MENU -->
         <div class="account-menu" id="accountMenu">
+            <div class="row" id="apiKeyBtn"><i class="fa-solid fa-key"></i> Pengaturan API</div>
             <div class="row" id="accProfile"><i class="fa-regular fa-user"></i> Profil</div>
             <div class="row" id="accSettings"><i class="fa-solid fa-gear"></i> Pengaturan</div>
             <div class="row" id="accLogout"><i class="fa-solid fa-right-from-bracket"></i> Keluar</div>
@@ -81,6 +82,14 @@
                         <div class="item" id="addQna"><i class="fa-solid fa-square-plus"></i><span>Tambah QnA</span></div>
                         <div class="item" id="exportChat"><i class="fa-solid fa-file-export"></i><span>Export Chat</span></div>
                         <div class="item" id="importChat"><i class="fa-solid fa-file-import"></i><span>Import Chat</span></div>
+                        <div class="item" id="apiToggleItem">
+                            <i class="fa-solid fa-plug"></i>
+                            <span>DeepSeek API</span>
+                            <label class="switch">
+                                <input type="checkbox" id="apiToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -109,6 +118,16 @@
                             <div class="row" id="attachPhoto"><i class="fa-solid fa-image"></i> Foto</div>
                             <div class="row" id="attachFile"><i class="fa-solid fa-file-arrow-up"></i> File</div>
                         </div>
+<!-- File inputs -->
+<input type="file" id="fileInput" style="display:none"/>
+<input type="file" id="camInput" accept="image/*" capture="environment" style="display:none"/>
+<input type="file" id="photoInput" accept="image/*" style="display:none"/>
+<input type="file" id="importFile" accept="application/json" style="display:none"/>
+
+<!-- Fullscreen Composer -->
+<div class="overlay" id="overlay">
+    <!-- ... -->
+</div>
                     </div>
                 </div>
             </footer>
@@ -204,6 +223,7 @@
                 <input id="nameInput" placeholder="Nama Anda"/>
             </div>
             <div class="actions">
+                <button class="ghost" data-close="#modalNamePrompt">Nanti saja</button>
                 <button class="primary" id="saveName">Simpan</button>
             </div>
         </div>
@@ -318,9 +338,33 @@
         </div>
     </div>
 
+    <!-- Modal: API Key Settings -->
+    <div class="modal-backdrop" id="modalApiKey">
+        <div class="modal">
+            <h3><i class="fa-solid fa-key"></i> Pengaturan API Key DeepSeek</h3>
+            <div class="api-status" id="apiStatus"></div>
+            <div class="desc">Masukkan API Key DeepSeek Anda untuk mengaktifkan fitur AI canggih.</div>
+            <div class="field">
+                <div style="font-size:12px;color:var(--muted);margin-bottom:6px">API Key DeepSeek</div>
+                <input type="password" id="apiKeyInput" placeholder="sk-xxxxxxxxxxxxxxxxxxx" autocomplete="off"/>
+            </div>
+            <div class="desc" style="font-size:12px;">
+                Dapatkan API key di <a href="https://platform.deepseek.com/" target="_blank" style="color:var(--accent);">platform.deepseek.com</a>
+            </div>
+            <div class="actions">
+                <button class="ghost" data-close="#modalApiKey">Batal</button>
+                <button class="primary" id="apiKeySave">Simpan</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast -->
     <div class="toast" id="toast"></div>
-
+<!-- Load JavaScript modules -->
+    <script src="modules/friendly-responses.js"></script>
+    <script src="modules/personality.js"></script>
+    <script src="modules/context-manager.js"></script>
+    <script src="modules/enhanced-diagnosis.js"></script>
     <!-- Load JavaScript -->
     <script src="app.js"></script>
 </body>
